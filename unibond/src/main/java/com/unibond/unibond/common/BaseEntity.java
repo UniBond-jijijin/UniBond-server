@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import static com.unibond.unibond.common.BaseEntityStatus.*;
 import static jakarta.persistence.EnumType.STRING;
 
 @Getter
@@ -29,6 +30,5 @@ public class BaseEntity {
 
     @Enumerated(STRING)
     @Setter
-    @ColumnDefault("ACTIVE")
-    private BaseEntityStatus status;
+    private BaseEntityStatus status = ACTIVE;
 }

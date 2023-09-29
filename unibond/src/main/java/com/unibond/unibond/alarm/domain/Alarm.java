@@ -24,8 +24,4 @@ public class Alarm extends BaseEntity {
     private String information;
 
     private Boolean isViewed;
-
-    // prevent initiate
-    protected Alarm() {
-    }
 }
