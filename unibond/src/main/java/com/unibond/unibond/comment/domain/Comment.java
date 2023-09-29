@@ -5,6 +5,9 @@ import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -27,6 +30,9 @@ public class Comment {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parentCommentId")
     private Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment")
+    private List<Comment> childCommentList = new ArrayList<>();
 
     private String content;
 }
