@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.EnumType.STRING;
+
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -25,7 +27,7 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @Enumerated
+    @Enumerated(STRING)
     @Setter
     @ColumnDefault("ACTIVE")
     private BaseEntityStatus status;
