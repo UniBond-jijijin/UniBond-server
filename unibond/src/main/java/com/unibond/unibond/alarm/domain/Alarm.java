@@ -18,6 +18,7 @@ public class Alarm extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "memberId")
     private Member receiver;
 
     private String information;
