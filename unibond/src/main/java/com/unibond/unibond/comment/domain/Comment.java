@@ -1,5 +1,6 @@
 package com.unibond.unibond.comment.domain;
 
+import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
