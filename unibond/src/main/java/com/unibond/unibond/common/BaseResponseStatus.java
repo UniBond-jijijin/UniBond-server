@@ -19,6 +19,7 @@ public enum BaseResponseStatus {
 
     // disease (2200 ~ 2299)
     INVALID_DISEASE_ID(false, 2200, "유효하지 않은 disease id 입니다."),
+    NULL_SEARCH_LAN(false, 2201, "검색할 단어의 언어를 설정하지 않았습니다."),
 
     // letter (2300 ~ 2399)
 
