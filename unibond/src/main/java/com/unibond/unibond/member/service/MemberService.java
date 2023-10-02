@@ -39,4 +39,17 @@ public class MemberService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public BaseResponseStatus checkNickNameDuplicate(String nickname) throws BaseException {
+        try {
+            boolean isPresent = memberRepository.existsMemberByNickname(nickname);
+            if (!isPresent) {
+                return USABLE_NICK;
+            } else {
+                return UNUSABLE_NICK;
+            }
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

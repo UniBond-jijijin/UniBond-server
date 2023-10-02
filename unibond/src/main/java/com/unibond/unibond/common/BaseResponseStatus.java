@@ -10,6 +10,22 @@ public enum BaseResponseStatus {
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
 
+    // alarm (1200 ~ 1299)
+
+    // comment (1300 ~ 1399)
+
+    // disease (1400 ~ 1499)
+
+    // letter (1500 ~ 1599)
+
+    // letter_room (1600 ~ 1699)
+
+    // member (1700 ~ 1799)
+    UNUSABLE_NICK(true, 1700, "이미 존재하는 닉네임입니다."),
+    USABLE_NICK(true, 1701, "사용 가능한 닉네임입니다."),
+
+    // post (1800 ~ 1899)
+
     /**
      * 2000: Request Error
      */

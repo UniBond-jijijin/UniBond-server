@@ -2,7 +2,6 @@ package com.unibond.unibond.member.controller;
 
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponse;
-import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.member.dto.MemberRegisterReqDto;
 import com.unibond.unibond.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,4 +23,12 @@ public class MemberController {
     }
 
     // TODO: 닉네임 중복 체크
+    @GetMapping("/duplicate")
+    public BaseResponse checkNickDuplicate(@RequestParam("nickname") String nickname) {
+        try {
+            return new BaseResponse(memberService.checkNickNameDuplicate(nickname));
+        } catch (BaseException e) {
+            return new BaseResponse(e.getStatus());
+        }
+    }
 }
