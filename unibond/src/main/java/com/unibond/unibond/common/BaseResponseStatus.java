@@ -8,7 +8,23 @@ public enum BaseResponseStatus {
     /**
      * 1000: 요청 성공
      */
-    SUCCESS(true, 1000, "요청에 성공하였습니다.");
+    SUCCESS(true, 1000, "요청에 성공하였습니다."),
+
+    // alarm (1200 ~ 1299)
+
+    // comment (1300 ~ 1399)
+
+    // disease (1400 ~ 1499)
+
+    // letter (1500 ~ 1599)
+
+    // letter_room (1600 ~ 1699)
+
+    // member (1700 ~ 1799)
+    UNUSABLE_NICK(true, 1700, "이미 존재하는 닉네임입니다."),
+    USABLE_NICK(true, 1701, "사용 가능한 닉네임입니다."),
+
+    // post (1800 ~ 1899)
 
     /**
      * 2000: Request Error
@@ -18,12 +34,16 @@ public enum BaseResponseStatus {
     // comment (2100 ~ 2199)
 
     // disease (2200 ~ 2299)
+    INVALID_DISEASE_ID(false, 2200, "유효하지 않은 disease id 입니다."),
+    NULL_SEARCH_LAN(false, 2201, "검색할 단어의 언어를 설정하지 않았습니다."),
 
     // letter (2300 ~ 2399)
 
     // letter_room (2400 ~ 2499)
 
     // member (2500 ~ 2599)
+    INVALID_MEMBER_ID(false, 2500, "유효하지 않은 member id 입니다."),
+    DUPLICATE_MEMBER_NICK(false, 2501, "중복되는 닉네임입니다."),
 
     // post (2600 ~ 2699)
 
@@ -47,6 +67,7 @@ public enum BaseResponseStatus {
     /**
      * 4000: DB Error
      */
+    DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다.");
 
     private final boolean isSuccess;
     private final int code;
