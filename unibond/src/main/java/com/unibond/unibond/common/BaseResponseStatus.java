@@ -8,7 +8,7 @@ public enum BaseResponseStatus {
     /**
      * 1000: 요청 성공
      */
-    SUCCESS(true, 1000, "요청에 성공하였습니다.");
+    SUCCESS(true, 1000, "요청에 성공하였습니다."),
 
     /**
      * 2000: Request Error
@@ -18,12 +18,15 @@ public enum BaseResponseStatus {
     // comment (2100 ~ 2199)
 
     // disease (2200 ~ 2299)
+    INVALID_DISEASE_ID(false, 2200, "유효하지 않은 disease id 입니다."),
 
     // letter (2300 ~ 2399)
 
     // letter_room (2400 ~ 2499)
 
     // member (2500 ~ 2599)
+    INVALID_MEMBER_ID(false, 2500, "유효하지 않은 member id 입니다."),
+    DUPLICATE_MEMBER_NICK(false, 2501, "중복되는 닉네임입니다."),
 
     // post (2600 ~ 2699)
 
@@ -47,6 +50,7 @@ public enum BaseResponseStatus {
     /**
      * 4000: DB Error
      */
+    DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다.");
 
     private final boolean isSuccess;
     private final int code;

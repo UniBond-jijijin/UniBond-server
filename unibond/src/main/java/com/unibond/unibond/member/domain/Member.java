@@ -3,14 +3,19 @@ package com.unibond.unibond.member.domain;
 import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.disease.domain.Disease;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -22,7 +27,9 @@ public class Member extends BaseEntity {
     @Column(length = 10)
     private String nickname;
 
-    private String gender;
+    @Enumerated(STRING)
+    @ColumnDefault("NULL")
+    private Gender gender;
 
     @OneToOne
     @JoinColumn(name = "diseaseId")
@@ -32,4 +39,14 @@ public class Member extends BaseEntity {
 
     @Column(length = 100)
     private String bio;
+
+    @Builder
+    public Member(String profileImage, String nickname, Gender gender, Disease disease, LocalDateTime diagnosisTiming, String bio) {
+        this.profileImage = profileImage;
+        this.nickname = nickname;
+        this.gender = gender;
+        this.disease = disease;
+        this.diagnosisTiming = diagnosisTiming;
+        this.bio = bio;
+    }
 }
