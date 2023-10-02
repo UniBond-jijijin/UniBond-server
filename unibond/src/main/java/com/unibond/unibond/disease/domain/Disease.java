@@ -1,6 +1,7 @@
 package com.unibond.unibond.disease.domain;
 
 import com.unibond.unibond.common.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,7 +17,9 @@ public class Disease extends BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private String diseaseName;
+    @Column(updatable = false)
+    private String diseaseNameKor;
 
-    private String information;
+    @Column(updatable = false)
+    private String diseaseNameEng;
 }
