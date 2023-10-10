@@ -34,6 +34,16 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/{memberId}")
+    public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId,
+                                           @RequestHeader("Authorization") Long loginId) {
+        try {
+            return new BaseResponse<>(memberService.getMemberInfo(memberId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
     @PatchMapping("/{memberId}")
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
                                             @RequestBody MemberModifyReqDto reqDto,
