@@ -5,6 +5,7 @@ import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
 import com.unibond.unibond.member.domain.Member;
+import com.unibond.unibond.member.dto.MemberModifyReqDto;
 import com.unibond.unibond.member.dto.MemberRegisterReqDto;
 import com.unibond.unibond.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -48,6 +49,24 @@ public class MemberService {
             } else {
                 return UNUSABLE_NICK;
             }
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, Long loginId) throws BaseException {
+        try {
+            Member member = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+            Disease disease = member.getDisease();
+            if (!member.getDisease().getId().equals(reqDto.getDiseaseId())) {
+                disease = diseaseRepository.findById(reqDto.getDiseaseId()).orElseThrow(
+                        () -> new BaseException(INVALID_DISEASE_ID));
+            }
+
+            member.modifyMember(reqDto, disease);
+            return SUCCESS;
+        } catch (BaseException e) {
+            throw e;
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
