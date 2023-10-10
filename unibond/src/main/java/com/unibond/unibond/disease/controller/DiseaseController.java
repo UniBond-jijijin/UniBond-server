@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiseaseController {
     private final DiseaseService diseaseService;
 
+    // TODO: 페이징 추가
     @GetMapping("/search")
     public BaseResponse<SearchDiseaseResDto> searchDisease(@RequestParam("lan") String language,
                                                            @RequestParam("query") String searchWord) {
