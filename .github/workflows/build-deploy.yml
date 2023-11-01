@@ -25,7 +25,6 @@ jobs:
           distribution: "corretto"
 
       - name: add db connection settings
-        run: touch /home/runner/work/UniBond-server/UniBond-server/unibond/src/main/resources/application-MYSQL.properties
         run: echo "${{ secrets.MYSQL_SETTING }}" > /home/runner/work/UniBond-server/UniBond-server/unibond/src/main/resources/application-MYSQL.properties
         shell: bash
 
