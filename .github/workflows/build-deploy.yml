@@ -28,6 +28,9 @@ jobs:
         run: chmod +x ./unibond/gradlew
         shell: bash
 
+      - name: check project files
+        run: ls -al /home/runner/work/UniBond-server/UniBond-server/unibond/
+
       - name: Build
         run: /home/runner/work/UniBond-server/UniBond-server/unibond/gradlew build
 
