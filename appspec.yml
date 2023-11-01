@@ -4,10 +4,15 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/unibond
+    overwrite: yes
+file_exists_behavior: OVERWRITE
+
 permissions:
-  - object: /home/ubuntu/unibond/
+  - object: /
+    pattern: "**"
     owner: ubuntu
     group: ubuntu
+
 hooks:
   AfterInstall:
     - location: scripts/deploy.sh
