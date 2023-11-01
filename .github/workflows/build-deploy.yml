@@ -28,11 +28,16 @@ jobs:
         run: chmod +x ./unibond/gradlew
         shell: bash
 
-      - name: check project files
-        run: ls -al /home/runner/work/UniBond-server/UniBond-server/unibond/
+      - name: Build with Gradle
+        # run: /home/runner/work/UniBond-server/UniBond-server/unibond/gradlew build
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
+          build-root-directory: /home/runner/work/UniBond-server/UniBond-server/unibond
 
-      - name: Build
-        run: /home/runner/work/UniBond-server/UniBond-server/unibond/gradlew build
+      - name: build check
+        run: ls -al /home/runner/work/UniBond-server/UniBond-server/unibond/build/libs
+        shell: bash
 
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
