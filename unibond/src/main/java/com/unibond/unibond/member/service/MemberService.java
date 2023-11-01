@@ -59,7 +59,8 @@ public class MemberService {
         try {
             Member member = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
             Disease disease = member.getDisease();
-            if (!member.getDisease().getId().equals(reqDto.getDiseaseId())) {
+
+            if (!disease.getId().equals(reqDto.getDiseaseId())) {
                 disease = diseaseRepository.findById(reqDto.getDiseaseId()).orElseThrow(
                         () -> new BaseException(INVALID_DISEASE_ID));
             }
