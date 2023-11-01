@@ -29,7 +29,7 @@ jobs:
         shell: bash
 
       - name: Build
-        run: /home/runner/work/UniBond-server/UniBond-server/unibond gradlew build
+        run: /home/runner/work/UniBond-server/UniBond-server/unibond/gradlew build
 
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
