@@ -35,8 +35,7 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId,
-                                           @RequestHeader("Authorization") Long loginId) {
+    public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId) {
         try {
             return new BaseResponse<>(memberService.getMemberInfo(memberId));
         } catch (BaseException e) {
