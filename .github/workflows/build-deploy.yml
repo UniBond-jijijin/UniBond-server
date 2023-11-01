@@ -33,7 +33,7 @@ jobs:
         shell: bash
 
       - name: Build
-        run: ./gradlew build
+        run: ./unibond/gradlew build
 
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
