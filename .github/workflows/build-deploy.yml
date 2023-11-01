@@ -24,16 +24,12 @@ jobs:
           java-version: 17
           distribution: "corretto"
 
-      - name: Test; check files
-        run: ls -al ./unibond
-        shell: bash
-
       - name: Permission for gradlew
         run: chmod +x ./unibond/gradlew
         shell: bash
 
       - name: Build
-        run: /home/runner/work/UniBond-server/unibond gradlew build
+        run: /home/runner/work/UniBond-server/UniBond-server/unibond gradlew build
 
       - name: Make Zip File
         run: zip -qq -r ./$GITHUB_SHA.zip .
