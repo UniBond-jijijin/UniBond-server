@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ubuntu/unibond
+REPOSITORY=/home/ubuntu/unibond/unibond
 cd $REPOSITORY
 
 APP_NAME=unibond
