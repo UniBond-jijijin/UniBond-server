@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select new com.unibond.unibond.post.dto.PostPreviewDto(o, d, p) " +
             "from Post p " +
-            "join p.owner o " +
-            "join p.owner.disease d " +
+            "join fetch p.owner o " +
+            "join fetch p.owner.disease d " +
             "where p.boardType = :boardType " +
             "order by p.createdDate desc ")
     Page<PostPreviewDto> findPostsByBoardType(@Param("boardType") BoardType boardType, Pageable pageable);
