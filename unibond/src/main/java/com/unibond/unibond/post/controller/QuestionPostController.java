@@ -5,9 +5,12 @@ import com.unibond.unibond.common.BaseResponse;
 import com.unibond.unibond.post.dto.PostUploadReqDto;
 import com.unibond.unibond.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.SUCCESS;
+import static com.unibond.unibond.post.domain.BoardType.QNA;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,15 @@ public class QuestionPostController {
         try {
             postService.createPost(reqDto);
             return new BaseResponse<>(SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @GetMapping("")
+    public BaseResponse<?> getQnACommunityPosts(@PageableDefault(size = 10) Pageable pageable) {
+        try {
+            return new BaseResponse<>(postService.getCommunityContent(QNA, pageable));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

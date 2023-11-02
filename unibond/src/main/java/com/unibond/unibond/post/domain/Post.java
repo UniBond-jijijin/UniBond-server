@@ -29,20 +29,20 @@ public class Post extends BaseEntity {
 
     private String postImageUrl;
 
-    private String caption;
+    private String content;
 
     @Builder(builderMethodName = "createExperiencePost")
-    public Post(Member owner, BoardType boardType, String caption) {
+    public Post(Member owner, BoardType boardType, String content) {
         this.owner = owner;
         this.boardType = boardType;
-        this.caption = caption;
+        this.content = content;
     }
 
     @Builder(builderMethodName = "createQnAPost")
-    public Post(Member owner, BoardType boardType, String caption, String postImageUrl) {
+    public Post(Member owner, BoardType boardType, String content, String postImageUrl) {
         this.owner = owner;
         this.boardType = boardType;
-        this.caption = caption;
+        this.content = content;
         this.postImageUrl = postImageUrl;
     }
 }

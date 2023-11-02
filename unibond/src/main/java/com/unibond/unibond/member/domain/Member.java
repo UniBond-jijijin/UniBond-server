@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
     @ColumnDefault("NULL")
     private Gender gender;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diseaseId")
     private Disease disease;
 
