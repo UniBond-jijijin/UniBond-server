@@ -5,13 +5,13 @@ import com.unibond.unibond.member.domain.Gender;
 import com.unibond.unibond.member.domain.Member;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class MemberRegisterReqDto {
     private String profileImage;
     private Long diseaseId;
-    private LocalDateTime diseaseTiming;
+    private LocalDate diseaseTiming;
     private Gender gender;
     private String nickname;
     private String bio;

@@ -12,7 +12,7 @@ public class PostUploadReqDto {
     // TODO: IMAGE UPLOAD
     private Member owner;
     private BoardType boardType;
-    private String caption;
+    private String content;
 
     public Post toEntity(Member owner) {
         this.owner = owner;
@@ -27,7 +27,7 @@ public class PostUploadReqDto {
         return Post.createQnAPost()
                 .owner(owner)
                 .boardType(boardType)
-                .caption(caption)
+                .content(content)
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class PostUploadReqDto {
         return Post.createQnAPost()
                 .owner(owner)
                 .boardType(boardType)
-                .caption(caption)
+                .content(content)
                 .build();
     }
 }
