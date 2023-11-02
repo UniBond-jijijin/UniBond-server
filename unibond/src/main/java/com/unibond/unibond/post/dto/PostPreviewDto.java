@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class PostPreviewDto {
+    // TODO: 이미지 URL 추후 업데이트 필요
     private LocalDateTime createdDate;
     private String ownerProfileImg;
     private String ownerNick;
