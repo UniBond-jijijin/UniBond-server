@@ -54,15 +54,23 @@ public class PostService {
     }
 
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
-        Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
-        List<Comment> commentList = commentRepository.findParentCommentsWithOwnerByPost(post, pageable);
-        int commentCount = commentRepository.getCommentCountByPost(post);
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
+            List<Comment> commentList = commentRepository.findParentCommentsWithOwnerByPost(post, pageable);
+            int commentCount = commentRepository.getCommentCountByPost(post);
 
-        return GetCommunityContentDetailResDto.builder()
-                .postOwner(post.getOwner())
-                .post(post)
-                .commentList(commentList)
-                .commentCount(commentCount)
-                .build();
+            return GetCommunityContentDetailResDto.builder()
+                    .loginMember(loginMember)
+                    .postOwner(post.getOwner())
+                    .post(post)
+                    .commentList(commentList)
+                    .commentCount(commentCount)
+                    .build();
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

@@ -18,21 +18,11 @@ public class PostController {
 
     // only get parent comment
     @GetMapping("/{postId}")
-    public BaseResponse<?> getDetailCommunityPosts(@PathVariable("postId") Long postId,
+    public BaseResponse<?> getDetailCommunityPosts(@RequestHeader("Authorization") Long loginId,
+                                                   @PathVariable("postId") Long postId,
                                                    @PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getDetailCommunityContent(postId, pageable));
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
-    }
-
-    @GetMapping("/{postId}/comments")
-    public BaseResponse<?> getChildComments(@PathVariable("postId") Long postId,
-                                            @RequestParam("parent-comment-id") Long parentCommentId,
-                                            @PageableDefault(size = 15) Pageable pageable) {
-        try {
-            return new BaseResponse<>(commentService.getChildComments(postId, parentCommentId, pageable));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
