@@ -20,7 +20,7 @@ public class GetParentCommentResDto {
     private LocalDateTime createdDate;
     private String content;
     private Boolean hasChildComments;
-    private List<GetChildCommentResDto> childCommentResDtoList;
+    private List<ChildCommentsDto> childCommentResDtoList;
 
     public static List<GetParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
         return parentCommentList.stream().map(

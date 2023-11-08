@@ -32,9 +32,10 @@ public enum BaseResponseStatus {
     // alarm (2000 ~ 2099)
 
     // comment (2100 ~ 2199)
+    INVALID_COMMENT_ID(false, 2100, "유효하지 않은 댓글 id 입니다."),
 
     // disease (2200 ~ 2299)
-    INVALID_DISEASE_ID(false, 2200, "유효하지 않은 disease id 입니다."),
+    INVALID_DISEASE_ID(false, 2200, "유효하지 않은 질병 id 입니다."),
     NULL_SEARCH_LAN(false, 2201, "검색할 단어의 언어를 설정하지 않았습니다."),
 
     // letter (2300 ~ 2399)
@@ -42,12 +43,12 @@ public enum BaseResponseStatus {
     // letter_room (2400 ~ 2499)
 
     // member (2500 ~ 2599)
-    INVALID_MEMBER_ID(false, 2500, "유효하지 않은 member id 입니다."),
+    INVALID_MEMBER_ID(false, 2500, "유효하지 않은 멤버 id 입니다."),
     DUPLICATE_MEMBER_NICK(false, 2501, "중복되는 닉네임입니다."),
     NOT_YOUR_PROFILE(false, 2502, "자신의 프로필이 아니므로 수정할 수 없습니다."),
 
     // post (2600 ~ 2699)
-    INVALID_POST_ID(false, 2600, "유효하지 않은 post id 입니다"),
+    INVALID_POST_ID(false, 2600, "유효하지 않은 게시글 id 입니다"),
 
     /**
      * 3000: Response Error

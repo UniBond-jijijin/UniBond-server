@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetChildCommentResDto {
+public class ChildCommentsDto {
     private String profileImgUrl;
     private Long commentUserId;
     private String commentUserName;
     private LocalDateTime createdDate;
     private String content;
 
-    public static List<GetChildCommentResDto> getParentCommentResDtoList(List<Comment> childCommentList) {
+    public static List<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList) {
         return childCommentList.stream().map(
-                GetChildCommentResDto::new
+                ChildCommentsDto::new
         ).collect(Collectors.toList());
     }
 
     @Builder
-    public GetChildCommentResDto(Comment comment) {
+    public ChildCommentsDto(Comment comment) {
         this.profileImgUrl = comment.getMember().getProfileImage();
         this.commentUserId = comment.getMember().getId();
         this.commentUserName = comment.getMember().getNickname();
