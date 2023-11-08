@@ -5,6 +5,7 @@ import com.unibond.unibond.letter.domain.Letter;
 import com.unibond.unibond.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class LetterRoom extends BaseEntity {
     @JoinColumn(name = "memberId2")
     private Member member2;
 
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "letterRoom")
     private List<Letter> letterList = new ArrayList<>();
 
