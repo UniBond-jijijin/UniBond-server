@@ -4,7 +4,9 @@ import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
@@ -15,8 +17,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Comment extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -40,8 +42,23 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    public void addChildComment(Comment parentComment, Comment childComment) {
+    private void addChildComment(Comment parentComment, Comment childComment) {
         parentComment.childCommentList.add(childComment);
         childComment.parentComment = parentComment;
+    }
+
+    @Builder(builderMethodName = "parentCommentBuilder")
+    public Comment(Member member, Post post, String content) {
+        this.member = member;
+        this.post = post;
+        this.content = content;
+    }
+
+    @Builder(builderMethodName = "childCommentBuilder")
+    public Comment(Member member, Comment parentComment, Post post, String content) {
+        this.member = member;
+        this.post = post;
+        this.content = content;
+        addChildComment(parentComment, this);
     }
 }

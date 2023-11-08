@@ -30,7 +30,7 @@ public class CommentController {
     public BaseResponse<?> uploadComments(@PathVariable("postId") Long postId,
                                           @RequestBody UploadCommentReqDto reqDto) {
         try {
-            return new BaseResponse<>(commentService.uploadComments(reqDto));
+            return new BaseResponse<>(commentService.uploadComments(postId, reqDto));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
