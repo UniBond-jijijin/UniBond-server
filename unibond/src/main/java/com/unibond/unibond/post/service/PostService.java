@@ -57,7 +57,7 @@ public class PostService {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
-            List<Comment> commentList = commentRepository.findParentCommentsWithOwnerByPost(post, pageable);
+            List<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, pageable);
             int commentCount = commentRepository.getCommentCountByPost(post);
 
             return GetCommunityContentDetailResDto.builder()

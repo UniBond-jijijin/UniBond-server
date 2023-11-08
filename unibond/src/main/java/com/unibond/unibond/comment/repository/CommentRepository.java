@@ -17,7 +17,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "join fetch c.member " +
             "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' " +
             "order by c.createdDate desc ")
-    List<Comment> findParentCommentsWithOwnerByPost(@Param("post") Post post, Pageable pageable);
+    List<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, Pageable pageable);
 
     @Query("select COUNT(c) from Comment c " +
             "where c.post = :post and c.status = 'ACTIVE'")
