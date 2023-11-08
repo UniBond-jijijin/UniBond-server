@@ -5,6 +5,7 @@ import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,15 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parentCommentId")
     private Comment parentComment;
 
+    // default = lazy loading
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "parentComment")
     private List<Comment> childCommentList = new ArrayList<>();
 
     private String content;
+
+    public void addChildComment(Comment parentComment, Comment childComment) {
+        parentComment.childCommentList.add(childComment);
+        childComment.parentComment = parentComment;
+    }
 }

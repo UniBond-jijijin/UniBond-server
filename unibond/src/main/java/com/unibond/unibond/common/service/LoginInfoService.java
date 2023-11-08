@@ -24,4 +24,14 @@ public class LoginInfoService {
 
         return memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
     }
+
+    public Member getLoginMemberFetchJoinDisease() throws BaseException {
+        HttpServletRequest httpServletRequest
+                = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        Long loginId = Long.parseLong(httpServletRequest.getHeader("Authorization"));
+
+        return memberRepository.findMemberByIdFetchJoinDisease(loginId)
+                .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+    }
 }

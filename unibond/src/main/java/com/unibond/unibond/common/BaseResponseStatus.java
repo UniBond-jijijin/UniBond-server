@@ -47,6 +47,7 @@ public enum BaseResponseStatus {
     NOT_YOUR_PROFILE(false, 2502, "자신의 프로필이 아니므로 수정할 수 없습니다."),
 
     // post (2600 ~ 2699)
+    INVALID_POST_ID(false, 2600, "유효하지 않은 post id 입니다"),
 
     /**
      * 3000: Response Error
@@ -64,6 +65,7 @@ public enum BaseResponseStatus {
     // member (3500 ~ 3599)
 
     // post (3600 ~ 3699)
+    INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),
 
     /**
      * 4000: DB Error
