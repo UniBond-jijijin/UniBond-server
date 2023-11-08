@@ -16,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCommunityContentDetailResDto {
+    private String loginMemberProfileImage;
+
     private String profileImage;
     private String postOwnerName;
     private Long postOwnerId;
@@ -29,7 +31,9 @@ public class GetCommunityContentDetailResDto {
     private List<GetParentCommentResDto> parentCommentList;
 
     @Builder
-    public GetCommunityContentDetailResDto(Member postOwner, Post post, int commentCount, List<Comment> commentList) {
+    public GetCommunityContentDetailResDto(Member loginMember, Member postOwner, Post post, int commentCount, List<Comment> commentList) {
+        this.loginMemberProfileImage = loginMember.getProfileImage();
+
         // no additional queries are issued because of the fetch join (with member, disease).
         this.profileImage = postOwner.getProfileImage();
         this.postOwnerName = postOwner.getNickname();
