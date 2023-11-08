@@ -27,7 +27,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{postId}/comments")
     public BaseResponse<?> getChildComments(@PathVariable("postId") Long postId,
                                             @RequestParam("parent-comment-id") Long parentCommentId,
                                             @PageableDefault(size = 15) Pageable pageable) {
