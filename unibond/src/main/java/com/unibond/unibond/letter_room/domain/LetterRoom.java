@@ -33,4 +33,12 @@ public class LetterRoom extends BaseEntity {
     @OneToMany(mappedBy = "letterRoom")
     private List<Letter> letterList = new ArrayList<>();
 
+    public void addLetter(Letter letter) {
+        this.letterList.add(letter);
+    }
+
+    public LetterRoom(Member member1, Member member2) {
+        this.member1 = member1;
+        this.member2 = member2;
+    }
 }
