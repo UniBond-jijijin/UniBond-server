@@ -9,12 +9,13 @@ load_dotenv()
 
 MYSQL_USER = os.getenv("MYSQL_USER")
 MYSQL_PW = os.getenv("MYSQL_PW")
+MYSQL_ENDPOINT = os.getenv("MYSQL_ENDPOINT")
 TABLE_NAME = "disease"
 
-engine = create_engine(f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PW}@127.0.0.1:3306/unibond_db?charset=utf8")
+engine = create_engine(f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PW}@{MYSQL_ENDPOINT}")
 connection = engine.connect()
 
-df = pd.read_csv("./disease-data/csv-data/rare_disease_2023_10_02_13_49_53.csv", encoding='utf-8')
+df = pd.read_csv("./csv-data/rare_disease_2023_10_02_13_49_53.csv", encoding='utf-8')
 
 df = df[['질환명(한글)', '질환명(영문)']]
 
