@@ -22,7 +22,7 @@ public class MemberService {
     private final DiseaseRepository diseaseRepository;
 
     @Transactional
-    public BaseResponseStatus signupMember(MemberRegisterReqDto registerReqDto) throws BaseException {
+    public Long signupMember(MemberRegisterReqDto registerReqDto) throws BaseException {
         try {
             if (memberRepository.existsMemberByNickname(registerReqDto.getNickname())) {
                 throw new BaseException(DUPLICATE_MEMBER_NICK);
@@ -33,8 +33,7 @@ public class MemberService {
             );
 
             Member newMember = registerReqDto.toEntity(disease);
-            memberRepository.save(newMember);
-            return SUCCESS;
+            return memberRepository.save(newMember).getId();
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
