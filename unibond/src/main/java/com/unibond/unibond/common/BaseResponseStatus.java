@@ -60,6 +60,7 @@ public enum BaseResponseStatus {
     // disease (3200 ~ 3299)
 
     // letter (3300 ~ 3399)
+    NOT_ENOUGH_CHARS(false, 3300, "편지는 최소 50자 이상이어야 합니다."),
 
     // letter_room (3400 ~ 3499)
 
