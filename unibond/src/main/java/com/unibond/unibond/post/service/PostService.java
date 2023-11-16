@@ -15,10 +15,12 @@ import com.unibond.unibond.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
@@ -46,18 +48,20 @@ public class PostService {
 
     public GetCommunityResDto getCommunityContent(BoardType boardType, Pageable pageable) throws BaseException {
         try {
-            Page<PostPreviewDto> postPreviewList = postRepository.findPostsByBoardType(boardType, pageable);
-            return new GetCommunityResDto(postPreviewList);
+            Page<Post> postPage = postRepository.findPostsByBoardType(boardType, pageable);
+
+            return new GetCommunityResDto(postPage);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
+    @Transactional
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
-            List<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, pageable);
+            Page<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, pageable);
             int commentCount = commentRepository.getCommentCountByPost(post);
 
             return GetCommunityContentDetailResDto.builder()
@@ -70,6 +74,7 @@ public class PostService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }

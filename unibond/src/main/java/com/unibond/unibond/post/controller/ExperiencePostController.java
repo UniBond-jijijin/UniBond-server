@@ -22,6 +22,7 @@ public class ExperiencePostController {
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
+            reqDto.setBoardType(EXPERIENCE);
             postService.createPost(reqDto);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
@@ -30,7 +31,7 @@ public class ExperiencePostController {
     }
 
     @GetMapping("")
-    public BaseResponse<?> getExperienceCommunityPosts(@PageableDefault(size = 10) Pageable pageable) {
+    public BaseResponse<?> getExperienceCommunityPosts(@PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getCommunityContent(EXPERIENCE, pageable));
         } catch (BaseException e) {

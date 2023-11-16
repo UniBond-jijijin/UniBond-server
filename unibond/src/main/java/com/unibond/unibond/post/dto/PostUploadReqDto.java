@@ -10,9 +10,11 @@ import static com.unibond.unibond.post.domain.BoardType.*;
 @Data
 public class PostUploadReqDto {
     // TODO: IMAGE UPLOAD
+    private String content;
+
+    // null
     private Member owner;
     private BoardType boardType;
-    private String content;
 
     public Post toEntity(Member owner) {
         this.owner = owner;

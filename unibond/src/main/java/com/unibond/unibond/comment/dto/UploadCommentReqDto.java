@@ -15,20 +15,11 @@ public class UploadCommentReqDto {
     private String content;
 
     public Comment buildChildComment(Member member, Post post, Comment parentComment) {
-        return Comment.childCommentBuilder()
-                .member(member)
-                .post(post)
-                .parentComment(parentComment)
-                .content(this.content)
-                .build();
+        return Comment.getNewChildComment(member, parentComment, post, content);
+
     }
 
     public Comment buildParentComment(Member member, Post post) {
-        return Comment.parentCommentBuilder()
-                .member(member)
-                .post(post)
-                .content(this.content)
-                .build();
+        return Comment.getNewParentComment(member, post, content);
     }
-
 }
