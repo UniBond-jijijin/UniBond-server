@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,12 +27,16 @@ public class ParentCommentResDto {
     private LocalDateTime createdDate;
     private String content;
 
-    private Page<ChildCommentsDto> childCommentResDtoList;
+    private List<ChildCommentsDto> childCommentResDtoList;
+    private Boolean childCommentLastPage;
+    private int totalChildCommentPages;
+    private long totalChildCommentElements;
+    private int childCommentPagingSize;
 
-    public static Page<ParentCommentResDto> getParentCommentResDtoList(Page<Comment> parentCommentList) {
-        return new PageImpl<>(parentCommentList.stream().map(
+    public static List<ParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
+        return parentCommentList.stream().map(
                 ParentCommentResDto::new
-        ).collect(Collectors.toList()));
+        ).collect(Collectors.toList());
     }
 
     @Builder
@@ -46,7 +49,12 @@ public class ParentCommentResDto {
         this.content = comment.getContent();
 
         if (!comment.getChildCommentList().isEmpty()) {
-            this.childCommentResDtoList = ChildCommentsDto.getChildCommentDtoList(comment.getChildCommentList());
+            Page<ChildCommentsDto> childCommentDtoPage = ChildCommentsDto.getChildCommentDtoList(comment.getChildCommentList(), null);
+            this.childCommentResDtoList = childCommentDtoPage.getContent();
+            this.childCommentLastPage = childCommentDtoPage.isLast();
+            this.totalChildCommentPages = childCommentDtoPage.getTotalPages();
+            this.totalChildCommentElements = childCommentDtoPage.getTotalElements();
+            this.childCommentPagingSize = childCommentDtoPage.getSize();
         }
     }
 }

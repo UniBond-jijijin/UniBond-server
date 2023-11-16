@@ -33,7 +33,12 @@ public class GetCommunityContentDetailResDto {
     private String content;
 
     private int commentCount;
-    private Page<ParentCommentResDto> parentCommentList;
+
+    private List<ParentCommentResDto> parentCommentList;
+    private Boolean parentCommentLastPage;
+    private int totalParentCommentPages;
+    private long totalParentCommentElements;
+    private int parentCommentPagingSize;
 
     @Builder
     public GetCommunityContentDetailResDto(Member loginMember, Member postOwner, Post post, int commentCount, Page<Comment> commentList) {
@@ -42,13 +47,18 @@ public class GetCommunityContentDetailResDto {
         this.profileImage = postOwner.getProfileImage();
         this.postOwnerName = postOwner.getNickname();
         this.postOwnerId = postOwner.getId();
-        this.createdDate = post.getCreatedDate();
         this.diseaseName = postOwner.getDisease().getDiseaseNameKor();
 
+        this.createdDate = post.getCreatedDate();
         this.postImg = post.getPostImageUrl();
         this.content = post.getContent();
 
         this.commentCount = commentCount;
-        this.parentCommentList = ParentCommentResDto.getParentCommentResDtoList(commentList);
+
+        this.parentCommentList = ParentCommentResDto.getParentCommentResDtoList(commentList.getContent());
+        this.parentCommentLastPage = commentList.isLast();
+        this.totalParentCommentPages = commentList.getTotalPages();
+        this.totalParentCommentElements = commentList.getTotalElements();
+        this.parentCommentPagingSize = commentList.getSize();
     }
 }

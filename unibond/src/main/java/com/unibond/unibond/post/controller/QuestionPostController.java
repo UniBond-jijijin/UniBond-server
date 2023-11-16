@@ -32,7 +32,7 @@ public class QuestionPostController {
     }
 
     @GetMapping("")
-    public BaseResponse<?> getQnACommunityPosts(@PageableDefault(size = 10) Pageable pageable) {
+    public BaseResponse<?> getQnACommunityPosts(@PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getCommunityContent(QNA, pageable));
         } catch (BaseException e) {

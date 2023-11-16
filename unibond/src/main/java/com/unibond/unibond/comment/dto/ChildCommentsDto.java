@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,10 +25,20 @@ public class ChildCommentsDto {
     private LocalDateTime createdDate;
     private String content;
 
-    public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList) {
-        return new PageImpl<>(childCommentList.stream().map(
+    public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList, PageRequest pageRequest) {
+
+        if (pageRequest == null) {
+            pageRequest = PageRequest.of(0, 2);
+        }
+
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), childCommentList.size());
+
+        List<ChildCommentsDto> childCommentsDtoList = childCommentList.stream().map(
                 ChildCommentsDto::new
-        ).collect(Collectors.toList()));
+        ).collect(Collectors.toList());
+
+        return new PageImpl<>(childCommentsDtoList.subList(start, end), pageRequest, childCommentsDtoList.size());
     }
 
     @Builder
