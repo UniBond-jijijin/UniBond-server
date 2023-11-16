@@ -31,7 +31,7 @@ public class ExperiencePostController {
     }
 
     @GetMapping("")
-    public BaseResponse<?> getExperienceCommunityPosts(@PageableDefault(size = 10) Pageable pageable) {
+    public BaseResponse<?> getExperienceCommunityPosts(@PageableDefault Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getCommunityContent(EXPERIENCE, pageable));
         } catch (BaseException e) {

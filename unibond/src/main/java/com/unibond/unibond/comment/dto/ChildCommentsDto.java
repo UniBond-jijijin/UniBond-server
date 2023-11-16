@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,10 +24,10 @@ public class ChildCommentsDto {
     private LocalDateTime createdDate;
     private String content;
 
-    public static List<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList) {
-        return childCommentList.stream().map(
+    public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList) {
+        return new PageImpl<>(childCommentList.stream().map(
                 ChildCommentsDto::new
-        ).collect(Collectors.toList());
+        ).collect(Collectors.toList()));
     }
 
     @Builder

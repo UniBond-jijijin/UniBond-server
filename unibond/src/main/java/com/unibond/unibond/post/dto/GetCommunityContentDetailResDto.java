@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,10 +33,10 @@ public class GetCommunityContentDetailResDto {
     private String content;
 
     private int commentCount;
-    private List<ParentCommentResDto> parentCommentList;
+    private Page<ParentCommentResDto> parentCommentList;
 
     @Builder
-    public GetCommunityContentDetailResDto(Member loginMember, Member postOwner, Post post, int commentCount, List<Comment> commentList) {
+    public GetCommunityContentDetailResDto(Member loginMember, Member postOwner, Post post, int commentCount, Page<Comment> commentList) {
         this.loginMemberProfileImage = loginMember.getProfileImage();
 
         this.profileImage = postOwner.getProfileImage();

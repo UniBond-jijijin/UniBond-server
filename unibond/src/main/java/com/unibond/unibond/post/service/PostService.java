@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
@@ -50,26 +50,19 @@ public class PostService {
         try {
             Page<Post> postPage = postRepository.findPostsByBoardType(boardType, pageable);
 
-            Page<PostPreviewDto> postPreviewDtoList = new PageImpl<>(
-                    postPage.stream().map(
-                            post -> new PostPreviewDto(post.getOwner(), post.getOwner().getDisease(), post)
-                    ).collect(Collectors.toList()));
-
-            return new GetCommunityResDto(postPreviewDtoList);
+            return new GetCommunityResDto(postPage);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
-    // TODO: @Transactional 이 빠지면 failed to lazily initialize a collection of role 발생함. 찾아서 정리하기
-    // TODO: 댓글 정렬 기준 다시 생각해보기
     // TODO: List -> Page로 변경하기
     @Transactional
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
-            List<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, pageable);
+            Page<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, pageable);
             int commentCount = commentRepository.getCommentCountByPost(post);
 
             return GetCommunityContentDetailResDto.builder()
