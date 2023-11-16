@@ -4,7 +4,6 @@ import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
@@ -44,23 +43,30 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    private void addChildComment(Comment parentComment, Comment childComment) {
-        parentComment.childCommentList.add(childComment);
-        childComment.parentComment = parentComment;
-    }
-
-    @Builder(builderMethodName = "parentCommentBuilder")
-    public Comment(Member member, Post post, String content) {
+    @Builder
+    public Comment(Member member, Post post, Comment parentComment, String content) {
         this.member = member;
         this.post = post;
+        this.parentComment = parentComment;
         this.content = content;
     }
 
-    @Builder(builderMethodName = "childCommentBuilder")
-    public Comment(Member member, Comment parentComment, Post post, String content) {
-        this.member = member;
-        this.post = post;
-        this.content = content;
-        addChildComment(parentComment, this);
+    public static Comment getNewParentComment(Member member, Post post, String content) {
+        return Comment.builder()
+                .member(member)
+                .post(post)
+                .content(content)
+                .build();
+    }
+
+    public static Comment getNewChildComment(Member member, Comment parentComment, Post post, String content) {
+        Comment newComment = Comment.builder()
+                .member(member)
+                .post(post)
+                .content(content)
+                .parentComment(parentComment)
+                .build();
+        parentComment.getChildCommentList().add(newComment);
+        return newComment;
     }
 }
