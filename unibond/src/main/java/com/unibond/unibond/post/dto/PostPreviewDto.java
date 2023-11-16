@@ -26,7 +26,11 @@ public class PostPreviewDto {
         this.ownerProfileImg = member.getProfileImage();
         this.ownerNick = member.getNickname();
         this.disease = disease.getDiseaseNameKor();
-        this.contentPreview = post.getContent().substring(0, MAX_PREVIEW_LIMIT);
-        this.isEnd = post.getContent().length() <= MAX_PREVIEW_LIMIT;
+        this.contentPreview = post.getContent();
+        this.isEnd = true;
+        if (post.getContent().length() >= 45) {
+            this.contentPreview = post.getContent().substring(0, MAX_PREVIEW_LIMIT);
+            this.isEnd = false;
+        }
     }
 }

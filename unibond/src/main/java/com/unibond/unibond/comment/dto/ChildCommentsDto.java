@@ -17,6 +17,8 @@ public class ChildCommentsDto {
     private String profileImgUrl;
     private Long commentUserId;
     private String commentUserName;
+
+    private Long commentId;
     private LocalDateTime createdDate;
     private String content;
 
@@ -31,6 +33,7 @@ public class ChildCommentsDto {
         this.profileImgUrl = comment.getMember().getProfileImage();
         this.commentUserId = comment.getMember().getId();
         this.commentUserName = comment.getMember().getNickname();
+        this.commentId = comment.getId();
         this.createdDate = comment.getCreatedDate();
         this.content = comment.getContent();
     }

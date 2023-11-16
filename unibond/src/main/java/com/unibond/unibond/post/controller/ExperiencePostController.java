@@ -22,6 +22,7 @@ public class ExperiencePostController {
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
+            reqDto.setBoardType(EXPERIENCE);
             postService.createPost(reqDto);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {

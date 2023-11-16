@@ -20,7 +20,7 @@ public class PostController {
     @GetMapping("/{postId}")
     public BaseResponse<?> getDetailCommunityPosts(@RequestHeader("Authorization") Long loginId,
                                                    @PathVariable("postId") Long postId,
-                                                   @PageableDefault(size = 30) Pageable pageable) {
+                                                   @PageableDefault(size = 50) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getDetailCommunityContent(postId, pageable));
         } catch (BaseException e) {

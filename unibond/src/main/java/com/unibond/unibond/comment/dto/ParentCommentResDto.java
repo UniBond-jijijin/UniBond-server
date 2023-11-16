@@ -1,5 +1,6 @@
 package com.unibond.unibond.comment.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.unibond.unibond.comment.domain.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,34 +11,40 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetParentCommentResDto {
+@JsonInclude(NON_NULL)
+public class ParentCommentResDto {
     private String profileImgUrl;
     private Long commentUserId;
     private String commentUserName;
+
+    private Long commentId;
     private LocalDateTime createdDate;
     private String content;
-    private Boolean hasChildComments;
+
     private List<ChildCommentsDto> childCommentResDtoList;
 
-    public static List<GetParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
+    public static List<ParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
         return parentCommentList.stream().map(
-                GetParentCommentResDto::new
+                ParentCommentResDto::new
         ).collect(Collectors.toList());
     }
 
     @Builder
-    public GetParentCommentResDto(Comment comment) {
-        // no additional queries are issued because of the fetch join (with member).
+    public ParentCommentResDto(Comment comment) {
         this.profileImgUrl = comment.getMember().getProfileImage();
         this.commentUserId = comment.getMember().getId();
         this.commentUserName = comment.getMember().getNickname();
+        this.commentId = comment.getId();
         this.createdDate = comment.getCreatedDate();
         this.content = comment.getContent();
 
-        // no additional queries are issued because of the batch size.
-        this.hasChildComments = !comment.getChildCommentList().isEmpty();
+        if (!comment.getChildCommentList().isEmpty()) {
+            this.childCommentResDtoList = ChildCommentsDto.getChildCommentDtoList(comment.getChildCommentList());
+        }
     }
 }

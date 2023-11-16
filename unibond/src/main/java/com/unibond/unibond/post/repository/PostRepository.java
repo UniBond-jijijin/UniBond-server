@@ -15,13 +15,12 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("select new com.unibond.unibond.post.dto.PostPreviewDto(o, d, p) " +
-            "from Post p " +
+    @Query("select p from Post p " +
             "join fetch p.owner o " +
             "join fetch p.owner.disease d " +
             "where p.boardType = :boardType and p.status = 'ACTIVE' " +
             "order by p.createdDate desc ")
-    Page<PostPreviewDto> findPostsByBoardType(@Param("boardType") BoardType boardType, Pageable pageable);
+    Page<Post> findPostsByBoardType(@Param("boardType") BoardType boardType, Pageable pageable);
 
     // TODO: need test..
     @Query("select p from Post p " +

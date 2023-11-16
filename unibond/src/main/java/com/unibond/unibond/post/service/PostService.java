@@ -15,10 +15,12 @@ import com.unibond.unibond.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
@@ -46,8 +48,14 @@ public class PostService {
 
     public GetCommunityResDto getCommunityContent(BoardType boardType, Pageable pageable) throws BaseException {
         try {
-            Page<PostPreviewDto> postPreviewList = postRepository.findPostsByBoardType(boardType, pageable);
-            return new GetCommunityResDto(postPreviewList);
+            Page<Post> postPage = postRepository.findPostsByBoardType(boardType, pageable);
+
+            Page<PostPreviewDto> postPreviewDtoList = new PageImpl<>(
+                    postPage.stream().map(
+                            post -> new PostPreviewDto(post.getOwner(), post.getOwner().getDisease(), post)
+                    ).collect(Collectors.toList()));
+
+            return new GetCommunityResDto(postPreviewDtoList);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
@@ -70,6 +78,7 @@ public class PostService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
