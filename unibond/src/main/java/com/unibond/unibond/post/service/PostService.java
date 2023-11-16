@@ -55,8 +55,7 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-    // TODO: List -> Page로 변경하기
+    
     @Transactional
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
         try {
