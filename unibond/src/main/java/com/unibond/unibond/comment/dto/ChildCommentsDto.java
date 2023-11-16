@@ -28,7 +28,7 @@ public class ChildCommentsDto {
     public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList, PageRequest pageRequest) {
 
         if (pageRequest == null) {
-            pageRequest = PageRequest.of(0, 2);
+            pageRequest = PageRequest.of(0, 30);
         }
 
         int start = (int) pageRequest.getOffset();
