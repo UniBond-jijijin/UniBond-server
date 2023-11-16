@@ -61,6 +61,10 @@ public class PostService {
         }
     }
 
+    // TODO: @Transactional 이 빠지면 failed to lazily initialize a collection of role 발생함. 찾아서 정리하기
+    // TODO: 댓글 정렬 기준 다시 생각해보기
+    // TODO: List -> Page로 변경하기
+    @Transactional
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
