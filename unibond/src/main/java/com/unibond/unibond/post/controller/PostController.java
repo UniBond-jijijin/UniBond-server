@@ -16,7 +16,6 @@ public class PostController {
     private final PostService postService;
     private final CommentService commentService;
 
-    // only get parent comment
     @GetMapping("/{postId}")
     public BaseResponse<?> getDetailCommunityPosts(@RequestHeader("Authorization") Long loginId,
                                                    @PathVariable("postId") Long postId,

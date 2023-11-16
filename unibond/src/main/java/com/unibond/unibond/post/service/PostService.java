@@ -55,7 +55,7 @@ public class PostService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-    
+
     @Transactional
     public GetCommunityContentDetailResDto getDetailCommunityContent(Long postId, Pageable pageable) throws BaseException {
         try {
