@@ -11,6 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -72,6 +73,7 @@ public class Member extends BaseEntity {
         this.disease = propertyNullCheck(disease, this.disease);
         this.diagnosisTiming = propertyNullCheck(reqDto.getDiagnosisTiming(), this.diagnosisTiming);
         this.bio = propertyNullCheck(reqDto.getBio(), this.bio);
+        modifyInterestSet(reqDto.getInterestList());
     }
 
     private <T> T propertyNullCheck(T property, T alternative) {
@@ -79,5 +81,11 @@ public class Member extends BaseEntity {
             return property;
         }
         return alternative;
+    }
+
+    private void modifyInterestSet(List<String> interestList) {
+        if (interestList != null) {
+            this.interestSet = new HashSet<>(interestList);
+        }
     }
 }
