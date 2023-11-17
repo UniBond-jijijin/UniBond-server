@@ -4,14 +4,16 @@ import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.letter_room.domain.LetterRoom;
 import com.unibond.unibond.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
@@ -30,12 +32,12 @@ public class Letter extends BaseEntity {
     @JoinColumn(name = "senderId")
     private Member sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "letterRoomId")
     private LetterRoom letterRoom;
 
     @Setter
-    private Boolean isLiked;
+    private Boolean liked;
 
     @Column(length = 200)
     private String content;
@@ -44,9 +46,12 @@ public class Letter extends BaseEntity {
     public Letter(Member receiver, Member sender, LetterRoom letterRoom, String content) {
         this.receiver = receiver;
         this.sender = sender;
+        this.setLiked(false);
+
+        // 양방향
         this.letterRoom = letterRoom;
-        this.setIsLiked(false);
         this.letterRoom.addLetter(this);
+
         this.content = content;
     }
 
