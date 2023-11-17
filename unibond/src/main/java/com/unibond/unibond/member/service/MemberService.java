@@ -2,6 +2,7 @@ package com.unibond.unibond.member.service;
 
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
+import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
 import com.unibond.unibond.member.domain.Member;
@@ -9,8 +10,12 @@ import com.unibond.unibond.member.dto.MemberDetailResDto;
 import com.unibond.unibond.member.dto.MemberModifyReqDto;
 import com.unibond.unibond.member.dto.MemberRegisterReqDto;
 import com.unibond.unibond.member.repository.MemberRepository;
+import com.unibond.unibond.post.domain.Post;
+import com.unibond.unibond.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
@@ -18,8 +23,11 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    private final LoginInfoService loginInfoService;
+
     private final MemberRepository memberRepository;
     private final DiseaseRepository diseaseRepository;
+    private final PostRepository postRepository;
 
     @Transactional
     public Long signupMember(MemberRegisterReqDto registerReqDto) throws BaseException {
@@ -52,6 +60,7 @@ public class MemberService {
                 return UNUSABLE_NICK;
             }
         } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -76,14 +85,33 @@ public class MemberService {
         }
     }
 
-    public MemberDetailResDto getMemberInfo(Long memberId) throws BaseException {
+    @Transactional
+    public MemberDetailResDto getMemberInfo(Long memberId, Pageable pageable) throws BaseException {
         try {
-            Member member = memberRepository.findById(memberId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
-            return new MemberDetailResDto(member);
+            if (loginInfoService.getLoginMemberId().equals(memberId)) {
+                return getMyProfileInfo(memberId);
+            }
+            return getOtherProfileInfo(memberId, pageable);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    private MemberDetailResDto getMyProfileInfo(Long memberId) throws BaseException {
+        Member member = memberRepository.findMemberByIdFetchJoinDisease(memberId)
+                .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+
+        return new MemberDetailResDto(member);
+    }
+
+    private MemberDetailResDto getOtherProfileInfo(Long memberId, Pageable pageable) throws BaseException {
+        Member member = memberRepository.findMemberByIdFetchJoinDisease(memberId)
+                .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+        Page<Post> posts = postRepository.findPostsByMember(member, pageable);
+
+        return new MemberDetailResDto(member, posts);
     }
 }

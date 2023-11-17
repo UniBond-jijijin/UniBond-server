@@ -6,6 +6,8 @@ import com.unibond.unibond.member.dto.MemberModifyReqDto;
 import com.unibond.unibond.member.dto.MemberRegisterReqDto;
 import com.unibond.unibond.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
@@ -35,9 +37,11 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId) {
+    public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId,
+                                           @RequestHeader("Authorization") Long loginId,
+                                           @PageableDefault(size = 30) Pageable pageable) {
         try {
-            return new BaseResponse<>(memberService.getMemberInfo(memberId));
+            return new BaseResponse<>(memberService.getMemberInfo(memberId, pageable));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
