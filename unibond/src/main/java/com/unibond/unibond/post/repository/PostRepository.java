@@ -3,7 +3,6 @@ package com.unibond.unibond.post.repository;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
-import com.unibond.unibond.post.dto.PostPreviewDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +27,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "join fetch m.disease d " +
             "where p.id = :postId and p.status = 'ACTIVE' ")
     Optional<Post> findPostByIdFetchMemberAndDisease(@Param("postId") Long postId);
+
+    @Query("select p from Post p " +
+            "join fetch p.owner m " +
+            "join fetch m.disease d " +
+            "where p.owner = :member and p.status = 'ACTIVE' " +
+            "order by p.createdDate desc ")
+    Page<Post> findPostsByMember(@Param("member") Member member, Pageable pageable);
 }

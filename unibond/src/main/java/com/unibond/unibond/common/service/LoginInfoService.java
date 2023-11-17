@@ -16,6 +16,13 @@ import static com.unibond.unibond.common.BaseResponseStatus.INVALID_MEMBER_ID;
 public class LoginInfoService {
     private final MemberRepository memberRepository;
 
+    public Long getLoginMemberId() {
+        HttpServletRequest httpServletRequest
+                = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        return Long.parseLong(httpServletRequest.getHeader("Authorization"));
+    }
+
     public Member getLoginMember() throws BaseException {
         HttpServletRequest httpServletRequest
                 = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
