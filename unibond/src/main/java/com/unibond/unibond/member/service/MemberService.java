@@ -54,21 +54,22 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, Long loginId) throws BaseException {
         try {
             Member member = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
-            Disease disease = member.getDisease();
 
-            if (!disease.getId().equals(reqDto.getDiseaseId())) {
-                disease = diseaseRepository.findById(reqDto.getDiseaseId()).orElseThrow(
-                        () -> new BaseException(INVALID_DISEASE_ID));
+            Disease disease = null;
+            if (reqDto.getDiseaseId() != null) {
+                disease = diseaseRepository.findById(reqDto.getDiseaseId())
+                        .orElseThrow(() -> new BaseException(INVALID_DISEASE_ID));
             }
-
             member.modifyMember(reqDto, disease);
             return SUCCESS;
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
