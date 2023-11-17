@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -34,7 +36,7 @@ public class Member extends BaseEntity {
     @ColumnDefault("NULL")
     private Gender gender;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "diseaseId")
     private Disease disease;
 
@@ -43,14 +45,24 @@ public class Member extends BaseEntity {
     @Column(length = 100)
     private String bio;
 
+    @ElementCollection(fetch = LAZY)
+    @CollectionTable(
+            name = "Interest",
+            joinColumns = @JoinColumn(name = "memberId")
+    )
+    @Column(name = "interest")
+    private Set<String> interestSet = new HashSet<>();
+
     @Builder
-    public Member(String profileImage, String nickname, Gender gender, Disease disease, LocalDate diagnosisTiming, String bio) {
+    public Member(String profileImage, String nickname, Gender gender, Disease disease, LocalDate diagnosisTiming,
+                  String bio, Set<String> interestSet) {
         this.profileImage = profileImage;
         this.nickname = nickname;
         this.gender = gender;
         this.disease = disease;
         this.diagnosisTiming = diagnosisTiming;
         this.bio = bio;
+        this.interestSet = interestSet;
     }
 
     public void modifyMember(MemberModifyReqDto reqDto, Disease disease) {

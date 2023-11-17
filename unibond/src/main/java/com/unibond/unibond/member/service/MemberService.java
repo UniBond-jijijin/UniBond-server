@@ -33,10 +33,12 @@ public class MemberService {
             );
 
             Member newMember = registerReqDto.toEntity(disease);
-            return memberRepository.save(newMember).getId();
+            Member savedMember = memberRepository.save(newMember);
+            return savedMember.getId();
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
