@@ -4,6 +4,7 @@ import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.letter.domain.Letter;
+import com.unibond.unibond.letter.dto.LetterLikeResDto;
 import com.unibond.unibond.letter.dto.SendLetterReqDto;
 import com.unibond.unibond.letter.dto.SendLetterResDto;
 import com.unibond.unibond.letter.repository.LetterRepository;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
-import static com.unibond.unibond.common.BaseResponseStatus.INVALID_MEMBER_ID;
+import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +47,22 @@ public class LetterService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public LetterLikeResDto likeLetter(Long letterId) throws BaseException {
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            Letter letter = findLetterByIdAndReceiver(loginMember, letterId);
+            letter.setLiked(!letter.getLiked());
+            return new LetterLikeResDto(letter);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -56,6 +72,11 @@ public class LetterService {
                 .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
     }
 
+    private Letter findLetterByIdAndReceiver(Member receiver, Long id) throws BaseException {
+        return letterRepository.findByReceiverAndLetterId(receiver, id)
+                .orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+    }
+
     private LetterRoom findLetterRoom(Member sender, Member receiver) {
         Optional<LetterRoom> letterRoom = letterRoomRepository.findLetterRoomBy2Member(sender, receiver);
         return letterRoom.orElseGet(
@@ -63,7 +84,7 @@ public class LetterService {
         );
     }
 
-    private void checkLetterLength(SendLetterReqDto reqDto) throws BaseException{
+    private void checkLetterLength(SendLetterReqDto reqDto) throws BaseException {
         if (reqDto.getContent().length() < 50) {
             throw new BaseException(BaseResponseStatus.NOT_ENOUGH_CHARS);
         }

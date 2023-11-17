@@ -39,6 +39,7 @@ public enum BaseResponseStatus {
     NULL_SEARCH_LAN(false, 2201, "검색할 단어의 언어를 설정하지 않았습니다."),
 
     // letter (2300 ~ 2399)
+    INVALID_LETTER_ID(false, 2300, "유효하지 않은 편지 id 입니다."),
 
     // letter_room (2400 ~ 2499)
 
