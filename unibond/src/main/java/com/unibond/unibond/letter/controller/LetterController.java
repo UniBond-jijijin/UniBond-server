@@ -23,6 +23,16 @@ public class LetterController {
         }
     }
 
+    @GetMapping("/{letterId}")
+    public BaseResponse<?> getLetterDetail(@PathVariable("letterId") Long letterId,
+                                           @RequestHeader("Authorization") Long loginId) {
+        try {
+            return new BaseResponse<>(letterService.getLetterDetail(letterId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
     @PostMapping("/{letterId}")
     public BaseResponse<?> likeLetter(@PathVariable("letterId") Long letterId,
                                       @RequestHeader("Authorization") Long loginId) {

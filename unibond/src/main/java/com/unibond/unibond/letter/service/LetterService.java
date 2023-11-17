@@ -4,6 +4,7 @@ import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.letter.domain.Letter;
+import com.unibond.unibond.letter.dto.LetterDetailResDto;
 import com.unibond.unibond.letter.dto.LetterLikeResDto;
 import com.unibond.unibond.letter.dto.SendLetterReqDto;
 import com.unibond.unibond.letter.dto.SendLetterResDto;
@@ -59,6 +60,26 @@ public class LetterService {
             Letter letter = findLetterByIdAndReceiver(loginMember, letterId);
             letter.setLiked(!letter.getLiked());
             return new LetterLikeResDto(letter);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public LetterDetailResDto getLetterDetail(Long letterId) throws BaseException {
+        try {
+            Letter letter = letterRepository.findById(letterId).orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+
+            if (letter.getReceiver().getId().equals(loginMemberId)) {
+                return LetterDetailResDto.getReceivedLetter(letter);
+            } else if (letter.getSender().getId().equals(loginMemberId)) {
+                return LetterDetailResDto.getSentLetter(letter);
+            }
+
+            throw new BaseException(NOT_YOUR_LETTER);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

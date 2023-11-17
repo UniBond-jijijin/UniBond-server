@@ -62,6 +62,7 @@ public enum BaseResponseStatus {
 
     // letter (3300 ~ 3399)
     NOT_ENOUGH_CHARS(false, 3300, "편지는 최소 50자 이상이어야 합니다."),
+    NOT_YOUR_LETTER(false, 3301, "해당 편지를 접근할 권한이 없습니다."),
 
     // letter_room (3400 ~ 3499)
 
