@@ -5,17 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LetterPreviewResDto {
     public String senderName;
-    public LocalDate sentDate;
+    public LocalDateTime sentDate;
+    private String letterTitle;
 
     public LetterPreviewResDto(Letter letter) {
         this.senderName = letter.getSender().getNickname();
-        this.sentDate = letter.getCreatedDate().toLocalDate();
+        this.sentDate = letter.getCreatedDate();
+        this.letterTitle = letter.getTitle();
     }
 }
