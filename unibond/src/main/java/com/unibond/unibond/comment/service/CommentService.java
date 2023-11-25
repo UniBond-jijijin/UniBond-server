@@ -63,7 +63,7 @@ public class CommentService {
     public ChildCommentsPagingResDto getChildCommentsWithPaging(Long postId, Long commentId, Pageable pageable) throws BaseException {
         try {
             Comment parentComment = findCommentById(commentId);
-            Page<Comment> comments = commentRepository.findCommentsByParentCommentFetchOwner(parentComment, pageable);
+            Page<Comment> comments = commentRepository.findCommentsByParentCommentFetchOwner(postId, parentComment, pageable);
             return new ChildCommentsPagingResDto(comments);
         } catch (BaseException e) {
             throw e;

@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,9 +20,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c " +
             "join fetch c.member " +
             "join fetch c.member.disease " +
-            "where c.parentComment =: parentComment and c.status = 'ACTIVE'")
-    Page<Comment> findCommentsByParentCommentFetchOwner(@Param("parentComment") Comment parentComment,
-                                                  Pageable pageable);
+            "where c.parentComment = :parentComment " +
+            "and c.post.id = :postId " +
+            "and c.status = 'ACTIVE'")
+    Page<Comment> findCommentsByParentCommentFetchOwner(@Param("postId") Long postId,
+                                                        @Param("parentComment") Comment parentComment,
+                                                        Pageable pageable);
 
     @Query("select c from Comment c " +
             "join fetch c.member " +
