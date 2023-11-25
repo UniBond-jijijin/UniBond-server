@@ -58,6 +58,7 @@ public class LetterService {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Letter letter = findLetterByIdAndReceiver(loginMember, letterId);
+            // TODO: 도착하는 시간 확인 필요
             letter.setLiked(!letter.getLiked());
             return new LetterLikeResDto(letter);
         } catch (BaseException e) {

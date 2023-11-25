@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.EnumType.*;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -41,6 +42,11 @@ public class Letter extends BaseEntity {
 
     @Column(length = 200)
     private String content;
+
+    @Enumerated(STRING)
+    @Setter
+    @Column(columnDefinition = "varchar(10) default 'SENDING'")
+    private LetterStatus letterStatus;
 
     @Builder
     public Letter(Member receiver, Member sender, LetterRoom letterRoom, String content) {
