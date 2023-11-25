@@ -21,8 +21,6 @@ import org.springframework.stereotype.Service;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 import static com.unibond.unibond.report.controller.ReportType.*;
-import static com.unibond.unibond.report.domain.Report.ReportBuilder;
-import static com.unibond.unibond.report.domain.Report.builder;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +50,8 @@ public class ReportService {
     private Report getReportByReportType(ReportReqDto reqDto) throws BaseException {
         ReportType reportType = reqDto.getReportType();
         Member loginMember = loginInfoService.getLoginMember();
-        ReportBuilder result = builder().reporter(loginMember).reportType(reportType).content(reqDto.getContent());
+        Report.ReportBuilder result =
+                Report.builder().reporter(loginMember).reportType(reportType).content(reqDto.getContent());
         if (reportType.equals(LETTER)) {
             Letter letter = letterRepository.findById(reqDto.getLetterId())
                     .orElseThrow(() -> new BaseException(INVALID_COMMENT_ID));
