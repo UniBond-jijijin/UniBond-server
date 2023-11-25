@@ -15,26 +15,28 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @AllArgsConstructor
 @JsonInclude(NON_NULL)
 public class LetterDetailResDto {
-    private LocalDateTime sendDate;
-    private LocalDateTime arrivalDate; // only sent letter
+    private LocalDateTime sendDate; // only sent letter
+
+    private LocalDateTime arrivalDate; // only received letter
     private Boolean liked; // only received letter
+
+    private String title;
     private String content;
 
     public static LetterDetailResDto getReceivedLetter(Letter letter) {
         LetterDetailResDto resDto = new LetterDetailResDto();
-        resDto.setSendDate(letter.getCreatedDate());
+        resDto.setArrivalDate(letter.getArrivalDate());
         resDto.setLiked(letter.getLiked());
+        resDto.setTitle(letter.getTitle());
         resDto.setContent(letter.getContent());
-
         return resDto;
     }
 
     public static LetterDetailResDto getSentLetter(Letter letter) {
         LetterDetailResDto resDto = new LetterDetailResDto();
         resDto.setSendDate(letter.getCreatedDate());
-        resDto.setArrivalDate(letter.getArrivalDate());
+        resDto.setTitle(letter.getTitle());
         resDto.setContent(letter.getContent());
-
         return resDto;
     }
 }
