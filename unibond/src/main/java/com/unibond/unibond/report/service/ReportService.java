@@ -52,10 +52,7 @@ public class ReportService {
     private Report getReportByReportType(ReportReqDto reqDto) throws BaseException {
         ReportType reportType = reqDto.getReportType();
         Member loginMember = loginInfoService.getLoginMember();
-        ReportBuilder result = builder()
-                .reporter(loginMember)
-                .reportType(reportType)
-                .content(reqDto.getContent());
+        ReportBuilder result = builder().reporter(loginMember).reportType(reportType).content(reqDto.getContent());
         if (reportType.equals(LETTER)) {
             Letter letter = letterRepository.findById(reqDto.getLetterId())
                     .orElseThrow(() -> new BaseException(INVALID_COMMENT_ID));
@@ -68,7 +65,7 @@ public class ReportService {
             Post post = postRepository.findById(reqDto.getPostId())
                     .orElseThrow(() -> new BaseException(INVALID_POST_ID));
             return result.post(post).build();
-        } else if (reportType.equals(COMMENT)) {
+        } else {
             Comment comment = commentRepository.findById(reqDto.getCommentId())
                     .orElseThrow(() -> new BaseException(INVALID_COMMENT_ID));
             return result.comment(comment).build();
