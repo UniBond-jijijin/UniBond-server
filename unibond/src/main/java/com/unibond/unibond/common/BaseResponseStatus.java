@@ -52,6 +52,10 @@ public enum BaseResponseStatus {
     // post (2600 ~ 2699)
     INVALID_POST_ID(false, 2600, "유효하지 않은 게시글 id 입니다"),
 
+    // report (2700 ~ 2799)
+    EMPTY_REPORT_ID(false, 2700, "신고 대상의 ID가 null값 입니다."),
+    INVALID_REPORT_ID(false, 2701, "신고 대상의 ID가 유효하지 않습니다."),
+
     /**
      * 3000: Response Error
      */
