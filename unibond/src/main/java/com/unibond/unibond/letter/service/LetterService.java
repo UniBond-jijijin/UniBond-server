@@ -36,7 +36,7 @@ public class LetterService {
             checkLetterLength(reqDto);
 
             Member sender = loginInfoService.getLoginMember();
-            Member receiver = getReceiver(reqDto.receiverId);
+            Member receiver = getReceiver(reqDto.getReceiverId());
 
             LetterRoom letterRoom = findLetterRoom(sender, receiver);
             letterRoomRepository.save(letterRoom);

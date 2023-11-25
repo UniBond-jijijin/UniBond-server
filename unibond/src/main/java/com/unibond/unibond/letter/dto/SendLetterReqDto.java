@@ -16,15 +16,19 @@ import javax.validation.constraints.Size;
 public class SendLetterReqDto {
 
     @NotNull(message = "수신자 아이디에는 null이 들어올 수 없습니다.")
-    public Long receiverId;
+    private Long receiverId;
+
+    @NotNull(message = "편지 제목에는 null이 들어올 수 없습니다.")
+    private String title;
 
     @NotNull(message = "편지 내용에는 null이 들어올 수 없습니다.")
     @Size(min = 50, message = "편지는 50자 이상이어야 합니다.")
-    public String content;
+    private String content;
 
     public Letter toEntity(LetterRoom letterRoom, Member sender, Member receiver) {
         return Letter.builder()
                 .content(this.content)
+                .title(this.title)
                 .letterRoom(letterRoom)
                 .sender(sender)
                 .receiver(receiver)
