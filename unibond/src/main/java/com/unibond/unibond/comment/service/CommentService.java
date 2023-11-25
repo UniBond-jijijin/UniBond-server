@@ -1,6 +1,7 @@
 package com.unibond.unibond.comment.service;
 
 import com.unibond.unibond.comment.domain.Comment;
+import com.unibond.unibond.comment.dto.ChildCommentsPagingResDto;
 import com.unibond.unibond.comment.dto.UploadCommentReqDto;
 import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
@@ -11,6 +12,8 @@ import com.unibond.unibond.post.domain.Post;
 import com.unibond.unibond.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.unibond.unibond.common.BaseEntityStatus.ACTIVE;
@@ -41,6 +44,7 @@ public class CommentService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
+            System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -53,5 +57,24 @@ public class CommentService {
 
     private Comment buildParentComment(Post post, Member loginMember, UploadCommentReqDto reqDto) throws BaseException {
         return reqDto.buildParentComment(loginMember, post);
+    }
+
+    @Transactional
+    public ChildCommentsPagingResDto getChildCommentsWithPaging(Long postId, Long commentId, Pageable pageable) throws BaseException {
+        try {
+            Comment parentComment = findCommentById(commentId);
+            Page<Comment> comments = commentRepository.findCommentsByParentCommentFetchOwner(parentComment, pageable);
+            return new ChildCommentsPagingResDto(comments);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    private Comment findCommentById(Long id) throws BaseException {
+        return commentRepository.findCommentByIdAndStatus(id, ACTIVE)
+                .orElseThrow(() -> new BaseException(INVALID_COMMENT_ID));
     }
 }

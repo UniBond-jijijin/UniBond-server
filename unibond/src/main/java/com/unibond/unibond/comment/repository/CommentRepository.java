@@ -20,6 +20,13 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c " +
             "join fetch c.member " +
+            "join fetch c.member.disease " +
+            "where c.parentComment =: parentComment and c.status = 'ACTIVE'")
+    Page<Comment> findCommentsByParentCommentFetchOwner(@Param("parentComment") Comment parentComment,
+                                                  Pageable pageable);
+
+    @Query("select c from Comment c " +
+            "join fetch c.member " +
             "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' " +
             "order by c.createdDate desc ")
     Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, Pageable pageable);
