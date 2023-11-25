@@ -11,7 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.EnumType.*;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -40,6 +40,8 @@ public class Letter extends BaseEntity {
     @Setter
     private Boolean liked;
 
+    private String title;
+
     @Column(length = 200)
     private String content;
 
@@ -49,7 +51,7 @@ public class Letter extends BaseEntity {
     private LetterStatus letterStatus;
 
     @Builder
-    public Letter(Member receiver, Member sender, LetterRoom letterRoom, String content) {
+    public Letter(Member receiver, Member sender, LetterRoom letterRoom, String content, String title) {
         this.receiver = receiver;
         this.sender = sender;
         this.setLiked(false);
@@ -58,6 +60,7 @@ public class Letter extends BaseEntity {
         this.letterRoom = letterRoom;
         this.letterRoom.addLetter(this);
 
+        this.title = title;
         this.content = content;
     }
 
