@@ -1,0 +1,25 @@
+= Experience Community API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Get Experience Community Posts
+
+경험 기록 게시판 내용 가져오기
+
+=== Request
+
+include::{snippets}/get-experience-community/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-experience-community/http-response.adoc[]
+include::{snippets}/get-experience-community/response-fields.adoc[]

@@ -42,6 +42,7 @@ public enum BaseResponseStatus {
     INVALID_LETTER_ID(false, 2300, "유효하지 않은 편지 id 입니다."),
 
     // letter_room (2400 ~ 2499)
+    INVALID_LETTER_ROOM_ID(false, 2400, "유효하지 않은 편지방 id 입니다."),
 
     // member (2500 ~ 2599)
     INVALID_MEMBER_ID(false, 2500, "유효하지 않은 멤버 id 입니다."),
@@ -50,6 +51,10 @@ public enum BaseResponseStatus {
 
     // post (2600 ~ 2699)
     INVALID_POST_ID(false, 2600, "유효하지 않은 게시글 id 입니다"),
+
+    // report (2700 ~ 2799)
+    EMPTY_REPORT_ID(false, 2700, "신고 대상의 ID가 null값 입니다."),
+    INVALID_REPORT_ID(false, 2701, "신고 대상의 ID가 유효하지 않습니다."),
 
     /**
      * 3000: Response Error
@@ -65,6 +70,7 @@ public enum BaseResponseStatus {
     NOT_YOUR_LETTER(false, 3301, "해당 편지를 접근할 권한이 없습니다."),
 
     // letter_room (3400 ~ 3499)
+    NOT_YOUR_LETTER_ROOM(false, 3400, "해당 편지방에 접근할 권한이 없습니다."),
 
     // member (3500 ~ 3599)
 

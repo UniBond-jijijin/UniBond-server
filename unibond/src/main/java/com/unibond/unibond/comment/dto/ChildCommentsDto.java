@@ -26,7 +26,6 @@ public class ChildCommentsDto {
     private String content;
 
     public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList, PageRequest pageRequest) {
-
         if (pageRequest == null) {
             pageRequest = PageRequest.of(0, 30);
         }
