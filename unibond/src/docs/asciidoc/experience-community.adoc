@@ -22,3 +22,4 @@ include::{snippets}/get-experience-community/http-request.adoc[]
 === Response
 
 include::{snippets}/get-experience-community/http-response.adoc[]
+include::{snippets}/get-experience-community/response-fields.adoc[]
