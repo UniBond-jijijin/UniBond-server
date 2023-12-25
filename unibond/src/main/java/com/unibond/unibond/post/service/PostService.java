@@ -9,18 +9,13 @@ import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
 import com.unibond.unibond.post.dto.GetCommunityContentDetailResDto;
 import com.unibond.unibond.post.dto.GetCommunityResDto;
-import com.unibond.unibond.post.dto.PostPreviewDto;
 import com.unibond.unibond.post.dto.PostUploadReqDto;
 import com.unibond.unibond.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
