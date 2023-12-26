@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = {MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> signup(@RequestBody MemberRegisterReqDto registerReqDto) {
         try {
             return new BaseResponse<>(memberService.signupMember(registerReqDto));
@@ -47,7 +48,7 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping(value = "/{memberId}", consumes = {MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
                                             @RequestBody MemberModifyReqDto reqDto,
                                             @RequestHeader("Authorization") Long loginId) {

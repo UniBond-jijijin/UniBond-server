@@ -3,6 +3,7 @@ package com.unibond.unibond.member.service;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
+import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
 import com.unibond.unibond.member.domain.Member;
@@ -24,7 +25,7 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 @RequiredArgsConstructor
 public class MemberService {
     private final LoginInfoService loginInfoService;
-
+    private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
     private final DiseaseRepository diseaseRepository;
     private final PostRepository postRepository;
@@ -39,8 +40,8 @@ public class MemberService {
             Disease disease = diseaseRepository.findById(registerReqDto.getDiseaseId()).orElseThrow(
                     () -> new BaseException(INVALID_DISEASE_ID)
             );
-
-            Member newMember = registerReqDto.toEntity(disease);
+            String imgUrl = s3Uploader.upload(registerReqDto.getProfileImage(), "user");
+            Member newMember = registerReqDto.toEntity(disease, imgUrl);
             Member savedMember = memberRepository.save(newMember);
             return savedMember.getId();
         } catch (BaseException e) {
@@ -75,7 +76,11 @@ public class MemberService {
                 disease = diseaseRepository.findById(reqDto.getDiseaseId())
                         .orElseThrow(() -> new BaseException(INVALID_DISEASE_ID));
             }
-            member.modifyMember(reqDto, disease);
+            String imgUrl = null;
+            if (reqDto.getProfileImage() != null) {
+                imgUrl = s3Uploader.upload(reqDto.getProfileImage(), "user");
+            }
+            member.modifyMember(reqDto, disease, imgUrl);
             return SUCCESS;
         } catch (BaseException e) {
             throw e;
