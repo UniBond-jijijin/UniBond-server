@@ -1,11 +1,20 @@
 package com.unibond.unibond.letter_room.service;
 
 import com.unibond.unibond.common.BaseException;
+import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.letter.domain.Letter;
 import com.unibond.unibond.letter.repository.LetterRepository;
+import com.unibond.unibond.letter_room.domain.LetterRoom;
+import com.unibond.unibond.letter_room.dto.GetAllLetterRoomsResDto;
 import com.unibond.unibond.letter_room.dto.GetLetterRoomDetailResDto;
+import com.unibond.unibond.letter_room.repository.LetterRoomCustomRepository;
+import com.unibond.unibond.letter_room.repository.LetterRoomRepository;
+import com.unibond.unibond.letter_room.repository.repo_interface.LetterRoomPreviewRepoInterface;
 import com.unibond.unibond.member.domain.Member;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +24,9 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 @Service
 @RequiredArgsConstructor
 public class LetterRoomService {
+    private final LoginInfoService loginInfoService;
+    private final LetterRoomCustomRepository letterRoomCustomRepository;
+    private final LetterRoomRepository letterRoomRepository;
     private final LetterRepository letterRepository;
 
     public GetLetterRoomDetailResDto getAllLetters(Long letterRoomId, Long loginId) throws BaseException {
@@ -41,5 +53,16 @@ public class LetterRoomService {
             return letter.getSender();
         }
         throw new BaseException(NOT_YOUR_LETTER_ROOM);
+    }
+
+    public GetAllLetterRoomsResDto getAllLetterRooms(Pageable pageable) throws BaseException {
+        try {
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+            Page<LetterRoomPreviewRepoInterface> letterRooms = letterRoomCustomRepository.findLetterRoomsByMember(loginMemberId, pageable);
+            return new GetAllLetterRoomsResDto(loginMemberId, letterRooms);
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

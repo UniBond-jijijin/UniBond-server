@@ -2,12 +2,14 @@ package com.unibond.unibond.letter_room.repository;
 
 import com.unibond.unibond.letter_room.domain.LetterRoom;
 import com.unibond.unibond.member.domain.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +29,5 @@ public interface LetterRoomRepository extends JpaRepository<LetterRoom, Long> {
             "join fetch l.member2 " +
             "join fetch l.member2.disease " +
             "where l.id = :letterRoomId ")
-    Optional<LetterRoom> findByIdFetch2Member(@Param("letterRoomId")Long letterRoomId);
+    Optional<LetterRoom> findByIdFetch2Member(@Param("letterRoomId") Long letterRoomId);
 }
