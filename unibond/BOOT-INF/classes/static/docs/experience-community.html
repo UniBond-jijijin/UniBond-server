@@ -486,15 +486,23 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 3140
+Content-Length: 3572
 
 {
   "isSuccess" : true,
   "code" : 1000,
   "message" : "요청에 성공하였습니다.",
   "result" : {
-    "numberOfElements" : 8,
+    "numberOfElements" : 9,
     "postPreviewList" : [ {
+      "createdDate" : "2023-12-27T03:06:30.422445",
+      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/KakaoTalk_20230528_222457241_05.png",
+      "ownerNick" : "5jizzi",
+      "disease" : "13번 염색체 장완 21-22 부분의 결손",
+      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
+      "boardType" : "EXPERIENCE",
+      "isEnd" : true
+    }, {
       "createdDate" : "2023-12-27T02:59:28.089643",
       "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/KakaoTalk_20230528_222457241_05.png",
       "ownerNick" : "5jizzi",
@@ -561,7 +569,7 @@ Content-Length: 3140
     } ],
     "lastPage" : true,
     "totalPages" : 1,
-    "totalElements" : 8,
+    "totalElements" : 9,
     "size" : 30
   }
 }</code></pre>
@@ -696,9 +704,6 @@ Content-Length: 3140
     -F 'request=@request;type=application/json'</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>http Request는 사진 업로드 때문에 매우 더러워 보여 토글로 숨기겠습니다.</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -760,6 +765,20 @@ Content-Length: 3140
 </tr>
 </tbody>
 </table>
+<div class="ulist">
+<ul>
+<li>
+<p>request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+  "content" : "게시물 업로드 테스트 입니다."
+}</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_response_2"><a class="link" href="#_response_2">Response</a></h3>
@@ -814,7 +833,7 @@ Content-Length: 95
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-12-27 03:06:13 +0900
+Last updated 2023-12-27 03:12:13 +0900
 </div>
 </div>
 </body>

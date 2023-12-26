@@ -97,11 +97,11 @@ class ExperiencePostControllerTest {
     @Test
     @DisplayName("경험 기록 게시판 게시물 업로드 Test")
     void createPost() throws Exception {
-        String fileName = "test_profile_img";
+        String fileName = "test-img";
 
-        FileInputStream fileInputStream = new FileInputStream("src/test/resources/static/" + fileName + ".png");
+        FileInputStream fileInputStream = new FileInputStream("src/test/resources/static/" + fileName + ".jpg");
         MockMultipartFile testImg
-                = new MockMultipartFile("postImg", fileName + ".png", "multipart/form-data", fileInputStream);
+                = new MockMultipartFile("postImg", fileName + ".jpg", "multipart/form-data", fileInputStream);
 
         Map<String, String> requestMap = new HashMap<>();
         requestMap.put("content", "경험 기록 게시판 게시물 업로드 테스트");
