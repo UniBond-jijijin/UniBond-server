@@ -27,7 +27,7 @@ public interface LetterRoomCustomRepository extends JpaRepository<LetterRoom, Lo
             "join member member2 on member2.id = letterRoom.member_id2 " +
             "where ((member1.id = :member) or (member2.id = :member)) " +
                 "and letterRoom.status = 'ACTIVE' " +
-                "and letter.status = 'ARRIVED' " +
+                "and ((letter.letter_status = 'ARRIVED') or letter.sender_id = :member)" +
             "group by letterRoom.id, member1.id, member2.id " +
             "order by recentLetterCreatedDate desc ",
             nativeQuery = true)
