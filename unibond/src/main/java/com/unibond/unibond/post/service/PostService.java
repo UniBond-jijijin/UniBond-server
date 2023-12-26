@@ -4,6 +4,7 @@ import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.service.LoginInfoService;
+import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
@@ -24,7 +25,7 @@ import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
 @RequiredArgsConstructor
 public class PostService {
     private final LoginInfoService loginInfoService;
-
+    private final S3Uploader s3Uploader;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
 
@@ -32,7 +33,11 @@ public class PostService {
     public void createPost(PostUploadReqDto reqDto) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
-            Post newPost = reqDto.toEntity(loginMember);
+            String imgUrl = null;
+            if (reqDto.getMultipartFile() != null) {
+                imgUrl = s3Uploader.upload(reqDto.getMultipartFile(), "post");
+            }
+            Post newPost = reqDto.toEntity(loginMember, imgUrl);
             postRepository.save(newPost);
         } catch (BaseException e) {
             throw e;

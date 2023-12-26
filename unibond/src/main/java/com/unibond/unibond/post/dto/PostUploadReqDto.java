@@ -4,24 +4,25 @@ import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import static com.unibond.unibond.post.domain.BoardType.*;
+import static com.unibond.unibond.post.domain.BoardType.QNA;
 
 @Data
 public class PostUploadReqDto {
-    // TODO: IMAGE UPLOAD
+    private MultipartFile multipartFile; // nullable
     private String content;
 
     // null
     private Member owner;
     private BoardType boardType;
 
-    public Post toEntity(Member owner) {
+    public Post toEntity(Member owner, String postImgUrl) {
         this.owner = owner;
         if (boardType.equals(QNA)) {
             return createQNAPost();
         } else {
-            return createExperiencePost();
+            return createExperiencePost(postImgUrl);
         }
     }
 
@@ -33,12 +34,12 @@ public class PostUploadReqDto {
                 .build();
     }
 
-    private Post createExperiencePost() {
-        // TODO: 이미지 업로드 구현 뒤 호출 메소드 변경 필요
-        return Post.createQnAPost()
+    private Post createExperiencePost(String postImgUrl) {
+        return Post.createExperiencePost()
                 .owner(owner)
                 .boardType(boardType)
                 .content(content)
+                .postImageUrl(postImgUrl)
                 .build();
     }
 }

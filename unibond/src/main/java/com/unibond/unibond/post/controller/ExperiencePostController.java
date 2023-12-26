@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.SUCCESS;
 import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 public class ExperiencePostController {
     private final PostService postService;
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = {MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
