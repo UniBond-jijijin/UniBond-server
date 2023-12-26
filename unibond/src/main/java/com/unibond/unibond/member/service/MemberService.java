@@ -3,6 +3,7 @@ package com.unibond.unibond.member.service;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
+import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
 import com.unibond.unibond.member.domain.Member;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
@@ -24,13 +26,13 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 @RequiredArgsConstructor
 public class MemberService {
     private final LoginInfoService loginInfoService;
-
+    private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
     private final DiseaseRepository diseaseRepository;
     private final PostRepository postRepository;
 
     @Transactional
-    public Long signupMember(MemberRegisterReqDto registerReqDto) throws BaseException {
+    public Long signupMember(MemberRegisterReqDto registerReqDto, MultipartFile profileImg) throws BaseException {
         try {
             if (memberRepository.existsMemberByNickname(registerReqDto.getNickname())) {
                 throw new BaseException(DUPLICATE_MEMBER_NICK);
@@ -39,8 +41,8 @@ public class MemberService {
             Disease disease = diseaseRepository.findById(registerReqDto.getDiseaseId()).orElseThrow(
                     () -> new BaseException(INVALID_DISEASE_ID)
             );
-
-            Member newMember = registerReqDto.toEntity(disease);
+            String imgUrl = s3Uploader.upload(profileImg, "user");
+            Member newMember = registerReqDto.toEntity(disease, imgUrl);
             Member savedMember = memberRepository.save(newMember);
             return savedMember.getId();
         } catch (BaseException e) {
@@ -66,16 +68,22 @@ public class MemberService {
     }
 
     @Transactional
-    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, Long loginId) throws BaseException {
+    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, MultipartFile profileImg) throws BaseException {
         try {
-            Member member = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+            Member member = loginInfoService.getLoginMember();
 
             Disease disease = null;
             if (reqDto.getDiseaseId() != null) {
                 disease = diseaseRepository.findById(reqDto.getDiseaseId())
                         .orElseThrow(() -> new BaseException(INVALID_DISEASE_ID));
             }
-            member.modifyMember(reqDto, disease);
+
+            String imgUrl = null;
+            if (profileImg != null) {
+                imgUrl = s3Uploader.upload(profileImg, "user");
+            }
+
+            member.modifyMember(reqDto, disease, imgUrl);
             return SUCCESS;
         } catch (BaseException e) {
             throw e;

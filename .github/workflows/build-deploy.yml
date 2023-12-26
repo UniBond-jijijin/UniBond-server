@@ -28,6 +28,10 @@ jobs:
         run: echo "${{ secrets.MYSQL_SETTING }}" > /home/runner/work/UniBond-server/UniBond-server/unibond/src/main/resources/application-MYSQL.properties
         shell: bash
 
+      - name: add S3 connection settings
+        run: echo "${{ secrets.S3_SETTING }}" > /home/runner/work/UniBond-server/UniBond-server/unibond/src/main/resources/application-S3.properties
+        shell: bash
+
       - name: Permission for gradlew
         run: chmod +x ./unibond/gradlew
         shell: bash

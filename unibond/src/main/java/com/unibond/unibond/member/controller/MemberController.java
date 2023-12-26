@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +21,11 @@ import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("")
-    public BaseResponse<?> signup(@RequestBody MemberRegisterReqDto registerReqDto) {
+    @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    public BaseResponse<?> signup(@RequestPart MemberRegisterReqDto request,
+                                  @RequestPart MultipartFile profileImg) {
         try {
-            return new BaseResponse<>(memberService.signupMember(registerReqDto));
+            return new BaseResponse<>(memberService.signupMember(request, profileImg));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
@@ -47,15 +51,16 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping(value = "/{memberId}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
-                                            @RequestBody MemberModifyReqDto reqDto,
+                                            @RequestPart MemberModifyReqDto request,
+                                            @RequestPart MultipartFile profileImg,
                                             @RequestHeader("Authorization") Long loginId) {
         try {
             if (!memberId.equals(loginId)) {
                 throw new BaseException(NOT_YOUR_PROFILE);
             }
-            return new BaseResponse<>(memberService.modifyMemberInfo(reqDto, loginId));
+            return new BaseResponse<>(memberService.modifyMemberInfo(request, profileImg));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

@@ -4,6 +4,7 @@ import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.service.LoginInfoService;
+import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
@@ -24,15 +26,19 @@ import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
 @RequiredArgsConstructor
 public class PostService {
     private final LoginInfoService loginInfoService;
-
+    private final S3Uploader s3Uploader;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void createPost(PostUploadReqDto reqDto) throws BaseException {
+    public void createPost(PostUploadReqDto reqDto, MultipartFile multipartFile) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
-            Post newPost = reqDto.toEntity(loginMember);
+            String imgUrl = null;
+            if (multipartFile != null) {
+                imgUrl = s3Uploader.upload(multipartFile, "post");
+            }
+            Post newPost = reqDto.toEntity(loginMember, imgUrl);
             postRepository.save(newPost);
         } catch (BaseException e) {
             throw e;

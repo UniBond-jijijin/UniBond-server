@@ -11,7 +11,6 @@ import java.util.List;
 
 @Data
 public class MemberRegisterReqDto {
-    private String profileImage;
     private Long diseaseId;
     private LocalDate diseaseTiming;
     private Gender gender;
@@ -19,10 +18,10 @@ public class MemberRegisterReqDto {
     private String bio;
     private List<String> interestList;
 
-    public Member toEntity(Disease disease) {
+    public Member toEntity(Disease disease, String imgUrl) {
         HashSet<String> interestSet = new HashSet<>(interestList);
         return Member.builder()
-                .profileImage(this.profileImage)
+                .profileImage(imgUrl)
                 .disease(disease)
                 .diagnosisTiming(this.diseaseTiming)
                 .gender(gender)

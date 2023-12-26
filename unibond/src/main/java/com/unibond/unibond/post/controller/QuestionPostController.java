@@ -10,7 +10,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.SUCCESS;
-import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 import static com.unibond.unibond.post.domain.BoardType.QNA;
 
 @RestController
@@ -24,7 +23,7 @@ public class QuestionPostController {
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
             reqDto.setBoardType(QNA);
-            postService.createPost(reqDto);
+            postService.createPost(reqDto, null);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

@@ -8,9 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.SUCCESS;
 import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,12 +21,13 @@ import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 public class ExperiencePostController {
     private final PostService postService;
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
-                                      @RequestBody PostUploadReqDto reqDto) {
+                                      @RequestPart MultipartFile postImg,
+                                      @RequestPart PostUploadReqDto request) {
         try {
-            reqDto.setBoardType(EXPERIENCE);
-            postService.createPost(reqDto);
+            request.setBoardType(EXPERIENCE);
+            postService.createPost(request, postImg);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
