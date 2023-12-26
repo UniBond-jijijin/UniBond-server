@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.unibond.unibond.common.BaseResponseStatus.SUCCESS;
 import static com.unibond.unibond.post.domain.BoardType.QNA;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,12 +18,12 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class QuestionPostController {
     private final PostService postService;
 
-    @PostMapping(value = "", consumes = {MULTIPART_FORM_DATA_VALUE})
+    @PostMapping("")
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
             reqDto.setBoardType(QNA);
-            postService.createPost(reqDto);
+            postService.createPost(reqDto, null);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

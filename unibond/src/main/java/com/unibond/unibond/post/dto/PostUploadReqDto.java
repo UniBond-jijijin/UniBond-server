@@ -4,13 +4,11 @@ import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.post.domain.BoardType.QNA;
 
 @Data
 public class PostUploadReqDto {
-    private MultipartFile multipartFile; // nullable
     private String content;
 
     // null

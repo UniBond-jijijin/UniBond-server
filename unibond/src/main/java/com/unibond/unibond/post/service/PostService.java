@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
@@ -30,12 +31,12 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void createPost(PostUploadReqDto reqDto) throws BaseException {
+    public void createPost(PostUploadReqDto reqDto, MultipartFile multipartFile) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             String imgUrl = null;
-            if (reqDto.getMultipartFile() != null) {
-                imgUrl = s3Uploader.upload(reqDto.getMultipartFile(), "post");
+            if (multipartFile != null) {
+                imgUrl = s3Uploader.upload(multipartFile, "post");
             }
             Post newPost = reqDto.toEntity(loginMember, imgUrl);
             postRepository.save(newPost);
