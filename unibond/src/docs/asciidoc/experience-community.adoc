@@ -23,3 +23,29 @@ include::{snippets}/get-experience-community/http-request.adoc[]
 
 include::{snippets}/get-experience-community/http-response.adoc[]
 include::{snippets}/get-experience-community/response-fields.adoc[]
+
+== Upload Posts on Experience Community
+
+경험 기록 게시판에 게시물 업로드하기
+
+=== Request
+
+include::{snippets}/post-experience-community/httpie-request.adoc[]
+include::{snippets}/post-experience-community/curl-request.adoc[]
+
+include::{snippets}/post-experience-community/request-headers.adoc[]
+include::{snippets}/post-experience-community/request-parts.adoc[]
+include::{snippets}/post-experience-community/request-part-request-fields.adoc[]
+
+- request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.
+[source,json]
+----
+{
+  "content" : "게시물 업로드 테스트 입니다."
+}
+----
+
+=== Response
+
+include::{snippets}/post-experience-community/http-response.adoc[]
+include::{snippets}/post-experience-community/response-fields.adoc[]
