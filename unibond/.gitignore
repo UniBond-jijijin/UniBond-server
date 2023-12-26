@@ -17,6 +17,7 @@ wrapper
 
 ## key files
 application-MYSQL.properties
+application-S3.properties
 
 ### STS ###
 .apt_generated
