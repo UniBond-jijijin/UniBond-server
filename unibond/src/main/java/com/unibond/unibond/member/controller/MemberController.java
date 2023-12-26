@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.NOT_YOUR_PROFILE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
@@ -19,10 +21,11 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping(value = "", consumes = {MULTIPART_FORM_DATA_VALUE})
-    public BaseResponse<?> signup(@RequestBody MemberRegisterReqDto registerReqDto) {
+    @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    public BaseResponse<?> signup(@RequestPart MemberRegisterReqDto request,
+                                  @RequestPart MultipartFile profileImg) {
         try {
-            return new BaseResponse<>(memberService.signupMember(registerReqDto));
+            return new BaseResponse<>(memberService.signupMember(request, profileImg));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

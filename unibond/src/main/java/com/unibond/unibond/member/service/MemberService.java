@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
@@ -31,7 +32,7 @@ public class MemberService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long signupMember(MemberRegisterReqDto registerReqDto) throws BaseException {
+    public Long signupMember(MemberRegisterReqDto registerReqDto, MultipartFile profileImg) throws BaseException {
         try {
             if (memberRepository.existsMemberByNickname(registerReqDto.getNickname())) {
                 throw new BaseException(DUPLICATE_MEMBER_NICK);
@@ -40,7 +41,7 @@ public class MemberService {
             Disease disease = diseaseRepository.findById(registerReqDto.getDiseaseId()).orElseThrow(
                     () -> new BaseException(INVALID_DISEASE_ID)
             );
-            String imgUrl = s3Uploader.upload(registerReqDto.getProfileImage(), "user");
+            String imgUrl = s3Uploader.upload(profileImg, "user");
             Member newMember = registerReqDto.toEntity(disease, imgUrl);
             Member savedMember = memberRepository.save(newMember);
             return savedMember.getId();

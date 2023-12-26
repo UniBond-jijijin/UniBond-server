@@ -4,7 +4,6 @@ import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.member.domain.Gender;
 import com.unibond.unibond.member.domain.Member;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Data
 public class MemberRegisterReqDto {
-    private MultipartFile profileImage;
     private Long diseaseId;
     private LocalDate diseaseTiming;
     private Gender gender;
