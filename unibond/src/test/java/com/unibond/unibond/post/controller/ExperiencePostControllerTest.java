@@ -1,6 +1,7 @@
 package com.unibond.unibond.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -95,6 +96,7 @@ class ExperiencePostControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("경험 기록 게시판 게시물 업로드 Test")
     void createPost() throws Exception {
         String fileName = "test-img";
