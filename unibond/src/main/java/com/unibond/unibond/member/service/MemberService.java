@@ -68,19 +68,21 @@ public class MemberService {
     }
 
     @Transactional
-    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, Long loginId) throws BaseException {
+    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, MultipartFile profileImg) throws BaseException {
         try {
-            Member member = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+            Member member = loginInfoService.getLoginMember();
 
             Disease disease = null;
             if (reqDto.getDiseaseId() != null) {
                 disease = diseaseRepository.findById(reqDto.getDiseaseId())
                         .orElseThrow(() -> new BaseException(INVALID_DISEASE_ID));
             }
+
             String imgUrl = null;
-            if (reqDto.getProfileImage() != null) {
-                imgUrl = s3Uploader.upload(reqDto.getProfileImage(), "user");
+            if (profileImg != null) {
+                imgUrl = s3Uploader.upload(profileImg, "user");
             }
+
             member.modifyMember(reqDto, disease, imgUrl);
             return SUCCESS;
         } catch (BaseException e) {

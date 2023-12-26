@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 public class MemberModifyReqDto {
-    private MultipartFile profileImage;
     private String nickname;
     private Gender gender;
     private Long diseaseId;

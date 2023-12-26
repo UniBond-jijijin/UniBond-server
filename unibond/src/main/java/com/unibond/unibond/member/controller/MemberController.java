@@ -51,15 +51,16 @@ public class MemberController {
         }
     }
 
-    @PatchMapping(value = "/{memberId}", consumes = {MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "/{memberId}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
-                                            @RequestBody MemberModifyReqDto reqDto,
+                                            @RequestPart MemberModifyReqDto request,
+                                            @RequestPart MultipartFile profileImg,
                                             @RequestHeader("Authorization") Long loginId) {
         try {
             if (!memberId.equals(loginId)) {
                 throw new BaseException(NOT_YOUR_PROFILE);
             }
-            return new BaseResponse<>(memberService.modifyMemberInfo(reqDto, loginId));
+            return new BaseResponse<>(memberService.modifyMemberInfo(request, profileImg));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
