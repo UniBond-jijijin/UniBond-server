@@ -29,15 +29,16 @@ public class LetterRoomService {
     private final LetterRoomRepository letterRoomRepository;
     private final LetterRepository letterRepository;
 
-    public GetLetterRoomDetailResDto getAllLetters(Long letterRoomId, Long loginId) throws BaseException {
+    public GetLetterRoomDetailResDto getAllLetters(Long letterRoomId, Pageable pageable) throws BaseException {
         try {
-            List<Letter> letterList = letterRepository
-                    .findLettersByLetterRoomAndReceiverOrSender(letterRoomId, loginId);
-            if (letterList.isEmpty()) {
+            Long loginId = loginInfoService.getLoginMemberId();
+            Page<Letter> letterPage = letterRepository
+                    .findLettersByLetterRoomAndReceiverOrSender(letterRoomId, loginId, pageable);
+            if (letterPage.getContent().isEmpty()) {
                 throw new BaseException(INVALID_LETTER_ROOM_ID);
             }
-            Member receiver = findAnotherParticipant(letterList.get(0), loginId);
-            return new GetLetterRoomDetailResDto(receiver, letterList);
+            Member receiver = findAnotherParticipant(letterPage.getContent().get(0), loginId);
+            return new GetLetterRoomDetailResDto(receiver, letterPage);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

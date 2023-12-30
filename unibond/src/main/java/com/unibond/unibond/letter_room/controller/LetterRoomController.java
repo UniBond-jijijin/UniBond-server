@@ -24,12 +24,12 @@ public class LetterRoomController {
         }
     }
 
-    // TODO: 페이징 필요함
     @GetMapping("/{letterRoomId}")
     public BaseResponse<?> getAllLetters(@PathVariable("letterRoomId") Long letterRoomId,
-                                         @RequestHeader("Authorization") Long loginId) {
+                                         @RequestHeader("Authorization") Long loginId,
+                                         @PageableDefault(size = 30) Pageable pageable) {
         try {
-            return new BaseResponse<>(letterRoomService.getAllLetters(letterRoomId, loginId));
+            return new BaseResponse<>(letterRoomService.getAllLetters(letterRoomId, pageable));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

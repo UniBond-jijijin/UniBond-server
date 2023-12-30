@@ -17,7 +17,7 @@ public class SearchDiseaseResDto {
 
     public SearchDiseaseResDto(Page<Disease> diseasePage) {
         this.pageInfo = new PageInfo(diseasePage);
-        for (Disease disease : diseasePage.stream().toList()) {
+        for (Disease disease : diseasePage.getContent()) {
             SearchedDisease searchedDisease = SearchedDisease.builder()
                     .diseaseNameKor(disease.getDiseaseNameKor())
                     .diseaseNameEng(disease.getDiseaseNameEng())
