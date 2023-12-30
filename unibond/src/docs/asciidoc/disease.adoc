@@ -1,4 +1,4 @@
-= Member API
+= Disease API
 Lucy Oh;
 :doctype: book
 :icons: font
