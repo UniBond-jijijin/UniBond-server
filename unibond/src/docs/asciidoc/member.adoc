@@ -25,6 +25,7 @@ include::{snippets}/modify-member-info/request-parts.adoc[]
 include::{snippets}/modify-member-info/request-part-request-fields.adoc[]
 
 request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.
+
 - 단, 변경할 property만 전송해야 합니다. (프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)
 [source,json]
 ----
