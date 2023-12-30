@@ -1,0 +1,26 @@
+= Member API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Search Disease By Name
+
+한글 또는 영어 이름을 통해 질병 검색하기
+
+=== Request
+include::{snippets}/search-disease/http-request.adoc[]
+include::{snippets}/search-disease/query-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/search-disease/http-response.adoc[]
+include::{snippets}/search-disease/response-fields.adoc[]

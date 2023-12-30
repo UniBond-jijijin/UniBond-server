@@ -2,10 +2,7 @@ package com.unibond.unibond.disease.dto;
 
 import com.unibond.unibond.common.PageInfo;
 import com.unibond.unibond.disease.domain.Disease;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
@@ -29,6 +26,8 @@ public class SearchDiseaseResDto {
         }
     }
 
+    @Getter
+    @NoArgsConstructor
     public static class SearchedDisease {
         private String diseaseNameKor;
         private String diseaseNameEng;

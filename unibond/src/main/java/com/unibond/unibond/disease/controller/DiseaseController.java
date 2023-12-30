@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/disease")
+@RequestMapping("/api/v1/diseases")
 public class DiseaseController {
     private final DiseaseService diseaseService;
 
-    // TODO: 페이징 추가
     @GetMapping("/search")
     public BaseResponse<SearchDiseaseResDto> searchDisease(@RequestParam("lan") String language,
                                                            @RequestParam("query") String searchWord,

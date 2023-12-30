@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface DiseaseRepository extends JpaRepository<Disease, Long> {
-    Page<Disease> findFirst5ByDiseaseNameKorContaining(String query, Pageable pageable);
-    Page<Disease> findFirst5ByDiseaseNameEngContaining(String query, Pageable pageable);
+    Page<Disease> findFirst5ByDiseaseNameKorContains(String query, Pageable pageable);
+    Page<Disease> findFirst5ByDiseaseNameEngContains(String query, Pageable pageable);
 }

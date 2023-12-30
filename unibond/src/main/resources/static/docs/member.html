@@ -547,32 +547,32 @@ Host: localhost:8080</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[request.nickname] 새로운 닉네임 : 중복 체크에 유의해주세요! (닉네임 중복 체크 API와 함께 사용을 권장함.)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class com.unibond.unibond.member.domain.Gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[request.gender] 새로운 성별 : <code>MALE</code>, <code>FEMALE</code>, <code>NULL</code> 만 가능함.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>diseaseId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[request.diseaseId] 새로운 질병 : 질병 아이디는 질병 검색 결과에서 아이디를 가져옵니다</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>diagnosisTiming</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.time.LocalDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diagnosisTiming] 새로운 질병 시기</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diagnosisTiming] 새로운 질병 시기 ex)<code>2002-06-27</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bio</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[request.bio] 새로운 한 줄 소개</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>interestList</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>interface java.util.List</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[request.interestList] 새로운 관심사 리스트</p></td>
 </tr>
 </tbody>
@@ -615,7 +615,7 @@ Content-Length: 542
   "code" : 1000,
   "message" : "요청에 성공하였습니다.",
   "result" : {
-    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/27246898-a298-4a91-9408-5cae2af70d78test_profile_img.jpg",
+    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/87eac577-a981-4003-bcf9-f651edca6d2atest_profile_img.jpg",
     "nickname" : "5jizzi",
     "gender" : "MALE",
     "diseaseName" : "1번 염색체 장완 21.3 부분의 미세결손 증후군",
