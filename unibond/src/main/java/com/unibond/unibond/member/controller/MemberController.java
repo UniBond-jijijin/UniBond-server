@@ -53,8 +53,8 @@ public class MemberController {
 
     @PatchMapping(value = "/{memberId}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
-                                            @RequestPart MemberModifyReqDto request,
-                                            @RequestPart MultipartFile profileImg,
+                                            @RequestPart(required = false) MemberModifyReqDto request,
+                                            @RequestPart(required = false) MultipartFile profileImg,
                                             @RequestHeader("Authorization") Long loginId) {
         try {
             if (!memberId.equals(loginId)) {
