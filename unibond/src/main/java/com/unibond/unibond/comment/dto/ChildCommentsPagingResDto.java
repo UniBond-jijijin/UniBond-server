@@ -23,7 +23,7 @@ public class ChildCommentsPagingResDto {
 
     public ChildCommentsPagingResDto(Page<Comment> commentPage) {
 
-        this.childCommentList = commentPage.stream().map(
+        this.childCommentList = commentPage.getContent().stream().map(
                 ChildCommentsDto::new
         ).collect(Collectors.toList());
 

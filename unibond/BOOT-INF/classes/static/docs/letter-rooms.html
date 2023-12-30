@@ -448,7 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_search_disease_by_name">Search Disease By Name</a>
+<li><a href="#_get_all_letter_rooms">Get All Letter Rooms</a>
 <ul class="sectlevel2">
 <li><a href="#_request">Request</a></li>
 <li><a href="#_response">Response</a></li>
@@ -459,18 +459,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_search_disease_by_name"><a class="link" href="#_search_disease_by_name">Search Disease By Name</a></h2>
+<h2 id="_get_all_letter_rooms"><a class="link" href="#_get_all_letter_rooms">Get All Letter Rooms</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>한글 또는 영어 이름을 통해 질병 검색하기</p>
+<p>현재 참여중인 모든 편지방 가져오기</p>
 </div>
 <div class="sect2">
 <h3 id="_request"><a class="link" href="#_request">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/diseases/search?lan=kor&amp;query=8%EB%B2%88+%EC%97%BC%EC%83%89%EC%B2%B4&amp;page=0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/letter-rooms?page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Authorization: 3
+Host: docs.api.com:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -486,14 +487,6 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lan</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색할 언어: 언어는 한국어, 영어 즉 <code>kor</code>, <code>eng</code> 문자열만 전송 가능</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색할 내용</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">조회할 페이지 [default: 0]</p></td>
 </tr>
@@ -506,35 +499,32 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 978
+Content-Length: 811
 
 {
   "isSuccess" : true,
   "code" : 1000,
   "message" : "요청에 성공하였습니다.",
   "result" : {
+    "letterRoomList" : [ {
+      "senderProfileImg" : "http://testimg2",
+      "senderNick" : "jiny",
+      "senderId" : 4,
+      "recentLetterSentDate" : "2023-12-29T16:45:52.32136",
+      "letterRoomId" : 11
+    }, {
+      "senderProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
+      "senderNick" : "jisoo2",
+      "senderId" : 3,
+      "recentLetterSentDate" : "2023-12-25T17:46:48.41272",
+      "letterRoomId" : 10
+    } ],
     "pageInfo" : {
-      "lastPage" : false,
-      "totalPages" : 2,
-      "totalElements" : 10,
-      "size" : 5
-    },
-    "diseaseDataList" : [ {
-      "diseaseNameKor" : "18번 염색체 장완의 결손 증후군",
-      "diseaseNameEng" : "18q deletion syndrome"
-    }, {
-      "diseaseNameKor" : "18번 염색체 장완의 중복 증후군",
-      "diseaseNameEng" : "18q duplication syndrome"
-    }, {
-      "diseaseNameKor" : "18번 염색체 단완의 사염색체증",
-      "diseaseNameEng" : "Tetrasomy 18p"
-    }, {
-      "diseaseNameKor" : "8번 염색체 단완의 11.2 부분의 미세결손 증후군",
-      "diseaseNameEng" : "8p11.2 deletion syndrome"
-    }, {
-      "diseaseNameKor" : "8번 염색체 단완의 역중복-결실 증후군",
-      "diseaseNameEng" : "8p inverted duplication-deletion syndrome"
-    } ]
+      "lastPage" : true,
+      "totalPages" : 1,
+      "totalElements" : 2,
+      "size" : 30
+    }
   }
 }</code></pre>
 </div>
@@ -596,22 +586,37 @@ Content-Length: 978
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.size</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 현재 페이지의 크기</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색된 질병 리스트</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList[].diseaseNameKor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList[].senderProfileImg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색된 질병 리스트: 한글 질병 이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트: 전송자 프로필 이미지</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList[].diseaseNameEng</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList[].senderNick</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">검색된 질병 리스트: 영어 질병 이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트: 전송자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList[].senderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트: 전송자 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList[].recentLetterSentDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트: 해당 편지방에서 가장 최근의 편지가 도착한 시각</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.letterRoomList[].letterRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편지방 리스트: 편지방 아이디</p></td>
 </tr>
 </tbody>
 </table>
@@ -622,7 +627,7 @@ Content-Length: 978
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-12-31 03:53:40 +0900
+Last updated 2023-12-31 04:07:52 +0900
 </div>
 </div>
 </body>

@@ -1,0 +1,42 @@
+= Member API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Get All Letter Rooms
+
+현재 참여중인 모든 편지방 가져오기
+
+=== Request
+include::{snippets}/get_all_letter-rooms/http-request.adoc[]
+include::{snippets}/get_all_letter-rooms/query-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/get_all_letter-rooms/http-response.adoc[]
+include::{snippets}/get_all_letter-rooms/request-headers.adoc[]
+include::{snippets}/get_all_letter-rooms/response-fields.adoc[]
+
+== Get All Letters in Letter Rooms
+
+참여 중인 편지방 내부의 편지들 가져오기
+
+=== Request
+include::{snippets}/get_all_letters_in_letter-rooms/http-request.adoc[]
+include::{snippets}/get_all_letters_in_letter-rooms/request-headers.adoc[]
+include::{snippets}/get_all_letters_in_letter-rooms/query-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/get_all_letters_in_letter-rooms/http-response.adoc[]
+include::{snippets}/get_all_letters_in_letter-rooms/response-fields.adoc[]
