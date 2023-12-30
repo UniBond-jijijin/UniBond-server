@@ -24,6 +24,7 @@ public class LetterRoomController {
         }
     }
 
+    // TODO: 페이징 필요함
     @GetMapping("/{letterRoomId}")
     public BaseResponse<?> getAllLetters(@PathVariable("letterRoomId") Long letterRoomId,
                                          @RequestHeader("Authorization") Long loginId) {
