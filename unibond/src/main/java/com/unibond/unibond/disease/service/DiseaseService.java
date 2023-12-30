@@ -6,6 +6,8 @@ import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.dto.SearchDiseaseResDto;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,23 +19,20 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 public class DiseaseService {
     private final DiseaseRepository diseaseRepository;
 
-    public SearchDiseaseResDto searchDisease(String language, String searchWord) throws BaseException {
+    public SearchDiseaseResDto searchDisease(String language, String searchWord, Pageable pageable) throws BaseException {
         try {
 
-            List<Disease> searchedDiseaseList;
+            Page<Disease> searchedDiseaseList;
 
             if (language.equals("kor")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameKorContaining(searchWord);
+                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameKorContains(searchWord, pageable);
             } else if (language.equals("eng")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameEngContaining(searchWord);
+                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameEngContains(searchWord, pageable);
             } else {
                 throw new BaseException(NULL_SEARCH_LAN);
             }
 
-            SearchDiseaseResDto searchDiseaseResDto = new SearchDiseaseResDto();
-            searchDiseaseResDto.appendDiseaseDataToList(searchedDiseaseList);
-
-            return searchDiseaseResDto;
+            return new SearchDiseaseResDto(searchedDiseaseList);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

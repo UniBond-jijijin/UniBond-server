@@ -36,6 +36,10 @@ Lucy Oh;
 
 * link:member.html[Member API]
 
+=== Disease
+
+* link:disease.html[Disease API]
+
 === Community
 
 * link:experience-community.html[Experience Recording Community API]

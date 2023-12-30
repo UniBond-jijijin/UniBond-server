@@ -1,10 +1,9 @@
 package com.unibond.unibond.disease.dto;
 
+import com.unibond.unibond.common.PageInfo;
 import com.unibond.unibond.disease.domain.Disease;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchDiseaseResDto {
+    private PageInfo pageInfo;
     private List<SearchedDisease> diseaseDataList = new ArrayList<>();
 
-    public void appendDiseaseDataToList(List<Disease> diseaseList) {
-        for (Disease disease : diseaseList) {
+    public SearchDiseaseResDto(Page<Disease> diseasePage) {
+        this.pageInfo = new PageInfo(diseasePage);
+        for (Disease disease : diseasePage.stream().toList()) {
             SearchedDisease searchedDisease = SearchedDisease.builder()
                     .diseaseNameKor(disease.getDiseaseNameKor())
                     .diseaseNameEng(disease.getDiseaseNameEng())
@@ -25,6 +26,8 @@ public class SearchDiseaseResDto {
         }
     }
 
+    @Getter
+    @NoArgsConstructor
     public static class SearchedDisease {
         private String diseaseNameKor;
         private String diseaseNameEng;

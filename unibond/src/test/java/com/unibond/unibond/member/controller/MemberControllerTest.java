@@ -100,17 +100,17 @@ class MemberControllerTest {
                                 headerWithName("Authorization").description("Basic auth credentials")
                         ),
                         requestParts(
-                                partWithName("profileImg").description("수정할 프로필 사진 파일"),
-                                partWithName("request").description("게시물 업로드 요청")
+                                partWithName("profileImg").description("수정할 프로필 사진 파일").optional(),
+                                partWithName("request").description("게시물 업로드 요청").optional()
                         ),
                         requestPartFields(
                                 "request",
-                                fieldWithPath("nickname").type(String.class).description("[request.nickname] 새로운 닉네임 : 중복 체크에 유의해주세요! (닉네임 중복 체크 API와 함께 사용을 권장함.) "),
-                                fieldWithPath("gender").type(Gender.class).description("[request.gender] 새로운 성별 : `MALE`, `FEMALE`, `NULL` 만 가능함. "),
-                                fieldWithPath("diseaseId").type(Long.class).description("[request.diseaseId] 새로운 질병 : 질병 아이디는 질병 검색 결과에서 아이디를 가져옵니다"),
-                                fieldWithPath("diagnosisTiming").type(LocalDate.class).description("[request.diagnosisTiming] 새로운 질병 시기"),
-                                fieldWithPath("bio").type(String.class).description("[request.bio] 새로운 한 줄 소개"),
-                                fieldWithPath("interestList").type(List.class).description("[request.interestList] 새로운 관심사 리스트")
+                                fieldWithPath("nickname").type(STRING).description("[request.nickname] 새로운 닉네임 : 중복 체크에 유의해주세요! (닉네임 중복 체크 API와 함께 사용을 권장함.) ").optional(),
+                                fieldWithPath("gender").type(STRING).description("[request.gender] 새로운 성별 : `MALE`, `FEMALE`, `NULL` 만 가능함. ").optional(),
+                                fieldWithPath("diseaseId").type(NUMBER).description("[request.diseaseId] 새로운 질병 : 질병 아이디는 질병 검색 결과에서 아이디를 가져옵니다").optional(),
+                                fieldWithPath("diagnosisTiming").type(STRING).description("[request.diagnosisTiming] 새로운 질병 시기 ex)`2002-06-27`").optional(),
+                                fieldWithPath("bio").type(STRING).description("[request.bio] 새로운 한 줄 소개").optional(),
+                                fieldWithPath("interestList").type(ARRAY).description("[request.interestList] 새로운 관심사 리스트").optional()
                         ),
                         responseFields(
                                 fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
