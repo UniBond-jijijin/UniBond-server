@@ -30,8 +30,11 @@ Lucy Oh;
 | The requested resource did not exist
 |===
 
-
 == API List
+
+=== Member
+
+* link:member.html[Member API]
 
 === Community
 
