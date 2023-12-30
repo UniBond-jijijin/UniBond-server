@@ -68,7 +68,7 @@ public class MemberService {
     }
 
     @Transactional
-    public BaseResponseStatus modifyMemberInfo(MemberModifyReqDto reqDto, MultipartFile profileImg) throws BaseException {
+    public MemberDetailResDto modifyMemberInfo(MemberModifyReqDto reqDto, MultipartFile profileImg) throws BaseException {
         try {
             Member member = loginInfoService.getLoginMember();
 
@@ -84,7 +84,7 @@ public class MemberService {
             }
 
             member.modifyMember(reqDto, disease, imgUrl);
-            return SUCCESS;
+            return getMyProfileInfo(loginInfoService.getLoginMemberId());
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

@@ -1,0 +1,47 @@
+= Member API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Modify Member Info
+
+멤버 정보 수정하기
+
+=== Request
+include::{snippets}/modify-member-info/http-request.adoc[]
+include::{snippets}/modify-member-info/httpie-request.adoc[]
+include::{snippets}/modify-member-info/curl-request.adoc[]
+
+include::{snippets}/modify-member-info/request-headers.adoc[]
+include::{snippets}/modify-member-info/request-parts.adoc[]
+include::{snippets}/modify-member-info/request-part-request-fields.adoc[]
+
+request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.
+
+- 단, 변경할 property만 전송해야 합니다. (프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)
+[source,json]
+----
+{
+    "diseaseId" : 1,
+    "diseaseTiming": "2023-11-10",
+    "gender":"NULL",
+    "nickname":"lucy",
+    "bio":"안녕하세요 친하게 지내요^^",
+    "interestList":[
+      "환우회", "친목", "운동"
+    ]
+}
+----
+
+=== Response
+
+include::{snippets}/modify-member-info/http-response.adoc[]
+include::{snippets}/modify-member-info/response-fields.adoc[]

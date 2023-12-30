@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Lucy Oh">
-<title>Experience Community API</title>
+<title>Member API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Experience Community API</h1>
+<h1>Member API</h1>
 <div class="details">
 <span id="author" class="author">Lucy Oh</span><br>
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
@@ -448,16 +448,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_get_experience_community_posts">Get Experience Community Posts</a>
+<li><a href="#_modify_member_info">Modify Member Info</a>
 <ul class="sectlevel2">
 <li><a href="#_request">Request</a></li>
 <li><a href="#_response">Response</a></li>
-</ul>
-</li>
-<li><a href="#_upload_posts_on_experience_community">Upload Posts on Experience Community</a>
-<ul class="sectlevel2">
-<li><a href="#_request_2">Request</a></li>
-<li><a href="#_response_2">Response</a></li>
 </ul>
 </li>
 </ul>
@@ -465,18 +459,146 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_get_experience_community_posts"><a class="link" href="#_get_experience_community_posts">Get Experience Community Posts</a></h2>
+<h2 id="_modify_member_info"><a class="link" href="#_modify_member_info">Modify Member Info</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>경험 기록 게시판 내용 가져오기</p>
+<p>멤버 정보 수정하기</p>
 </div>
 <div class="sect2">
 <h3 id="_request"><a class="link" href="#_request">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/community/experience HTTP/1.1
-Content-Type: application/json;charset=UTF-8
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/v1/members/29 HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Authorization: 29
 Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ http --multipart PATCH 'http://localhost:8080/api/v1/members/29' \
+    'Authorization:29' \
+    'profileImg'@'test_profile_img.jpg' \
+    'request'@'request'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/v1/members/29' -i -X PATCH \
+    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
+    -H 'Authorization: 29' \
+    -F 'profileImg=@test_profile_img.jpg;type=multipart/form-data' \
+    -F 'request=@request;type=application/json'</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 프로필 사진 파일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 업로드 요청</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.nickname] 새로운 닉네임 : 중복 체크에 유의해주세요! (닉네임 중복 체크 API와 함께 사용을 권장함.)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class com.unibond.unibond.member.domain.Gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.gender] 새로운 성별 : <code>MALE</code>, <code>FEMALE</code>, <code>NULL</code> 만 가능함.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diseaseId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diseaseId] 새로운 질병 : 질병 아이디는 질병 검색 결과에서 아이디를 가져옵니다</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diagnosisTiming</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.time.LocalDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diagnosisTiming] 새로운 질병 시기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bio</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>class java.lang.String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.bio] 새로운 한 줄 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>interestList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>interface java.util.List</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[request.interestList] 새로운 관심사 리스트</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>단, 변경할 property만 전송해야 합니다. (프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>{
+    "diseaseId" : 1,
+    "diseaseTiming": "2023-11-10",
+    "gender":"NULL",
+    "nickname":"lucy",
+    "bio":"안녕하세요 친하게 지내요^^",
+    "interestList":[
+      "환우회", "친목", "운동"
+    ]
+}</pre>
 </div>
 </div>
 </div>
@@ -486,75 +608,20 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 3423
+Content-Length: 542
 
 {
   "isSuccess" : true,
   "code" : 1000,
   "message" : "요청에 성공하였습니다.",
   "result" : {
-    "numberOfElements" : 7,
-    "postPreviewList" : [ {
-      "createdDate" : "2023-12-27T03:16:53.252948",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/KakaoTalk_20230528_222457241_05.png",
-      "ownerNick" : "5jizzi",
-      "disease" : "13번 염색체 장완 21-22 부분의 결손",
-      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-12-26T04:09:10.8631",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
-      "ownerNick" : "jisoo2",
-      "disease" : "5번 염색체 장완의 결손 증후군",
-      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-12-26T04:09:05.784257",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
-      "ownerNick" : "jisoo2",
-      "disease" : "5번 염색체 장완의 결손 증후군",
-      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-12-26T04:02:22.167476",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
-      "ownerNick" : "jisoo2",
-      "disease" : "5번 염색체 장완의 결손 증후군",
-      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-12-26T03:43:15.496574",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
-      "ownerNick" : "jisoo2",
-      "disease" : "5번 염색체 장완의 결손 증후군",
-      "contentPreview" : "경험 기록 게시판 게시물 업로드 테스트",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-11-16T14:18:33.129163",
-      "ownerProfileImg" : "http://testimg3",
-      "ownerNick" : "jiwoon",
-      "disease" : "뇌하수체-의존 부신피질기능항진증",
-      "contentPreview" : "create post test by jiwon",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2023-11-16T13:55:27.91433",
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/21b949a4-ad87-4b83-a6ad-820981c3965c6808924_emoji_emoticon_emotion_expression_feeling_icon.png",
-      "ownerNick" : "jisoo2",
-      "disease" : "5번 염색체 장완의 결손 증후군",
-      "contentPreview" : "create post test by jisoo",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : true
-    } ],
-    "lastPage" : true,
-    "totalPages" : 1,
-    "totalElements" : 7,
-    "size" : 30
+    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/0f50f1f0-60f7-43e3-8b28-104d6b4b16b8test_profile_img.jpg",
+    "nickname" : "5jizzi",
+    "gender" : "MALE",
+    "diseaseName" : "1번 염색체 장완 21.3 부분의 미세결손 증후군",
+    "diagnosisTiming" : "2002-06-27",
+    "bio" : "수정 테스트를 해봅시다",
+    "interestList" : [ "개발", "코딩", "운동" ]
   }
 }</code></pre>
 </div>
@@ -594,219 +661,39 @@ Content-Length: 3423
 <td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.numberOfElements</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">반환된 게시글 수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 사진</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">질병명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diagnosisTiming</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">진단 시기</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.bio</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한 줄 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.interestList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 리스트</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].createdDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성 일자</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].ownerProfileImg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자 프로필 사진</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].ownerNick</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자 닉네임</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].disease</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자의 질병</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].contentPreview</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 미리보기</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].boardType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 종류</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].isEnd</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">미리보기로 제공된 게시글의 내용이 마지막인지 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.lastPage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 마지막 페이지인지 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.totalPages</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">총 페이지 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.totalElements</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">총 원소 개수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 사이즈</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_upload_posts_on_experience_community"><a class="link" href="#_upload_posts_on_experience_community">Upload Posts on Experience Community</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>경험 기록 게시판에 게시물 업로드하기</p>
-</div>
-<div class="sect2">
-<h3 id="_request_2"><a class="link" href="#_request_2">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ http --multipart POST 'http://localhost:8080/api/v1/community/experience' \
-    'Authorization:29' \
-    'postImg'@'test-img.jpg' \
-    'request'@'request'</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/v1/community/experience' -i -X POST \
-    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
-    -H 'Authorization: 29' \
-    -F 'postImg=@test-img.jpg;type=multipart/form-data' \
-    -F 'request=@request;type=application/json'</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Part</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postImg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">업로드 할 게시물 사진 파일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 업로드 요청</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.content] 업로드 할 게시물 내용</p></td>
-</tr>
-</tbody>
-</table>
-<div class="ulist">
-<ul>
-<li>
-<p>request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{
-  "content" : "게시물 업로드 테스트 입니다."
-}</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_response_2"><a class="link" href="#_response_2">Response</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Content-Length: 95
-
-{
-  "isSuccess" : true,
-  "code" : 1000,
-  "message" : "요청에 성공하였습니다."
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isSuccess</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메세지</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">관심사</p></td>
 </tr>
 </tbody>
 </table>
@@ -817,7 +704,7 @@ Content-Length: 95
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-12-27 03:19:02 +0900
+Last updated 2023-12-31 02:26:22 +0900
 </div>
 </div>
 </body>
