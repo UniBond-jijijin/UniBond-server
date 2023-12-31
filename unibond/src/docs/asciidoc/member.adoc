@@ -21,6 +21,7 @@ include::{snippets}/modify-member-info/httpie-request.adoc[]
 include::{snippets}/modify-member-info/curl-request.adoc[]
 
 include::{snippets}/modify-member-info/request-headers.adoc[]
+include::{snippets}/modify-member-info/path-parameters.adoc[]
 include::{snippets}/modify-member-info/request-parts.adoc[]
 include::{snippets}/modify-member-info/request-part-request-fields.adoc[]
 

@@ -33,14 +33,14 @@ public class GetAllLikedLetterResDto {
         private String senderImg;
         private LocalDateTime sentDate;
         private String letterTitle;
-        private String senderNickname;
+        private String senderName;
 
         public LikedLetterPreviewDto(Letter letter) {
             Member sender = letter.getSender();
             this.senderImg = sender.getProfileImage();
             this.sentDate = letter.getCreatedDate();
             this.letterTitle = letter.getTitle();
-            this.senderNickname = sender.getNickname();
+            this.senderName = sender.getNickname();
         }
     }
 }

@@ -33,6 +33,7 @@ include::{snippets}/get_all_letter-rooms/response-fields.adoc[]
 === Request
 include::{snippets}/get_all_letters_in_letter-rooms/http-request.adoc[]
 include::{snippets}/get_all_letters_in_letter-rooms/request-headers.adoc[]
+include::{snippets}/get_all_letters_in_letter-rooms/path-parameters.adoc[]
 include::{snippets}/get_all_letters_in_letter-rooms/query-parameters.adoc[]
 
 
@@ -40,3 +41,16 @@ include::{snippets}/get_all_letters_in_letter-rooms/query-parameters.adoc[]
 
 include::{snippets}/get_all_letters_in_letter-rooms/http-response.adoc[]
 include::{snippets}/get_all_letters_in_letter-rooms/response-fields.adoc[]
+
+== Get All Liked Letters
+
+=== Request
+include::{snippets}/get_all_liked_letters/http-request.adoc[]
+include::{snippets}/get_all_liked_letters/request-headers.adoc[]
+include::{snippets}/get_all_liked_letters/query-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/get_all_liked_letters/http-response.adoc[]
+include::{snippets}/get_all_liked_letters/response-fields.adoc[]
