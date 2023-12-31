@@ -7,12 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @Entity
+@DynamicInsert
 @NoArgsConstructor(access = PROTECTED)
 public class Disease extends BaseEntity {
 

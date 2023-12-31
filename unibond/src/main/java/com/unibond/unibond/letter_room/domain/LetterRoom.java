@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @Getter
+@DynamicInsert
 @NoArgsConstructor(access = PROTECTED)
 public class LetterRoom extends BaseEntity {
 

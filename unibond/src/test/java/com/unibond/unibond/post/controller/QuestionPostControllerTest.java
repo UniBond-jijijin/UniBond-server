@@ -1,6 +1,7 @@
 package com.unibond.unibond.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,16 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentRequest;
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentResponse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -37,6 +42,14 @@ class QuestionPostControllerTest {
     WebApplicationContext wac;
 
     ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeEach
+    public void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .addFilter(new CharacterEncodingFilter("UTF-8", true))
+                .apply(documentationConfiguration(restDocumentation))
+                .build();
+    }
 
     @Test
     @DisplayName("질문 게시판 조회 Test")

@@ -17,19 +17,14 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChildCommentsDto {
-    private String profileImgUrl;
     private Long commentUserId;
+    private String profileImgUrl;
     private String commentUserName;
-
     private Long commentId;
     private LocalDateTime createdDate;
     private String content;
 
     public static Page<ChildCommentsDto> getChildCommentDtoList(List<Comment> childCommentList, PageRequest pageRequest) {
-        if (pageRequest == null) {
-            pageRequest = PageRequest.of(0, 30);
-        }
-
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), childCommentList.size());
 

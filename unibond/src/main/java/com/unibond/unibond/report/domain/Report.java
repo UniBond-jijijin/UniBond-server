@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -19,6 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
+@DynamicInsert
 @NoArgsConstructor(access = PROTECTED)
 public class Report extends BaseEntity {
     @Id
