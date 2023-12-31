@@ -47,15 +47,6 @@ public class LetterRoomService {
         }
     }
 
-    private Member findAnotherParticipant(Letter letter, Long loginId) throws BaseException {
-        if (letter.getSender().getId().equals(loginId)) {
-            return letter.getReceiver();
-        } else if (letter.getReceiver().getId().equals(loginId)) {
-            return letter.getSender();
-        }
-        throw new BaseException(NOT_YOUR_LETTER_ROOM);
-    }
-
     public GetAllLetterRoomsResDto getAllLetterRooms(Pageable pageable) throws BaseException {
         try {
             Long loginMemberId = loginInfoService.getLoginMemberId();
@@ -65,5 +56,14 @@ public class LetterRoomService {
             System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    private Member findAnotherParticipant(Letter letter, Long loginId) throws BaseException {
+        if (letter.getSender().getId().equals(loginId)) {
+            return letter.getReceiver();
+        } else if (letter.getReceiver().getId().equals(loginId)) {
+            return letter.getSender();
+        }
+        throw new BaseException(NOT_YOUR_LETTER_ROOM);
     }
 }

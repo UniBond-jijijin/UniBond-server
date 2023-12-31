@@ -1,6 +1,8 @@
 package com.unibond.unibond.letter.domain;
 
 import com.unibond.unibond.common.BaseEntity;
+import com.unibond.unibond.common.BaseException;
+import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.letter_room.domain.LetterRoom;
 import com.unibond.unibond.member.domain.Member;
 import jakarta.persistence.*;
@@ -8,9 +10,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
+import static com.unibond.unibond.letter.domain.LetterStatus.*;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -18,6 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
+@DynamicInsert
 @NoArgsConstructor(access = PROTECTED)
 public class Letter extends BaseEntity {
 
@@ -47,7 +52,7 @@ public class Letter extends BaseEntity {
 
     @Enumerated(STRING)
     @Setter
-    @Column(columnDefinition = "varchar(10) default 'SENDING'")
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'SENDING'")
     private LetterStatus letterStatus;
 
     @Builder
@@ -66,5 +71,19 @@ public class Letter extends BaseEntity {
 
     public LocalDateTime getArrivalDate() {
         return this.getCreatedDate().plusHours(1);
+    }
+
+    public void checkIsArrived() throws BaseException {
+        if (this.letterStatus.equals(SENDING)) {
+            throw new BaseException(BaseResponseStatus.NOT_YET_ARRIVED);
+        }
+    }
+
+    public Boolean isSender(Long senderId) {
+        return this.sender.getId().equals(senderId);
+    }
+
+    public Boolean isReceiver(Long receiverId) {
+        return this.receiver.getId().equals(receiverId);
     }
 }
