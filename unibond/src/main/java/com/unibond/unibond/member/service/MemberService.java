@@ -79,7 +79,7 @@ public class MemberService {
             }
 
             String imgUrl = null;
-            if (profileImg != null) {
+            if (!profileImg.isEmpty()) {
                 imgUrl = s3Uploader.upload(profileImg, "user");
             }
 
