@@ -24,6 +24,16 @@ public class LetterRoomController {
         }
     }
 
+    @GetMapping("/like")
+    public BaseResponse<?> getAllLikedLetters(@RequestHeader("Authorization") Long loginId,
+                                              @PageableDefault(size = 30) Pageable pageable) {
+        try {
+            return new BaseResponse<>(letterRoomService.getAllLikeLetters(pageable));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
     @GetMapping("/{letterRoomId}")
     public BaseResponse<?> getAllLetters(@PathVariable("letterRoomId") Long letterRoomId,
                                          @RequestHeader("Authorization") Long loginId,

@@ -41,6 +41,12 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     Boolean hasSentLetterToSamePersonWithinHour(@Param("sender") Long senderId, @Param("receiver") Long receiverId,
                                                 @Param("currentTimeMinusOneHour") LocalDateTime currentTimeMinusOneHour);
 
+    @Query("select l from Letter l " +
+            "join fetch l.receiver " +
+            "join fetch l.sender " +
+            "where l.liked = true and l.letterStatus = 'ARRIVED' and l.status = 'ACTIVE'")
+    Page<Letter> findLikedLetterByReceiver(@Param("receiver") Long receiverId, Pageable pageable);
+
     @Modifying
     @Query("update Letter l set l.letterStatus = 'ARRIVED' " +
             "where l.createdDate <= :currentTimeMinusOneHour and l.letterStatus = 'SENDING'")
