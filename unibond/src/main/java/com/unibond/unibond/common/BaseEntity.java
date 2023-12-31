@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +18,7 @@ import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @MappedSuperclass
+@DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
@@ -29,5 +31,6 @@ public class BaseEntity {
 
     @Enumerated(STRING)
     @Setter
-    private BaseEntityStatus status = ACTIVE;
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'ACTIVE'")
+    private BaseEntityStatus status;
 }

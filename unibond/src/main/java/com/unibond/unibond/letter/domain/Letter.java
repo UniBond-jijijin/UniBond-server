@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
+@DynamicInsert
 @NoArgsConstructor(access = PROTECTED)
 public class Letter extends BaseEntity {
 
@@ -47,7 +49,7 @@ public class Letter extends BaseEntity {
 
     @Enumerated(STRING)
     @Setter
-    @Column(columnDefinition = "varchar(10) default 'SENDING'")
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'SENDING'")
     private LetterStatus letterStatus;
 
     @Builder
