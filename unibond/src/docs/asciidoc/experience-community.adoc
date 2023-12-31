@@ -18,6 +18,7 @@ endif::[]
 === Request
 
 include::{snippets}/get-experience-community/http-request.adoc[]
+include::{snippets}/get-experience-community/query-parameters.adoc[]
 
 === Response
 

@@ -33,8 +33,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,14 +65,19 @@ class ExperiencePostControllerTest {
     @Test
     @DisplayName("경험 기록 게시판 조회 Test")
     void getExperienceCommunityPosts() throws Exception {
+        String page = "0";
         this.mockMvc.perform(
                         get("/api/v1/community/experience")
+                                .param("page", page)
                                 .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
                 .andDo(document("get-experience-community",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("page").description("조회할 페이지 [default: 0]").optional()
+                        ),
                         responseFields(
                                 fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
                                 fieldWithPath("code").type(NUMBER).description("결과 코드"),
