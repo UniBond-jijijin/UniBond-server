@@ -2,11 +2,13 @@ package com.unibond.unibond.comment.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.unibond.unibond.comment.domain.Comment;
+import com.unibond.unibond.common.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,19 +21,15 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @AllArgsConstructor
 @JsonInclude(NON_NULL)
 public class ParentCommentResDto {
-    private String profileImgUrl;
     private Long commentUserId;
+    private String profileImgUrl;
     private String commentUserName;
-
     private Long commentId;
     private LocalDateTime createdDate;
     private String content;
 
-    private List<ChildCommentsDto> childCommentResDtoList;
-    private Boolean childCommentLastPage;
-    private int totalChildCommentPages;
-    private long totalChildCommentElements;
-    private int childCommentPagingSize;
+    private PageInfo childCommentPageInfo;
+    private List<ChildCommentsDto> childCommentList;
 
     public static List<ParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
         return parentCommentList.stream().map(
@@ -49,12 +47,12 @@ public class ParentCommentResDto {
         this.content = comment.getContent();
 
         if (!comment.getChildCommentList().isEmpty()) {
-            Page<ChildCommentsDto> childCommentDtoPage = ChildCommentsDto.getChildCommentDtoList(comment.getChildCommentList(), null);
-            this.childCommentResDtoList = childCommentDtoPage.getContent();
-            this.childCommentLastPage = childCommentDtoPage.isLast();
-            this.totalChildCommentPages = childCommentDtoPage.getTotalPages();
-            this.totalChildCommentElements = childCommentDtoPage.getTotalElements();
-            this.childCommentPagingSize = childCommentDtoPage.getSize();
+            Page<ChildCommentsDto> childCommentDtoPage =
+                    ChildCommentsDto.getChildCommentDtoList(
+                            comment.getChildCommentList(),
+                            PageRequest.of(0, 30));
+            this.childCommentPageInfo = new PageInfo(childCommentDtoPage);
+            this.childCommentList = childCommentDtoPage.getContent();
         }
     }
 }

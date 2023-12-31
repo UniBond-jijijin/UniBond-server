@@ -1,0 +1,28 @@
+= Community API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Get Detail Community Post
+
+게시판 상세 내용 가져오기
+
+=== Request
+
+include::{snippets}/get-detail-post/http-request.adoc[]
+include::{snippets}/get-detail-post/request-headers.adoc[]
+include::{snippets}/get-detail-post/path-parameters.adoc[]
+include::{snippets}/get-detail-post/query-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/get-detail-post/response-body.adoc[]
+include::{snippets}/get-detail-post/response-fields.adoc[]

@@ -1,0 +1,28 @@
+= Comment API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Get Child Comments With Paging
+
+자식 댓글들 페이징 검색하기
+
+=== Request
+include::{snippets}/get-child-comment-with-page/http-request.adoc[]
+include::{snippets}/get-child-comment-with-page/request-headers.adoc[]
+include::{snippets}/get-child-comment-with-page/query-parameters.adoc[]
+include::{snippets}/get-child-comment-with-page/path-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/get-child-comment-with-page/http-response.adoc[]
+include::{snippets}/get-child-comment-with-page/response-fields.adoc[]

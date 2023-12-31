@@ -3,6 +3,7 @@ package com.unibond.unibond.post.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.comment.dto.ParentCommentResDto;
+import com.unibond.unibond.common.PageInfo;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import lombok.AllArgsConstructor;
@@ -22,23 +23,16 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 public class GetCommunityContentDetailResDto {
     private String loginMemberProfileImage;
-
+    private Long postOwnerId;
     private String profileImage;
     private String postOwnerName;
-    private Long postOwnerId;
     private LocalDateTime createdDate;
     private String diseaseName;
-
     private String postImg;
     private String content;
-
     private int commentCount;
-
+    private PageInfo parentCommentPageInfo;
     private List<ParentCommentResDto> parentCommentList;
-    private Boolean parentCommentLastPage;
-    private int totalParentCommentPages;
-    private long totalParentCommentElements;
-    private int parentCommentPagingSize;
 
     @Builder
     public GetCommunityContentDetailResDto(Member loginMember, Member postOwner, Post post, int commentCount, Page<Comment> commentList) {
@@ -55,10 +49,7 @@ public class GetCommunityContentDetailResDto {
 
         this.commentCount = commentCount;
 
+        this.parentCommentPageInfo = new PageInfo(commentList);
         this.parentCommentList = ParentCommentResDto.getParentCommentResDtoList(commentList.getContent());
-        this.parentCommentLastPage = commentList.isLast();
-        this.totalParentCommentPages = commentList.getTotalPages();
-        this.totalParentCommentElements = commentList.getTotalElements();
-        this.parentCommentPagingSize = commentList.getSize();
     }
 }

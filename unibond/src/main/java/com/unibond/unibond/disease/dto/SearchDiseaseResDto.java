@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -17,25 +18,23 @@ public class SearchDiseaseResDto {
 
     public SearchDiseaseResDto(Page<Disease> diseasePage) {
         this.pageInfo = new PageInfo(diseasePage);
-        for (Disease disease : diseasePage.getContent()) {
-            SearchedDisease searchedDisease = SearchedDisease.builder()
-                    .diseaseNameKor(disease.getDiseaseNameKor())
-                    .diseaseNameEng(disease.getDiseaseNameEng())
-                    .build();
-            diseaseDataList.add(searchedDisease);
-        }
+        this.diseaseDataList = diseasePage.getContent().stream().map(
+                SearchedDisease::new
+        ).collect(Collectors.toList());
     }
 
     @Getter
     @NoArgsConstructor
     public static class SearchedDisease {
+        private Long diseaseId;
         private String diseaseNameKor;
         private String diseaseNameEng;
 
         @Builder
-        public SearchedDisease(String diseaseNameKor, String diseaseNameEng) {
-            this.diseaseNameKor = diseaseNameKor;
-            this.diseaseNameEng = diseaseNameEng;
+        public SearchedDisease(Disease disease) {
+            this.diseaseId = disease.getId();
+            this.diseaseNameKor = disease.getDiseaseNameKor();
+            this.diseaseNameEng = disease.getDiseaseNameEng();
         }
     }
 }

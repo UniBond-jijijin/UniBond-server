@@ -1,0 +1,27 @@
+= Experience Community API
+Lucy Oh;
+:doctype: book
+:icons: font
+:source-highlighter: highlishtjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Get QnA Community Posts
+
+질문 게시판 내용 가져오기
+
+=== Request
+
+include::{snippets}/get-qna-community/http-request.adoc[]
+include::{snippets}/get-qna-community/query-parameters.adoc[]
+
+
+=== Response
+
+include::{snippets}/get-qna-community/http-response.adoc[]
+include::{snippets}/get-qna-community/response-fields.adoc[]

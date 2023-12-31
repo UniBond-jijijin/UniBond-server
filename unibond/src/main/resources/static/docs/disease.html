@@ -506,7 +506,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 978
+Content-Length: 1134
 
 {
   "isSuccess" : true,
@@ -514,24 +514,30 @@ Content-Length: 978
   "message" : "요청에 성공하였습니다.",
   "result" : {
     "pageInfo" : {
+      "numberOfElements" : 5,
       "lastPage" : false,
       "totalPages" : 2,
       "totalElements" : 10,
       "size" : 5
     },
     "diseaseDataList" : [ {
+      "diseaseId" : 37,
       "diseaseNameKor" : "18번 염색체 장완의 결손 증후군",
       "diseaseNameEng" : "18q deletion syndrome"
     }, {
+      "diseaseId" : 52,
       "diseaseNameKor" : "18번 염색체 장완의 중복 증후군",
       "diseaseNameEng" : "18q duplication syndrome"
     }, {
+      "diseaseId" : 53,
       "diseaseNameKor" : "18번 염색체 단완의 사염색체증",
       "diseaseNameEng" : "Tetrasomy 18p"
     }, {
+      "diseaseId" : 57,
       "diseaseNameKor" : "8번 염색체 단완의 11.2 부분의 미세결손 증후군",
       "diseaseNameEng" : "8p11.2 deletion syndrome"
     }, {
+      "diseaseId" : 63,
       "diseaseNameKor" : "8번 염색체 단완의 역중복-결실 증후군",
       "diseaseNameEng" : "8p inverted duplication-deletion syndrome"
     } ]
@@ -579,6 +585,11 @@ Content-Length: 978
 <td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 현재 페이지의 원소 개수</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.lastPage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 마지막 페이지인지의 여부</p></td>
@@ -602,6 +613,11 @@ Content-Length: 978
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">검색된 질병 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList[].diseaseId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색된 질병 리스트: 질병 아이디</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseDataList[].diseaseNameKor</code></p></td>

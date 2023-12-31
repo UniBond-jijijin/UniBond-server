@@ -30,14 +30,20 @@ public class GetAllLikedLetterResDto {
     @NoArgsConstructor
     @AllArgsConstructor
     private class LikedLetterPreviewDto {
+        private Long senderId;
         private String senderImg;
+        private Long letterId;
+        private Long letterRoomId;
         private LocalDateTime sentDate;
         private String letterTitle;
         private String senderName;
 
         public LikedLetterPreviewDto(Letter letter) {
             Member sender = letter.getSender();
+            this.senderId = sender.getId();
             this.senderImg = sender.getProfileImage();
+            this.letterId = letter.getId();
+            this.letterRoomId = letter.getLetterRoom().getId();
             this.sentDate = letter.getCreatedDate();
             this.letterTitle = letter.getTitle();
             this.senderName = sender.getNickname();

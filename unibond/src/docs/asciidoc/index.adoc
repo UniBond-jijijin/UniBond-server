@@ -42,7 +42,10 @@ Lucy Oh;
 
 === Community
 
+* link:community.html[Community API]
 * link:experience-community.html[Experience Recording Community API]
+* link:question-community.html[QnA Community API]
+* link:comment.html[Comment API]
 
 === Letter
 
