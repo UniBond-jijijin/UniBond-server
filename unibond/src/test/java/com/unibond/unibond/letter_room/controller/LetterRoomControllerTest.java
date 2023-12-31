@@ -162,7 +162,10 @@ class LetterRoomControllerTest {
                                 fieldWithPath("result.pageInfo.totalElements").type(NUMBER).description("페이징 정보: 총 검색 결과 개수"),
                                 fieldWithPath("result.pageInfo.size").type(NUMBER).description("페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다."),
                                 fieldWithPath("result.likedLetterList").type(ARRAY).description("좋아함 편지 리스트"),
+                                fieldWithPath("result.likedLetterList[].senderId").type(NUMBER).description("좋아함 편지 리스트: 송신자 아이디").optional(),
                                 fieldWithPath("result.likedLetterList[].senderImg").type(STRING).description("좋아함 편지 리스트: 송신자 프로필 이미지").optional(),
+                                fieldWithPath("result.likedLetterList[].letterId").type(NUMBER).description("좋아함 편지 리스트: 편지 아이디").optional(),
+                                fieldWithPath("result.likedLetterList[].letterRoomId").type(NUMBER).description("좋아함 편지 리스트: 편지방 아이디").optional(),
                                 fieldWithPath("result.likedLetterList[].sentDate").type(STRING).description("좋아함 편지 리스트: 편지 송신 시각").optional(),
                                 fieldWithPath("result.likedLetterList[].letterTitle").type(STRING).description("좋아함 편지 리스트: 편지 제목").optional(),
                                 fieldWithPath("result.likedLetterList[].senderName").type(STRING).description("좋아함 편지 리스트: 송신자 이름").optional()
