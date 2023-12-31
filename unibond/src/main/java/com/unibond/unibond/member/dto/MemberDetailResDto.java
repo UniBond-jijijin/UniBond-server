@@ -1,6 +1,7 @@
 package com.unibond.unibond.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.unibond.unibond.common.PageInfo;
 import com.unibond.unibond.member.domain.Gender;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
@@ -29,12 +30,8 @@ public class MemberDetailResDto {
     private String bio;
     private List<String> interestList;
 
+    private PageInfo pageInfo;
     private List<PostPreviewDto> postPreviewList;
-
-    private Boolean lastPage;
-    private Integer totalPages;
-    private Long totalElements;
-    private Integer size;
 
     // my profile
     public MemberDetailResDto(Member member) {
@@ -57,13 +54,9 @@ public class MemberDetailResDto {
         this.bio = member.getBio();
         this.interestList = member.getInterestSet().stream().toList();
 
+        this.pageInfo = new PageInfo(postList);
         this.postPreviewList = postList.getContent().stream().map(
                 post -> new PostPreviewDto(member, member.getDisease(), post)
         ).collect(Collectors.toList());
-
-        this.lastPage = postList.isLast();
-        this.totalPages = postList.getTotalPages();
-        this.totalElements = postList.getTotalElements();
-        this.size = postList.getSize();
     }
 }

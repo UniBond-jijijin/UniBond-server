@@ -9,12 +9,14 @@ import org.springframework.data.domain.Page;
 @AllArgsConstructor
 @Data
 public class PageInfo {
+    private int numberOfElements;
     private Boolean lastPage;
     private int totalPages;
     private long totalElements;
     private int size;
 
     public <T> PageInfo(Page<T> page) {
+        this.numberOfElements = page.getNumberOfElements();
         this.lastPage = page.isLast();
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();
