@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PostPreviewDto {
     private LocalDateTime createdDate;
+    private Long ownerId;
     private String ownerProfileImg;
     private String ownerNick;
     private String disease;
@@ -29,6 +30,7 @@ public class PostPreviewDto {
     public PostPreviewDto(Member member, Disease disease, Post post) {
         final int MAX_PREVIEW_LIMIT = 45;
         this.createdDate = post.getCreatedDate();
+        this.ownerId = member.getId();
         this.ownerProfileImg = member.getProfileImage();
         this.ownerNick = member.getNickname();
         this.disease = disease.getDiseaseNameKor();
