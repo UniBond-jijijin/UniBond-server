@@ -48,7 +48,7 @@ class LetterRoomControllerTest {
         this.mockMvc.perform(
                         get("/api/v1/letter-rooms")
                                 .param("page", page)
-                                .header("Authorization", "3")
+                                .header("Authorization", "29")
                                 .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -85,8 +85,8 @@ class LetterRoomControllerTest {
     @DisplayName("편지방 내부의 편지들 조회")
     public void getAllLettersInLetterRoom() throws Exception {
         String page = "0";
-        String letterRoomId = "9";
-        String loginId = "2";
+        String letterRoomId = "12";
+        String loginId = "29";
 
         this.mockMvc.perform(
                         get("/api/v1/letter-rooms/{letterRoomId}", letterRoomId)
@@ -109,7 +109,7 @@ class LetterRoomControllerTest {
                                 fieldWithPath("code").type(NUMBER).description("결과 코드"),
                                 fieldWithPath("message").type(STRING).description("결과 메세지"),
                                 fieldWithPath("result").type(OBJECT).description("결과 데이터"),
-                                fieldWithPath("result.receiverProfileImg").type(STRING).description("수신자 프로필 이미지"),
+                                fieldWithPath("result.receiverProfileImg").type(STRING).description("수신자 프로필 이미지").optional(),
                                 fieldWithPath("result.receiverName").type(STRING).description("수신자 이름"),
                                 fieldWithPath("result.receiverDiseaseName").type(STRING).description("수신자 질병 이름"),
                                 fieldWithPath("result.receiverDiagnosisTiming").type(STRING).description("수신자 진단 시기"),
@@ -119,9 +119,9 @@ class LetterRoomControllerTest {
                                 fieldWithPath("result.pageInfo.totalElements").type(NUMBER).description("페이징 정보: 총 검색 결과 개수"),
                                 fieldWithPath("result.pageInfo.size").type(NUMBER).description("페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다."),
                                 fieldWithPath("result.letterList").type(ARRAY).description("편지 리스트"),
-                                fieldWithPath("result.letterList[].senderName").type(STRING).description("편지 리스트: 송신자 이름"),
-                                fieldWithPath("result.letterList[].sentDate").type(STRING).description("편지 리스트: 편지 송신 시각"),
-                                fieldWithPath("result.letterList[].letterTitle").type(STRING).description("편지 리스트: 편지 제목")
+                                fieldWithPath("result.letterList[].senderName").type(STRING).description("편지 리스트: 송신자 이름").optional(),
+                                fieldWithPath("result.letterList[].sentDate").type(STRING).description("편지 리스트: 편지 송신 시각").optional(),
+                                fieldWithPath("result.letterList[].letterTitle").type(STRING).description("편지 리스트: 편지 제목").optional()
                         )
                 ));
     }
