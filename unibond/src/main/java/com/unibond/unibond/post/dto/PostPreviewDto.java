@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostPreviewDto {
-    // TODO: 이미지 URL 추후 업데이트 필요
     private LocalDateTime createdDate;
     private String ownerProfileImg;
     private String ownerNick;
     private String disease;
+    private Long postId;
+    private String postImg;
     private String contentPreview;
     private BoardType boardType;
     private Boolean isEnd;
@@ -27,11 +28,12 @@ public class PostPreviewDto {
     @Builder
     public PostPreviewDto(Member member, Disease disease, Post post) {
         final int MAX_PREVIEW_LIMIT = 45;
-
         this.createdDate = post.getCreatedDate();
         this.ownerProfileImg = member.getProfileImage();
         this.ownerNick = member.getNickname();
         this.disease = disease.getDiseaseNameKor();
+        this.postId = post.getId();
+        this.postImg = post.getPostImageUrl();
         this.contentPreview = post.getContent();
         this.isEnd = true;
         this.boardType = post.getBoardType();
