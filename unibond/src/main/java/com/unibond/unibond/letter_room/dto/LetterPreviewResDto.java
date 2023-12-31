@@ -11,11 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LetterPreviewResDto {
-    public String senderName;
-    public LocalDateTime sentDate;
+    private Long letterId;
+    private Long senderId;
+    private String senderName;
+    private LocalDateTime sentDate;
     private String letterTitle;
 
     public LetterPreviewResDto(Letter letter) {
+        this.letterId = letter.getId();
+        this.senderId = letter.getSender().getId();
         this.senderName = letter.getSender().getNickname();
         this.sentDate = letter.getCreatedDate();
         this.letterTitle = letter.getTitle();

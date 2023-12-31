@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetLetterRoomDetailResDto {
+    private Long receiverId;
     private String receiverProfileImg;
     private String receiverName;
     private String receiverDiseaseName;
@@ -25,6 +26,7 @@ public class GetLetterRoomDetailResDto {
     private List<LetterPreviewResDto> letterList;
 
     public GetLetterRoomDetailResDto(Member receiver, Page<Letter> letterPage) {
+        this.receiverId = receiver.getId();
         this.receiverProfileImg = receiver.getProfileImage();
         this.receiverName = receiver.getNickname();
         this.receiverDiseaseName = receiver.getDisease().getDiseaseNameKor();
