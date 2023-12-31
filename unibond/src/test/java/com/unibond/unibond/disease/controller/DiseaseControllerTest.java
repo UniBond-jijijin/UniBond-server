@@ -75,6 +75,7 @@ class DiseaseControllerTest {
                                 fieldWithPath("result.pageInfo.totalElements").type(NUMBER).description("페이징 정보: 총 검색 결과 개수"),
                                 fieldWithPath("result.pageInfo.size").type(NUMBER).description("페이징 정보: 현재 페이지의 크기"),
                                 fieldWithPath("result.diseaseDataList").type(ARRAY).description("검색된 질병 리스트"),
+                                fieldWithPath("result.diseaseDataList[].diseaseId").type(NUMBER).description("검색된 질병 리스트: 질병 아이디").optional(),
                                 fieldWithPath("result.diseaseDataList[].diseaseNameKor").type(STRING).description("검색된 질병 리스트: 한글 질병 이름").optional(),
                                 fieldWithPath("result.diseaseDataList[].diseaseNameEng").type(STRING).description("검색된 질병 리스트: 영어 질병 이름").optional()
                         )
