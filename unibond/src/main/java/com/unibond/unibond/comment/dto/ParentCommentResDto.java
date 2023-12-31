@@ -29,7 +29,7 @@ public class ParentCommentResDto {
     private String content;
 
     private PageInfo childCommentPageInfo;
-    private List<ChildCommentsDto> childCommentResDtoList;
+    private List<ChildCommentsDto> childCommentList;
 
     public static List<ParentCommentResDto> getParentCommentResDtoList(List<Comment> parentCommentList) {
         return parentCommentList.stream().map(
@@ -52,7 +52,7 @@ public class ParentCommentResDto {
                             comment.getChildCommentList(),
                             PageRequest.of(0, 30));
             this.childCommentPageInfo = new PageInfo(childCommentDtoPage);
-            this.childCommentResDtoList = childCommentDtoPage.getContent();
+            this.childCommentList = childCommentDtoPage.getContent();
         }
     }
 }

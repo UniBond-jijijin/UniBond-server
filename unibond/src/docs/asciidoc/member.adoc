@@ -11,11 +11,44 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
+== Get My Profile Info
+
+자신의 프로필 조회하기
+
+=== Request
+
+include::{snippets}/get_my_profile/http-request.adoc[]
+include::{snippets}/get_my_profile/path-parameters.adoc[]
+include::{snippets}/get_my_profile/request-headers.adoc[]
+include::{snippets}/get_my_profile/query-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/get_my_profile/response-body.adoc[]
+include::{snippets}/get_my_profile/response-fields.adoc[]
+
+== Get Other Member Profile Info
+
+다른 멤버 프로필 조회하기
+
+=== Request
+
+include::{snippets}/get_other_profile/http-request.adoc[]
+include::{snippets}/get_other_profile/path-parameters.adoc[]
+include::{snippets}/get_other_profile/request-headers.adoc[]
+include::{snippets}/get_other_profile/query-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/get_other_profile/response-body.adoc[]
+include::{snippets}/get_other_profile/response-fields.adoc[]
+
 == Modify Member Info
 
 멤버 정보 수정하기
 
 === Request
+
 include::{snippets}/modify-member-info/http-request.adoc[]
 include::{snippets}/modify-member-info/httpie-request.adoc[]
 include::{snippets}/modify-member-info/curl-request.adoc[]
@@ -27,7 +60,9 @@ include::{snippets}/modify-member-info/request-part-request-fields.adoc[]
 
 request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.
 
-- 단, 변경할 property만 전송해야 합니다. (프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)
+- 단, 변경할 property만 전송해야 합니다.
+(프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)
+
 [source,json]
 ----
 {

@@ -113,13 +113,13 @@ public class PostControllerTest {
                                 fieldWithPath("result.parentCommentList[].childCommentPageInfo.totalPages").type(NUMBER).description("자식 댓글 페이징 정보: 총 페이지 수").optional(),
                                 fieldWithPath("result.parentCommentList[].childCommentPageInfo.totalElements").type(NUMBER).description("자식 댓글 페이징 정보: 총 검색 결과 개수").optional(),
                                 fieldWithPath("result.parentCommentList[].childCommentPageInfo.size").type(NUMBER).description("자식 댓글 페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다.").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList").type(ARRAY).description("부모 댓글 리스트: 자식 댓글 리스트").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].commentUserId").type(NUMBER).description("자식 댓글 리스트: 작성자 아이디").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].profileImgUrl").type(STRING).description("자식 댓글 리스트: 프로필 이미지 URL").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].commentUserName").type(STRING).description("자식 댓글 리스트: 작성자 닉네임").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].commentId").type(NUMBER).description("자식 댓글 리스트: 댓글 아이디").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].createdDate").type(STRING).description("자식 댓글 리스트: 댓글 작성 일자").optional(),
-                                fieldWithPath("result.parentCommentList[].childCommentResDtoList[].content").type(STRING).description("자식 댓글 리스트: 댓글 내용").optional()
+                                fieldWithPath("result.parentCommentList[].childCommentList").type(ARRAY).description("부모 댓글 리스트: 자식 댓글 리스트").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].commentUserId").type(NUMBER).description("자식 댓글 리스트: 작성자 아이디").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].profileImgUrl").type(STRING).description("자식 댓글 리스트: 프로필 이미지 URL").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].commentUserName").type(STRING).description("자식 댓글 리스트: 작성자 닉네임").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].commentId").type(NUMBER).description("자식 댓글 리스트: 댓글 아이디").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].createdDate").type(STRING).description("자식 댓글 리스트: 댓글 작성 일자").optional(),
+                                fieldWithPath("result.parentCommentList[].childCommentList[].content").type(STRING).description("자식 댓글 리스트: 댓글 내용").optional()
                         )
                 ));
     }
