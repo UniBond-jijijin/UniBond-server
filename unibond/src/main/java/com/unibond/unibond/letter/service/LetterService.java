@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
@@ -34,13 +35,12 @@ public class LetterService {
     public SendLetterResDto sendLetter(SendLetterReqDto reqDto) throws BaseException {
         try {
             checkLetterLength(reqDto);
+            checkSendingCapability(loginInfoService.getLoginMemberId(), reqDto.getReceiverId());
 
             Member sender = loginInfoService.getLoginMember();
             Member receiver = getReceiver(reqDto.getReceiverId());
 
             LetterRoom letterRoom = findLetterRoom(sender, receiver);
-            letterRoomRepository.save(letterRoom);
-
             Letter letter = reqDto.toEntity(letterRoom, sender, receiver);
             Letter savedLetter = letterRepository.save(letter);
 
@@ -58,7 +58,7 @@ public class LetterService {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Letter letter = findLetterByIdAndReceiver(loginMember, letterId);
-            // TODO: 도착하는 시간 확인 필요
+            letter.checkIsArrived();
             letter.setLiked(!letter.getLiked());
             return new LetterLikeResDto(letter);
         } catch (BaseException e) {
@@ -74,12 +74,12 @@ public class LetterService {
             Letter letter = letterRepository.findById(letterId).orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
             Long loginMemberId = loginInfoService.getLoginMemberId();
 
-            if (letter.getReceiver().getId().equals(loginMemberId)) {
+            if (letter.isReceiver(loginMemberId)) {
+                letter.checkIsArrived();
                 return LetterDetailResDto.getReceivedLetter(letter);
-            } else if (letter.getSender().getId().equals(loginMemberId)) {
+            } else if (letter.isSender(loginMemberId)) {
                 return LetterDetailResDto.getSentLetter(letter);
             }
-
             throw new BaseException(NOT_YOUR_LETTER);
         } catch (BaseException e) {
             throw e;
@@ -101,14 +101,26 @@ public class LetterService {
 
     private LetterRoom findLetterRoom(Member sender, Member receiver) {
         Optional<LetterRoom> letterRoom = letterRoomRepository.findLetterRoomBy2Member(sender, receiver);
-        return letterRoom.orElseGet(
-                () -> new LetterRoom(sender, receiver)
-        );
+        if (letterRoom.isPresent()) {
+            return letterRoom.get();
+        } else {
+            LetterRoom newLetterRoom = new LetterRoom(sender, receiver);
+            letterRoomRepository.save(newLetterRoom);
+            return newLetterRoom;
+        }
     }
 
     private void checkLetterLength(SendLetterReqDto reqDto) throws BaseException {
         if (reqDto.getContent().length() < 50) {
             throw new BaseException(BaseResponseStatus.NOT_ENOUGH_CHARS);
+        }
+    }
+
+    private void checkSendingCapability(Long senderId, Long receiverId) throws BaseException {
+        System.out.println(LocalDateTime.now().minusHours(1L));
+        Boolean result = letterRepository.hasSentLetterToSamePersonWithinHour(senderId, receiverId, LocalDateTime.now().minusHours(1L));
+        if (result) {
+            throw new BaseException(CANT_SEND_LETTER);
         }
     }
 }
