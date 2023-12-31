@@ -5,11 +5,12 @@ import com.unibond.unibond.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -33,4 +34,15 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
             "order by l.createdDate desc")
     Page<Letter> findLettersByLetterRoomAndReceiverOrSender(@Param("letterRoom") Long letterRoomId,
                                                             @Param("participant") Long participantId, Pageable pageable);
+
+    @Query("select case when count(l)> 0 then true else false end from Letter l " +
+            "where (l.sender.id = :sender and l.receiver.id = :receiver) " +
+            "and l.createdDate > :currentTimeMinusOneHour ")
+    Boolean hasSentLetterToSamePersonWithinHour(@Param("sender") Long senderId, @Param("receiver") Long receiverId,
+                                                @Param("currentTimeMinusOneHour") LocalDateTime currentTimeMinusOneHour);
+
+    @Modifying
+    @Query("update Letter l set l.letterStatus = 'ARRIVED' " +
+            "where l.createdDate <= :currentTimeMinusOneHour and l.letterStatus = 'SENDING'")
+    void bulkSendLetter(@Param("currentTimeMinusOneHour") LocalDateTime currentTime);
 }

@@ -68,6 +68,8 @@ public enum BaseResponseStatus {
     // letter (3300 ~ 3399)
     NOT_ENOUGH_CHARS(false, 3300, "편지는 최소 50자 이상이어야 합니다."),
     NOT_YOUR_LETTER(false, 3301, "해당 편지를 접근할 권한이 없습니다."),
+    CANT_SEND_LETTER(false, 3302, "아직 한 시간이 지나지 않았으므로 편지를 또 다시 보낼 수 없습니다."),
+    NOT_YET_ARRIVED(false, 3303, "아직 도착하지 않은 편지입니다."),
 
     // letter_room (3400 ~ 3499)
     NOT_YOUR_LETTER_ROOM(false, 3400, "해당 편지방에 접근할 권한이 없습니다."),
