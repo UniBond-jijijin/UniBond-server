@@ -4,20 +4,17 @@ import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.letter.domain.Letter;
 import com.unibond.unibond.letter.repository.LetterRepository;
-import com.unibond.unibond.letter_room.domain.LetterRoom;
 import com.unibond.unibond.letter_room.dto.GetAllLetterRoomsResDto;
+import com.unibond.unibond.letter_room.dto.GetAllLikedLetterResDto;
 import com.unibond.unibond.letter_room.dto.GetLetterRoomDetailResDto;
 import com.unibond.unibond.letter_room.repository.LetterRoomCustomRepository;
 import com.unibond.unibond.letter_room.repository.LetterRoomRepository;
 import com.unibond.unibond.letter_room.repository.repo_interface.LetterRoomPreviewRepoInterface;
 import com.unibond.unibond.member.domain.Member;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
@@ -65,5 +62,15 @@ public class LetterRoomService {
             return letter.getSender();
         }
         throw new BaseException(NOT_YOUR_LETTER_ROOM);
+    }
+
+    public GetAllLikedLetterResDto getAllLikeLetters(Pageable pageable) throws BaseException {
+        try {
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+            Page<Letter> letterPage = letterRepository.findLikedLetterByReceiver(loginMemberId, pageable);
+            return new GetAllLikedLetterResDto(letterPage);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -22,8 +23,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -89,7 +89,7 @@ class LetterRoomControllerTest {
         String loginId = "29";
 
         this.mockMvc.perform(
-                        get("/api/v1/letter-rooms/{letterRoomId}", letterRoomId)
+                RestDocumentationRequestBuilders.get("/api/v1/letter-rooms/{letterRoomId}", letterRoomId)
                                 .param("page", page)
                                 .header("Authorization", loginId)
                                 .contentType(APPLICATION_JSON)
@@ -98,6 +98,9 @@ class LetterRoomControllerTest {
                 .andDo(document("get_all_letters_in_letter-rooms",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("letterRoomId").description("조회할 편지방 ID").optional()
+                        ),
                         queryParameters(
                                 parameterWithName("page").description("조회할 페이지 [default: 0]").optional()
                         ),
@@ -122,6 +125,47 @@ class LetterRoomControllerTest {
                                 fieldWithPath("result.letterList[].senderName").type(STRING).description("편지 리스트: 송신자 이름").optional(),
                                 fieldWithPath("result.letterList[].sentDate").type(STRING).description("편지 리스트: 편지 송신 시각").optional(),
                                 fieldWithPath("result.letterList[].letterTitle").type(STRING).description("편지 리스트: 편지 제목").optional()
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("좋아함 편지들 조회")
+    public void getAllLikedLetterTest() throws Exception {
+        String page = "0";
+        String loginId = "28";
+
+        this.mockMvc.perform(
+                        get("/api/v1/letter-rooms/like")
+                                .param("page", page)
+                                .header("Authorization", loginId)
+                                .contentType(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("get_all_liked_letters",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        queryParameters(
+                                parameterWithName("page").description("조회할 페이지 [default: 0]").optional()
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Basic auth credentials")
+                        ),
+                        responseFields(
+                                fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
+                                fieldWithPath("code").type(NUMBER).description("결과 코드"),
+                                fieldWithPath("message").type(STRING).description("결과 메세지"),
+                                fieldWithPath("result").type(OBJECT).description("결과 데이터"),
+                                fieldWithPath("result.pageInfo").type(OBJECT).description("페이징 정보"),
+                                fieldWithPath("result.pageInfo.lastPage").type(BOOLEAN).description("페이징 정보: 마지막 페이지인지의 여부"),
+                                fieldWithPath("result.pageInfo.totalPages").type(NUMBER).description("페이징 정보: 총 페이지 수"),
+                                fieldWithPath("result.pageInfo.totalElements").type(NUMBER).description("페이징 정보: 총 검색 결과 개수"),
+                                fieldWithPath("result.pageInfo.size").type(NUMBER).description("페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다."),
+                                fieldWithPath("result.likedLetterList").type(ARRAY).description("좋아함 편지 리스트"),
+                                fieldWithPath("result.likedLetterList[].senderImg").type(STRING).description("좋아함 편지 리스트: 송신자 프로필 이미지").optional(),
+                                fieldWithPath("result.likedLetterList[].sentDate").type(STRING).description("좋아함 편지 리스트: 편지 송신 시각").optional(),
+                                fieldWithPath("result.likedLetterList[].letterTitle").type(STRING).description("좋아함 편지 리스트: 편지 제목").optional(),
+                                fieldWithPath("result.likedLetterList[].senderName").type(STRING).description("좋아함 편지 리스트: 송신자 이름").optional()
                         )
                 ));
     }
