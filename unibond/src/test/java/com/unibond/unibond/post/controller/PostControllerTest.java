@@ -57,7 +57,7 @@ public class PostControllerTest {
     @Test
     @DisplayName("게시판 상세 조회 Test")
     void getExperienceCommunityPosts() throws Exception {
-        String postId = "1";
+        String postId = "59";
         String page = "0";
         String loginId = "29";
 

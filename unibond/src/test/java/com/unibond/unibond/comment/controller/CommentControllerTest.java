@@ -58,9 +58,9 @@ class CommentControllerTest {
     @Test
     @DisplayName("자식 댓글 페이징 조회 Test")
     void getExperienceCommunityPosts() throws Exception {
-        String postId = "1";
+        String postId = "59";
         String page = "0";
-        String commentId = "16";
+        String commentId = "27";
         String loginId = "29";
 
         this.mockMvc.perform(

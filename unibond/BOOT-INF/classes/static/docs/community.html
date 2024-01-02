@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Lucy Oh">
-<title>Member API</title>
+<title>Community API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Member API</h1>
+<h1>Community API</h1>
 <div class="details">
 <span id="author" class="author">Lucy Oh</span><br>
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
@@ -448,22 +448,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_get_my_profile_info">Get My Profile Info</a>
+<li><a href="#_get_detail_community_post">Get Detail Community Post</a>
 <ul class="sectlevel2">
 <li><a href="#_request">Request</a></li>
 <li><a href="#_response">Response</a></li>
-</ul>
-</li>
-<li><a href="#_get_other_member_profile_info">Get Other Member Profile Info</a>
-<ul class="sectlevel2">
-<li><a href="#_request_2">Request</a></li>
-<li><a href="#_response_2">Response</a></li>
-</ul>
-</li>
-<li><a href="#_modify_member_info">Modify Member Info</a>
-<ul class="sectlevel2">
-<li><a href="#_request_3">Request</a></li>
-<li><a href="#_response_3">Response</a></li>
 </ul>
 </li>
 </ul>
@@ -471,40 +459,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_get_my_profile_info"><a class="link" href="#_get_my_profile_info">Get My Profile Info</a></h2>
+<h2 id="_get_detail_community_post"><a class="link" href="#_get_detail_community_post">Get Detail Community Post</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>자신의 프로필 조회하기</p>
+<p>게시판 상세 내용 가져오기</p>
 </div>
 <div class="sect2">
 <h3 id="_request"><a class="link" href="#_request">Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/members/29?page=0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/community/1?page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: 29
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/v1/members/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 멤버 ID</p></td>
-</tr>
-</tbody>
-</table>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -520,6 +489,25 @@ Host: localhost:8080</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/community/{postId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 게시물 ID</p></td>
 </tr>
 </tbody>
 </table>
@@ -551,208 +539,123 @@ Host: localhost:8080</code></pre>
   "code" : 1000,
   "message" : "요청에 성공하였습니다.",
   "result" : {
-    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-    "nickname" : "시험왕",
-    "gender" : "MALE",
-    "diseaseName" : "블륨 증후군",
-    "diagnosisTiming" : "2002-06-27",
-    "bio" : "안녕하세요 친하게 지내요^^",
-    "interestList" : [ "개발", "코딩", "운동" ]
-  }
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isSuccess</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메세지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성별 : <code>MALE</code>, <code>FEMALE</code>, <code>NULL</code> 존재</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">질병명</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diagnosisTiming</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">진단 시기</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.bio</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">한 줄 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.interestList</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관심사</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_get_other_member_profile_info"><a class="link" href="#_get_other_member_profile_info">Get Other Member Profile Info</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>다른 멤버 프로필 조회하기</p>
-</div>
-<div class="sect2">
-<h3 id="_request_2"><a class="link" href="#_request_2">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/members/29?page=0 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: 28
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /api/v1/members/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 멤버 ID</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회할 페이지 [default: 0]</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_response_2"><a class="link" href="#_response_2">Response</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-json" data-lang="json">{
-  "isSuccess" : true,
-  "code" : 1000,
-  "message" : "요청에 성공하였습니다.",
-  "result" : {
-    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-    "nickname" : "시험왕",
-    "gender" : "MALE",
-    "diseaseName" : "블륨 증후군",
-    "diagnosisTiming" : "2002-06-27",
-    "bio" : "안녕하세요 친하게 지내요^^",
-    "interestList" : [ "개발", "코딩", "운동" ],
-    "pageInfo" : {
-      "numberOfElements" : 2,
+    "loginMemberProfileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/KakaoTalk_20230528_222457241_05.png",
+    "postOwnerId" : 32,
+    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+    "postOwnerName" : "GOGO24",
+    "createdDate" : "2023-11-16T13:55:27.91433",
+    "diseaseName" : "종양 괴사 인자 수용체와 관련된 주기성 증후군",
+    "postImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/post/31f7130c-b08e-48e3-ba0a-ebd791ecf960test-img.jpg",
+    "content" : "create post test by jisoo",
+    "commentCount" : 11,
+    "parentCommentPageInfo" : {
+      "numberOfElements" : 3,
       "lastPage" : true,
       "totalPages" : 1,
-      "totalElements" : 2,
+      "totalElements" : 3,
       "size" : 30
     },
-    "postPreviewList" : [ {
-      "createdDate" : "2023-12-30T00:40:29.237761",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "시험왕",
-      "disease" : "블륨 증후군",
-      "postId" : 60,
-      "postImg" : null,
-      "contentPreview" : "급하게 친구들끼리 여행을 가게 될 일이 생겼어요. 사실 이동하는 게 많이 어려워서",
-      "boardType" : "QNA",
-      "isEnd" : false
+    "parentCommentList" : [ {
+      "commentUserId" : 32,
+      "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+      "commentUserName" : "GOGO24",
+      "commentId" : 18,
+      "createdDate" : "2024-01-01T06:54:16.268837",
+      "content" : "parent comment test 3",
+      "childCommentPageInfo" : {
+        "numberOfElements" : 3,
+        "lastPage" : true,
+        "totalPages" : 1,
+        "totalElements" : 3,
+        "size" : 30
+      },
+      "childCommentList" : [ {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 24,
+        "createdDate" : "2024-01-01T06:57:23.113577",
+        "content" : "child comment test 3-1"
+      }, {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 25,
+        "createdDate" : "2024-01-01T06:57:28.204119",
+        "content" : "child comment test 3-2"
+      }, {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 26,
+        "createdDate" : "2024-01-01T06:57:33.020996",
+        "content" : "child comment test 3-3"
+      } ]
     }, {
-      "createdDate" : "2023-12-27T03:16:53.252948",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "시험왕",
-      "disease" : "블륨 증후군",
-      "postId" : 26,
-      "postImg" : "",
-      "contentPreview" : "우리나라어가 세계 공통어가 된다면... 나는 당장 한국어 과외를 시작할 것이다. ",
-      "boardType" : "EXPERIENCE",
-      "isEnd" : false
+      "commentUserId" : 32,
+      "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+      "commentUserName" : "GOGO24",
+      "commentId" : 17,
+      "createdDate" : "2024-01-01T06:54:12.170236",
+      "content" : "parent comment test 2",
+      "childCommentPageInfo" : {
+        "numberOfElements" : 2,
+        "lastPage" : true,
+        "totalPages" : 1,
+        "totalElements" : 2,
+        "size" : 30
+      },
+      "childCommentList" : [ {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 22,
+        "createdDate" : "2024-01-01T06:57:10.419928",
+        "content" : "child comment test 2-1"
+      }, {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 23,
+        "createdDate" : "2024-01-01T06:57:16.573393",
+        "content" : "child comment test 2-2"
+      } ]
+    }, {
+      "commentUserId" : 32,
+      "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+      "commentUserName" : "GOGO24",
+      "commentId" : 16,
+      "createdDate" : "2024-01-01T06:54:08.712817",
+      "content" : "parent comment test 1",
+      "childCommentPageInfo" : {
+        "numberOfElements" : 3,
+        "lastPage" : true,
+        "totalPages" : 1,
+        "totalElements" : 3,
+        "size" : 30
+      },
+      "childCommentList" : [ {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 19,
+        "createdDate" : "2024-01-01T06:56:44.300625",
+        "content" : "child comment test 1"
+      }, {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 20,
+        "createdDate" : "2024-01-01T06:56:58.566136",
+        "content" : "child comment test 1-2"
+      }, {
+        "commentUserId" : 32,
+        "profileImgUrl" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/b0afd5ba-a19d-4913-b9c7-ff9dd7af2e82Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20-%202023-12-31%20at%2018.06.36.png",
+        "commentUserName" : "GOGO24",
+        "commentId" : 21,
+        "createdDate" : "2024-01-01T06:57:02.360473",
+        "content" : "child comment test 1-3"
+      } ]
     } ]
   }
 }</code></pre>
@@ -793,386 +696,179 @@ Host: localhost:8080</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.loginMemberProfileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 된 유저의 프로필 사진</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postOwnerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자의 아이디</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자의 프로필 사진</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postOwnerName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자 이름</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성별 : <code>MALE</code>, <code>FEMALE</code>, <code>NULL</code> 존재</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">질병명</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diagnosisTiming</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">진단 시기</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.bio</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">한 줄 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.interestList</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관심사</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.numberOfElements</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 현재 페이지의 원소 개수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.lastPage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 마지막 페이지인지의 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.totalPages</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 총 페이지 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.totalElements</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 총 검색 결과 개수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.pageInfo.size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 미리보기 리스트</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.createdDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시물 생성 시간</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].ownerId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].ownerProfileImg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자 프로필 이미지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].ownerNick</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자 닉네임</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].disease</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자 질병</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 아이디</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].postImg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 이미지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].contentPreview</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 미리 보기 내용</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].boardType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 종류</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postPreviewList[].isEnd</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 미리 보기 뒤에 내용이 더 있는지 여부 : 45자 이상일 경우 false / 아닐 경우 true</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_modify_member_info"><a class="link" href="#_modify_member_info">Modify Member Info</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>멤버 정보 수정하기</p>
-</div>
-<div class="sect2">
-<h3 id="_request_3"><a class="link" href="#_request_3">Request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/v1/members/29 HTTP/1.1
-Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: 29
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ http --multipart PATCH 'http://localhost:8080/api/v1/members/29' \
-    'Authorization:29' \
-    'profileImg'@'test_profile_img.jpg' \
-    'request'@'request'</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/v1/members/29' -i -X PATCH \
-    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
-    -H 'Authorization: 29' \
-    -F 'profileImg=@test_profile_img.jpg;type=multipart/form-data' \
-    -F 'request=@request;type=application/json'</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. /api/v1/members/{memberId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 memberId: 로그인한 아이디와 동일해야 수정이 가능합니다.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Part</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 프로필 사진 파일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 업로드 요청</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.nickname] 새로운 닉네임 : 중복 체크에 유의해주세요! (닉네임 중복 체크 API와 함께 사용을 권장함.)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.gender] 새로운 성별 : <code>MALE</code>, <code>FEMALE</code>, <code>NULL</code> 만 가능함.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diseaseId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diseaseId] 새로운 질병 : 질병 아이디는 질병 검색 결과에서 아이디를 가져옵니다</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diagnosisTiming</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.diagnosisTiming] 새로운 질병 시기 ex)<code>2002-06-27</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bio</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.bio] 새로운 한 줄 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>interestList</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[request.interestList] 새로운 관심사 리스트</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>request의 경우 다음과 같은 예시처럼 json 타입으로 전달합니다.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>단, 변경할 property만 전송해야 합니다.
-(프로필 사진 역시도 변경하고 싶은 경우에만 전송해도 무방합니다.)</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "diseaseId" : 1,
-    "diseaseTiming": "2023-11-10",
-    "gender":"NULL",
-    "nickname":"lucy",
-    "bio":"안녕하세요 친하게 지내요^^",
-    "interestList":[
-      "환우회", "친목", "운동"
-    ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_response_3"><a class="link" href="#_response_3">Response</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Content-Length: 545
-
-{
-  "isSuccess" : true,
-  "code" : 1000,
-  "message" : "요청에 성공하였습니다.",
-  "result" : {
-    "profileImage" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/fe0cdfc6-ba75-42ab-a3b0-67dc5ab2be0atest_profile_img.jpg",
-    "nickname" : "시험왕",
-    "gender" : "MALE",
-    "diseaseName" : "1번 염색체 장완 21.3 부분의 미세결손 증후군",
-    "diagnosisTiming" : "2002-06-27",
-    "bio" : "수정 테스트를 해봅시다",
-    "interestList" : [ "개발", "코딩", "운동" ]
-  }
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isSuccess</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메세지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.profileImage</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 사진</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성별</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diseaseName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">질병명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성자의 질병</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.diagnosisTiming</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.postImg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">진단 시기</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 사진 url</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.bio</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">한 줄 소개</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.interestList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.commentCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물의 총 댓글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo.numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보: 현재 페이지의 원소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo.lastPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보: 마지막 페이지인지의 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo.totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보: 총 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo.totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보: 총 검색 결과 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentPageInfo.size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">관심사</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].commentUserId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 작성자의 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].profileImgUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 작성자의 프로필 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].commentUserName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 작성자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 부모 댓글의 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 댓글 작성 일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 댓글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 자식 댓글 페이징 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo.numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 페이징 정보: 현재 페이지의 원소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo.lastPage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 페이징 정보: 마지막 페이지인지의 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo.totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 페이징 정보: 총 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo.totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 페이징 정보: 총 검색 결과 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentPageInfo.size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 페이징 정보: 현재 페이지의 크기 [default: 30] - size는 parameter를 통해 전송하지 않는 것을 추천드립니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글 리스트: 자식 댓글 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].commentUserId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 작성자 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].profileImgUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 프로필 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].commentUserName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 댓글 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 댓글 작성 일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result.parentCommentList[].childCommentList[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자식 댓글 리스트: 댓글 내용</p></td>
 </tr>
 </tbody>
 </table>
@@ -1183,7 +879,7 @@ Content-Length: 545
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-01 07:13:52 +0900
+Last updated 2024-01-01 07:28:52 +0900
 </div>
 </div>
 </body>
