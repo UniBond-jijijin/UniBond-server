@@ -19,7 +19,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(NON_NULL)
 public class ParentCommentResDto {
     private Long commentUserId;
     private String profileImgUrl;

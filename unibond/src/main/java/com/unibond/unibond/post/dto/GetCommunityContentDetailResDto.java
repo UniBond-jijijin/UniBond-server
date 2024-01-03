@@ -20,7 +20,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(NON_NULL)
 public class GetCommunityContentDetailResDto {
     private String loginMemberProfileImage;
     private Long postOwnerId;
