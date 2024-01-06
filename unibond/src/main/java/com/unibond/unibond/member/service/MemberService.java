@@ -32,6 +32,31 @@ public class MemberService {
     private final PostRepository postRepository;
 
     @Transactional
+    public Long signupWithNoProfileImg(MemberRegisterReqDto registerReqDto) throws BaseException {
+        try {
+            if (registerReqDto.getNickname().length() > 10) {
+                throw new BaseException(TOO_LONG_NICKNAME);
+            }
+
+            if (memberRepository.existsMemberByNickname(registerReqDto.getNickname())) {
+                throw new BaseException(DUPLICATE_MEMBER_NICK);
+            }
+
+            Disease disease = diseaseRepository.findById(registerReqDto.getDiseaseId()).orElseThrow(
+                    () -> new BaseException(INVALID_DISEASE_ID)
+            );
+            Member newMember = registerReqDto.toEntity(disease);
+            Member savedMember = memberRepository.save(newMember);
+            return savedMember.getId();
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public Long signupMember(MemberRegisterReqDto registerReqDto, MultipartFile profileImg) throws BaseException {
         try {
             if (memberRepository.existsMemberByNickname(registerReqDto.getNickname())) {
@@ -61,6 +86,27 @@ public class MemberService {
             } else {
                 return UNUSABLE_NICK;
             }
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public MemberDetailResDto modifyMemberInfoWithoutProfileImg(MemberModifyReqDto reqDto) throws BaseException {
+        try {
+            Member member = loginInfoService.getLoginMember();
+
+            Disease disease = null;
+            if (reqDto.getDiseaseId() != null) {
+                disease = diseaseRepository.findById(reqDto.getDiseaseId())
+                        .orElseThrow(() -> new BaseException(INVALID_DISEASE_ID));
+            }
+
+            member.modifyMember(reqDto, disease);
+            return getMyProfileInfo(loginInfoService.getLoginMemberId());
+        } catch (BaseException e) {
+            throw e;
         } catch (Exception e) {
             System.err.println(e);
             throw new BaseException(DATABASE_ERROR);

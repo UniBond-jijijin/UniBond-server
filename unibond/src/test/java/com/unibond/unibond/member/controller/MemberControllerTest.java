@@ -1,7 +1,11 @@
 package com.unibond.unibond.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.unibond.unibond.member.domain.Gender;
 import com.unibond.unibond.member.dto.MemberModifyReqDto;
+import com.unibond.unibond.member.dto.MemberRegisterReqDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -25,11 +30,19 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentRequest;
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentResponse;
+import static com.unibond.unibond.member.domain.Gender.*;
 import static com.unibond.unibond.member.domain.Gender.MALE;
+import static com.unibond.unibond.member.domain.Gender.NULL;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.MediaType.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -38,7 +51,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -61,6 +74,53 @@ class MemberControllerTest {
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("회원 가입 테스트 - v1 (프로필 사진 업로드 제외)")
+    void signUpTest() throws Exception {
+        MemberRegisterReqDto reqDto = new MemberRegisterReqDto();
+        reqDto.setDiseaseId(1L);
+        reqDto.setDiseaseTiming(LocalDate.now());
+        reqDto.setGender(FEMALE);
+        reqDto.setNickname("안녕하세요닉네임");
+        reqDto.setBio("안녕하세요 한 줄 소개 작성합니다.");
+        ArrayList<String> interestList = new ArrayList<>();
+        interestList.add("운동");
+        interestList.add("환우회");
+        reqDto.setInterestList(interestList);
+
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String content = objectMapper.writeValueAsString(reqDto);
+
+        this.mockMvc.perform(
+                        post("/api/v1/members")
+                                .contentType(APPLICATION_JSON)
+                                .characterEncoding("UTF-8")
+                                .accept(APPLICATION_JSON)
+                                .content(content)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("sign-up-member_v1",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("diseaseId").type(NUMBER).description("질병 ID : 검색 API를 통해 검색해서 가져옵니다."),
+                                fieldWithPath("diseaseTiming").type(STRING).description("질병 진단 시기 ex) `2002-06-27`"),
+                                fieldWithPath("gender").type(STRING).description("성별 : `NULL`, `MALE`, `FEMALE`"),
+                                fieldWithPath("nickname").type(STRING).description("닉네임: 중복 체크에 유의하기, 10자 이상 작성 불가능"),
+                                fieldWithPath("bio").type(STRING).description("한 줄 소개"),
+                                fieldWithPath("interestList").type(ARRAY).description("관심사 리스트: 문자열 리스트로 전달해주면 됨.")
+                        ),
+                        responseFields(
+                                fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
+                                fieldWithPath("code").type(NUMBER).description("결과 코드"),
+                                fieldWithPath("message").type(STRING).description("결과 메세지"),
+                                fieldWithPath("result").type(NUMBER).description("생성된 멤버의 로그인 아이디")
+                        )
+                ));
     }
 
     @Test
@@ -165,6 +225,65 @@ class MemberControllerTest {
 
     @Test
     @Transactional
+    @DisplayName("프로필 수정 API Test - v1 (프로필 사진 제외)")
+    void modifyMemberInfoV1() throws Exception {
+        Long modifyMemberId = 29L;
+
+        MemberModifyReqDto reqDto = new MemberModifyReqDto();
+        reqDto.setDiseaseId(3L);
+        reqDto.setGender(NULL);
+        reqDto.setBio("안녕하세요 수정된 한 줄 소개 작성합니다.");
+
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String content = objectMapper.writeValueAsString(reqDto);
+
+        this.mockMvc.perform(
+                        RestDocumentationRequestBuilders
+                                .patch("/api/v1/members/{memberId}", modifyMemberId)
+                                .header("Authorization", modifyMemberId)
+                                .contentType(APPLICATION_JSON)
+                                .characterEncoding("UTF-8")
+                                .accept(APPLICATION_JSON)
+                                .content(content)
+                                .header("Authorization", modifyMemberId)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("modify-member-info_v1",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Basic auth credentials")
+                        ),
+                        pathParameters(
+                                parameterWithName("memberId").description("수정할 memberId: 로그인한 아이디와 동일해야 수정이 가능합니다.").optional()
+                        ),
+                        requestFields(
+                                fieldWithPath("diseaseId").type(NUMBER).description("질병 ID : 검색 API를 통해 검색해서 가져옵니다.").optional(),
+                                fieldWithPath("diagnosisTiming").type(STRING).description("질병 진단 시기 ex) `2002-06-27`").optional(),
+                                fieldWithPath("gender").type(STRING).description("성별 : `NULL`, `MALE`, `FEMALE`").optional(),
+                                fieldWithPath("nickname").type(STRING).description("닉네임: 중복 체크에 유의하기, 10자 이상 작성 불가능").optional(),
+                                fieldWithPath("bio").type(STRING).description("한 줄 소개").optional(),
+                                fieldWithPath("interestList").type(ARRAY).description("관심사 리스트: 문자열 리스트로 전달해주면 됨.").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
+                                fieldWithPath("code").type(NUMBER).description("결과 코드"),
+                                fieldWithPath("message").type(STRING).description("결과 메세지"),
+                                fieldWithPath("result").type(OBJECT).description("결과 데이터"),
+                                fieldWithPath("result.profileImage").type(STRING).description("프로필 사진"),
+                                fieldWithPath("result.nickname").type(STRING).description("닉네임"),
+                                fieldWithPath("result.gender").type(STRING).description("성별"),
+                                fieldWithPath("result.diseaseName").type(STRING).description("질병명"),
+                                fieldWithPath("result.diagnosisTiming").type(STRING).description("진단 시기"),
+                                fieldWithPath("result.bio").type(STRING).description("한 줄 소개"),
+                                fieldWithPath("result.interestList").type(ARRAY).description("관심사")
+                        )
+                ));
+    }
+
+    @Test
+    @Transactional
     @DisplayName("프로필 수정 API Test")
     public void modifyMemberInfo() throws Exception {
 
@@ -187,7 +306,7 @@ class MemberControllerTest {
                 = new MockMultipartFile("request", "request", "application/json", content.getBytes(UTF_8));
 
 
-        MockMultipartHttpServletRequestBuilder builder = RestDocumentationRequestBuilders.multipart("/api/v1/members/{memberId}", modifyMemberId);
+        MockMultipartHttpServletRequestBuilder builder = RestDocumentationRequestBuilders.multipart("/api/v2/members/{memberId}", modifyMemberId);
         builder.with(new RequestPostProcessor() {
             @Override
             public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {

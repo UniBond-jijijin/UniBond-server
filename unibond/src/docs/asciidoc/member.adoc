@@ -11,6 +11,20 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
+== Sign Up - V1
+
+회원가입 V1 (프로필 사진 제외)
+
+=== Request
+
+include::{snippets}/sign-up-member_v1/http-request.adoc[]
+include::{snippets}/sign-up-member_v1/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/sign-up-member_v1/response-body.adoc[]
+include::{snippets}/sign-up-member_v1/response-fields.adoc[]
+
 == Get My Profile Info
 
 자신의 프로필 조회하기
@@ -43,7 +57,25 @@ include::{snippets}/get_other_profile/query-parameters.adoc[]
 include::{snippets}/get_other_profile/response-body.adoc[]
 include::{snippets}/get_other_profile/response-fields.adoc[]
 
-== Modify Member Info
+== Modify Member Info - V1
+
+멤버 정보 수정하기 V1 (프로필 사진 변경 제외)
+
+=== Request
+
+include::{snippets}/modify-member-info_v1/http-request.adoc[]
+
+include::{snippets}/modify-member-info_v1/request-headers.adoc[]
+include::{snippets}/modify-member-info_v1/path-parameters.adoc[]
+- 단, 변경할 property만 body를 통해 전송해야 합니다.
+include::{snippets}/modify-member-info_v1/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/modify-member-info_v1/http-response.adoc[]
+include::{snippets}/modify-member-info_v1/response-fields.adoc[]
+
+== Modify Member Info - V2
 
 멤버 정보 수정하기
 

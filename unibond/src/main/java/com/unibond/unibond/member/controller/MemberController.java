@@ -17,11 +17,19 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/members")
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    @PostMapping("/api/v1/members")
+    public BaseResponse<?> signup(@RequestBody MemberRegisterReqDto request) {
+        try {
+            return new BaseResponse<>(memberService.signupWithNoProfileImg(request));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @PostMapping(value = "/api/v2/members", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> signup(@RequestPart MemberRegisterReqDto request,
                                   @RequestPart MultipartFile profileImg) {
         try {
@@ -31,7 +39,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/duplicate")
+    @GetMapping("/api/v1/members/duplicate")
     public BaseResponse<?> checkNickDuplicate(@RequestParam("nickname") String nickname) {
         try {
             return new BaseResponse<>(memberService.checkNickNameDuplicate(nickname));
@@ -40,7 +48,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/api/v1/members/{memberId}")
     public BaseResponse<?> getMemberDetail(@PathVariable("memberId") Long memberId,
                                            @RequestHeader("Authorization") Long loginId,
                                            @PageableDefault(size = 30) Pageable pageable) {
@@ -51,7 +59,21 @@ public class MemberController {
         }
     }
 
-    @PatchMapping(value = "/{memberId}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping("/api/v1/members/{memberId}")
+    public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
+                                            @RequestBody(required = false) MemberModifyReqDto request,
+                                            @RequestHeader("Authorization") Long loginId) {
+        try {
+            if (!memberId.equals(loginId)) {
+                throw new BaseException(NOT_YOUR_PROFILE);
+            }
+            return new BaseResponse<>(memberService.modifyMemberInfoWithoutProfileImg(request));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @PatchMapping(value = "/api/v2/members/{memberId}", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
                                             @RequestPart(required = false) MemberModifyReqDto request,
                                             @RequestPart(required = false) MultipartFile profileImg,

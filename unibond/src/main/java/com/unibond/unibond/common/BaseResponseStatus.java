@@ -46,8 +46,9 @@ public enum BaseResponseStatus {
 
     // member (2500 ~ 2599)
     INVALID_MEMBER_ID(false, 2500, "유효하지 않은 멤버 id 입니다."),
-    DUPLICATE_MEMBER_NICK(false, 2501, "중복되는 닉네임입니다."),
-    NOT_YOUR_PROFILE(false, 2502, "자신의 프로필이 아니므로 수정할 수 없습니다."),
+    TOO_LONG_NICKNAME(false, 2501, "설정한 닉네임이 너무 깁니다"),
+    DUPLICATE_MEMBER_NICK(false, 2502, "중복되는 닉네임입니다."),
+    NOT_YOUR_PROFILE(false, 2503, "자신의 프로필이 아니므로 수정할 수 없습니다."),
 
     // post (2600 ~ 2699)
     INVALID_POST_ID(false, 2600, "유효하지 않은 게시글 id 입니다"),

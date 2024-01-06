@@ -68,6 +68,10 @@ public class Member extends BaseEntity {
         this.interestSet = interestSet;
     }
 
+    public void modifyMember(MemberModifyReqDto reqDto, Disease disease) {
+        modifyMember(reqDto, disease, null);
+    }
+
     public void modifyMember(MemberModifyReqDto reqDto, Disease disease, String profileImgUrl) {
         this.profileImage = propertyNullCheck(profileImgUrl, this.profileImage);
         this.nickname = propertyNullCheck(reqDto.getNickname(), this.nickname);
