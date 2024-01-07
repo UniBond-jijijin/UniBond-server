@@ -7,8 +7,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity {
 
@@ -30,6 +33,8 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Setter
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/basic_profile.jpg'")
     private String profileImage;
 
     @Column(length = 10)

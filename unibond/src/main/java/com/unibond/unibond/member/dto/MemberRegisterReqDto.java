@@ -5,7 +5,6 @@ import com.unibond.unibond.member.domain.Gender;
 import com.unibond.unibond.member.domain.Member;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -22,19 +21,17 @@ public class MemberRegisterReqDto {
     private List<String> interestList;
 
     public Member toEntity(Disease disease) {
-        HashSet<String> interestSet = new HashSet<>(interestList);
         return Member.builder()
                 .disease(disease)
                 .diagnosisTiming(this.diseaseTiming)
                 .gender(gender)
                 .nickname(this.nickname)
                 .bio(this.bio)
-                .interestSet(interestSet)
+                .interestSet(getValidInterestSet())
                 .build();
     }
 
     public Member toEntity(Disease disease, String imgUrl) {
-        HashSet<String> interestSet = new HashSet<>(interestList);
         return Member.builder()
                 .profileImage(imgUrl)
                 .disease(disease)
@@ -42,7 +39,15 @@ public class MemberRegisterReqDto {
                 .gender(gender)
                 .nickname(this.nickname)
                 .bio(this.bio)
-                .interestSet(interestSet)
+                .interestSet(getValidInterestSet())
                 .build();
+    }
+
+    private HashSet<String> getValidInterestSet() {
+        HashSet<String> interestSet = new HashSet<>();
+        if (interestList != null) {
+            interestSet = new HashSet<>(interestList);
+        }
+        return interestSet;
     }
 }
