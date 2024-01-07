@@ -35,7 +35,7 @@ public class LetterRoomService {
                 throw new BaseException(INVALID_LETTER_ROOM_ID);
             }
             Member receiver = findAnotherParticipant(letterPage.getContent().get(0), loginId);
-            return new GetLetterRoomDetailResDto(receiver, letterPage);
+            return new GetLetterRoomDetailResDto(loginId, receiver, letterPage);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

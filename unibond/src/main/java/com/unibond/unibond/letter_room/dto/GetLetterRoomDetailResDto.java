@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetLetterRoomDetailResDto {
+    private Long loginId; // temp
     private Long receiverId;
     private String receiverProfileImg;
     private String receiverName;
@@ -25,7 +26,8 @@ public class GetLetterRoomDetailResDto {
     private PageInfo pageInfo;
     private List<LetterPreviewResDto> letterList;
 
-    public GetLetterRoomDetailResDto(Member receiver, Page<Letter> letterPage) {
+    public GetLetterRoomDetailResDto(Long loginId, Member receiver, Page<Letter> letterPage) {
+        this.loginId = loginId;
         this.receiverId = receiver.getId();
         this.receiverProfileImg = receiver.getProfileImage();
         this.receiverName = receiver.getNickname();
