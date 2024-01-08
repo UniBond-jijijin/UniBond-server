@@ -60,7 +60,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/api/v1/members")
-    public BaseResponse<?> modifyMemberInfo(@RequestHeader("Authorization") Long loginId) {
+    public BaseResponse<?> deleteMember(@RequestHeader("Authorization") Long loginId) {
         try {
             return new BaseResponse<>(memberService.deleteMember());
         } catch (BaseException e) {
