@@ -31,9 +31,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findPostByIdFetchMemberAndDisease(@Param("postId") Long postId);
 
     @Query("select p from Post p " +
+            "left join PostBlock pb on ( p = pb.reportedPost and pb.reporter = :loginId ) " +
             "join fetch p.owner m " +
             "join fetch m.disease d " +
             "where p.owner = :member and p.status = 'ACTIVE' " +
             "order by p.createdDate desc ")
-    Page<Post> findPostsByMember(@Param("member") Member member, Pageable pageable);
+    Page<Post> findPostsByMember(@Param("member") Member member,
+                                 @Param("loginId") Long loginId,
+                                 Pageable pageable);
 }

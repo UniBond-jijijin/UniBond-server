@@ -164,9 +164,10 @@ public class MemberService {
     }
 
     private MemberDetailResDto getOtherProfileInfo(Long memberId, Pageable pageable) throws BaseException {
+        Long loginId = loginInfoService.getLoginMemberId();
         Member member = memberRepository.findMemberByIdFetchJoinDisease(memberId)
                 .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
-        Page<Post> posts = postRepository.findPostsByMember(member, pageable);
+        Page<Post> posts = postRepository.findPostsByMember(member, loginId, pageable);
         checkBlocked(loginInfoService.getLoginMemberId(), memberId);
         return new MemberDetailResDto(member, posts);
     }
