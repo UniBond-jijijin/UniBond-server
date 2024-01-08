@@ -20,12 +20,13 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
+            "left join CommentBlock cb on ( c = cb.reportedComment and cb.reporter.id = :loginId ) " +
             "join fetch c.member " +
             "join fetch c.member.disease " +
             "where c.parentComment = :parentComment " +
-            "and c.post.id = :postId " +
-            "and c.status = 'ACTIVE' " +
-            "and mb.id IS NULL " +
+                "and c.post.id = :postId " +
+                "and c.status = 'ACTIVE' " +
+                "and mb.id IS NULL and cb.id IS NULL " +
             "order by c.createdDate desc ")
     Page<Comment> findCommentsByParentCommentFetchOwner(@Param("postId") Long postId,
                                                         @Param("parentComment") Comment parentComment,
@@ -34,8 +35,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
+            "left join CommentBlock cb on ( c = cb.reportedComment and cb.reporter.id = :loginId ) " +
             "join fetch c.member " +
-            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id IS NULL " +
+            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id IS NULL and cb.id IS NULL " +
             "order by c.createdDate desc ")
     Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post,
                                                      @Param("loginId") Long loginId,
@@ -43,7 +45,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select COUNT(c) from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
-            "where c.post = :post and c.status = 'ACTIVE' and mb.id IS NULL ")
+            "left join CommentBlock cb on ( c = cb.reportedComment and cb.reporter.id = :loginId ) " +
+            "where c.post = :post and c.status = 'ACTIVE' and mb.id IS NULL and cb.id IS NULL ")
     Integer getCommentCountByPost(@Param("post") Post post,
                                   @Param("loginId") Long loginId);
 

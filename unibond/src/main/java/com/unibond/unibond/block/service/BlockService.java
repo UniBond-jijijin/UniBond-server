@@ -20,6 +20,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
@@ -72,12 +75,27 @@ public class BlockService {
             if (reqDto.getBlockedCommentId() == null) throw new BaseException(NULL_PROPERTY);
             Comment comment = findComment(reqDto.getBlockedCommentId());
             CommentBlock commentBlock = reqDto.toEntity(reporter, comment);
+            blockChildComments(reporter, comment);
             commentBlockRepository.save(commentBlock);
             return SUCCESS;
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    private void blockChildComments(Member reporter, Comment comment) {
+        List<Comment> childCommentList = comment.getChildCommentList();
+        if (!childCommentList.isEmpty()) {
+            List<CommentBlock> commentBlockList = childCommentList.stream().map(
+                    childComment -> CommentBlock.builder()
+                            .reportedComment(childComment)
+                            .reporter(reporter)
+                            .build()
+            ).collect(Collectors.toList());
+
+            commentBlockRepository.saveAll(commentBlockList);
         }
     }
 
