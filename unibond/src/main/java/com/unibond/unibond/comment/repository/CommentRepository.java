@@ -17,7 +17,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findCommentByIdAndStatus(Long id, BaseEntityStatus status);
 
-    @Query("select distinct c from Comment c " +
+    @Query("select c from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
             "join fetch c.member " +
             "join fetch c.member.disease " +

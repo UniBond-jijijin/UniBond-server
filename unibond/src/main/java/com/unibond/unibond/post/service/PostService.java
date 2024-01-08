@@ -1,5 +1,7 @@
 package com.unibond.unibond.post.service;
 
+import com.unibond.unibond.block.repository.MemberBlockRepository;
+import com.unibond.unibond.block.repository.PostBlockRepository;
 import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
@@ -19,8 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
-import static com.unibond.unibond.common.BaseResponseStatus.INVALID_POST_ID;
+import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class PostService {
     private final LoginInfoService loginInfoService;
     private final S3Uploader s3Uploader;
     private final PostRepository postRepository;
+    private final MemberBlockRepository memberBlockRepository;
+    private final PostBlockRepository postBlockRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
@@ -49,8 +52,8 @@ public class PostService {
 
     public GetCommunityResDto getCommunityContent(BoardType boardType, Pageable pageable) throws BaseException {
         try {
-            Page<Post> postPage = postRepository.findPostsByBoardType(boardType, pageable);
-
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+            Page<Post> postPage = postRepository.findPostsByBoardType(boardType, loginMemberId, pageable);
             return new GetCommunityResDto(postPage);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
@@ -62,6 +65,9 @@ public class PostService {
         try {
             Member loginMember = loginInfoService.getLoginMember();
             Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
+
+            checkBlockedMember(loginMember.getId(), post.getOwner().getId());
+
             Page<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, loginMember.getId(), pageable);
             int commentCount = commentRepository.getCommentCountByPost(post);
 
@@ -77,6 +83,13 @@ public class PostService {
         } catch (Exception e) {
             System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    private void checkBlockedMember(Long reporterId, Long respondentId) throws BaseException {
+        Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_MEMBER);
         }
     }
 }
