@@ -1,5 +1,6 @@
 package com.unibond.unibond.letter_room.service;
 
+import com.unibond.unibond.block.repository.MemberBlockRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.letter.domain.Letter;
@@ -24,6 +25,7 @@ public class LetterRoomService {
     private final LoginInfoService loginInfoService;
     private final LetterRoomCustomRepository letterRoomCustomRepository;
     private final LetterRoomRepository letterRoomRepository;
+    private final MemberBlockRepository memberBlockRepository;
     private final LetterRepository letterRepository;
 
     public GetLetterRoomDetailResDto getAllLetters(Long letterRoomId, Pageable pageable) throws BaseException {
@@ -35,6 +37,8 @@ public class LetterRoomService {
                 throw new BaseException(INVALID_LETTER_ROOM_ID);
             }
             Member receiver = findAnotherParticipant(letterPage.getContent().get(0), loginId);
+
+            checkBlocked(loginId, receiver.getId());
             return new GetLetterRoomDetailResDto(loginId, receiver, letterPage);
         } catch (BaseException e) {
             throw e;
@@ -55,6 +59,16 @@ public class LetterRoomService {
         }
     }
 
+    public GetAllLikedLetterResDto getAllLikeLetters(Pageable pageable) throws BaseException {
+        try {
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+            Page<Letter> letterPage = letterRepository.findLikedLetterByReceiver(loginMemberId, pageable);
+            return new GetAllLikedLetterResDto(letterPage);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     private Member findAnotherParticipant(Letter letter, Long loginId) throws BaseException {
         if (letter.getSender().getId().equals(loginId)) {
             return letter.getReceiver();
@@ -64,13 +78,10 @@ public class LetterRoomService {
         throw new BaseException(NOT_YOUR_LETTER_ROOM);
     }
 
-    public GetAllLikedLetterResDto getAllLikeLetters(Pageable pageable) throws BaseException {
-        try {
-            Long loginMemberId = loginInfoService.getLoginMemberId();
-            Page<Letter> letterPage = letterRepository.findLikedLetterByReceiver(loginMemberId, pageable);
-            return new GetAllLikedLetterResDto(letterPage);
-        } catch (Exception e) {
-            throw new BaseException(DATABASE_ERROR);
+    private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
+        Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_LETTER);
         }
     }
 }

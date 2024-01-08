@@ -42,9 +42,11 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
                                                 @Param("currentTimeMinusOneHour") LocalDateTime currentTimeMinusOneHour);
 
     @Query("select l from Letter l " +
+            "left join MemberBlock mb on ( l.receiver.id = :receiverId and mb.reporter = :receiver and l.sender = mb.respondent ) " +
             "join fetch l.receiver " +
             "join fetch l.sender " +
-            "where l.liked = true and l.letterStatus = 'ARRIVED' and l.status = 'ACTIVE'")
+            "where l.receiver.id = :receiver and l.liked = true and l.letterStatus = 'ARRIVED' and l.status = 'ACTIVE' " +
+            "and mb.id IS NULL ")
     Page<Letter> findLikedLetterByReceiver(@Param("receiver") Long receiverId, Pageable pageable);
 
     @Modifying

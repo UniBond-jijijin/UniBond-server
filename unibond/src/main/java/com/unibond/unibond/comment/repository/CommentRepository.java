@@ -24,7 +24,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "where c.parentComment = :parentComment " +
             "and c.post.id = :postId " +
             "and c.status = 'ACTIVE' " +
-            "and mb.id = NULL " +
+            "and mb.id IS NULL " +
             "order by c.createdDate desc ")
     Page<Comment> findCommentsByParentCommentFetchOwner(@Param("postId") Long postId,
                                                         @Param("parentComment") Comment parentComment,
@@ -34,13 +34,13 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
             "join fetch c.member " +
-            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id = NULL " +
+            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id IS NULL " +
             "order by c.createdDate desc ")
     Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, @Param("loginId") Long loginId,
                                                      Pageable pageable);
 
     @Query("select COUNT(c) from Comment c " +
             "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
-            "where c.post = :post and c.status = 'ACTIVE' and mb.id = NULL ")
+            "where c.post = :post and c.status = 'ACTIVE' and mb.id IS NULL ")
     Integer getCommentCountByPost(@Param("post") Post post);
 }
