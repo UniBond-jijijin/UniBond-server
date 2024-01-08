@@ -71,12 +71,13 @@ public enum BaseResponseStatus {
     NOT_YOUR_LETTER(false, 3301, "해당 편지를 접근할 권한이 없습니다."),
     CANT_SEND_LETTER(false, 3302, "아직 한 시간이 지나지 않았으므로 편지를 또 다시 보낼 수 없습니다."),
     NOT_YET_ARRIVED(false, 3303, "아직 도착하지 않은 편지입니다."),
-    BLOCKED_LETTER(false, 3304, "차단한 사용자이므로 편지를 주고 받거나 조회할 수 업습니다."),
+    BLOCKED_LETTER(false, 3304, "차단한 사용자이므로 편지를 주고 받거나 조회할 수 없습니다."),
 
     // letter_room (3400 ~ 3499)
     NOT_YOUR_LETTER_ROOM(false, 3400, "해당 편지방에 접근할 권한이 없습니다."),
 
     // member (3500 ~ 3599)
+    BLOCKED_MEMBER(false, 3500, "차단한 사용자입니다.."),
 
     // post (3600 ~ 3699)
     INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),
