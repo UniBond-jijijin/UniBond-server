@@ -1,6 +1,7 @@
 package com.unibond.unibond.member.service;
 
 import com.unibond.unibond.block.repository.MemberBlockRepository;
+import com.unibond.unibond.common.BaseEntityStatus;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.unibond.unibond.common.BaseEntityStatus.*;
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
@@ -152,6 +154,19 @@ public class MemberService {
             throw e;
         } catch (Exception e) {
             System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public BaseResponseStatus deleteMember() throws BaseException{
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            loginMember.setStatus(DELETED);
+            return SUCCESS;
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
