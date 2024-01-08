@@ -98,7 +98,7 @@ public class PostService {
     private void checkBlockedPost(Long reporterId, Long reportedPostId) throws BaseException {
         Boolean isBlocked = postBlockRepository.existsByReporterIdAndReportedPostId(reporterId, reportedPostId);
         if (isBlocked) {
-            throw new BaseException(BLOCKED_MEMBER);
+            throw new BaseException(BLOCKED_POST);
         }
     }
 }

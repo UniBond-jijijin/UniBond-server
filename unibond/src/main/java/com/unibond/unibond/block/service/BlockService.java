@@ -31,6 +31,7 @@ public class BlockService {
     public BaseResponseStatus blockMember(BlockReqDto reqDto) throws BaseException {
         try {
             Member reporter = loginInfoService.getLoginMember();
+            if (reqDto.getBlockedMemberId() == null) throw new BaseException(NULL_PROPERTY);
             Member respondent = findMember(reqDto.getBlockedMemberId());
             MemberBlock memberBlock = reqDto.toEntity(reporter, respondent);
             memberBlockRepository.save(memberBlock);
@@ -46,6 +47,7 @@ public class BlockService {
     public BaseResponseStatus blockPost(BlockReqDto reqDto) throws BaseException {
         try {
             Member reporter = loginInfoService.getLoginMember();
+            if (reqDto.getBlockedPostId() == null) throw new BaseException(NULL_PROPERTY);
             Post post = findPost(reqDto.getBlockedPostId());
             PostBlock postBlock = reqDto.toEntity(reporter, post);
             postBlockRepository.save(postBlock);

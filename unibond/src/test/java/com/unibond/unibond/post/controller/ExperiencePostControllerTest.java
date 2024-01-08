@@ -66,15 +66,21 @@ class ExperiencePostControllerTest {
     @DisplayName("경험 기록 게시판 조회 Test")
     void getExperienceCommunityPosts() throws Exception {
         String page = "0";
+        String loginId = "29";
+
         this.mockMvc.perform(
                         get("/api/v1/community/experience")
                                 .param("page", page)
+                                .header("Authorization", loginId)
                                 .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
                 .andDo(document("get-experience-community",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Basic auth credentials")
+                        ),
                         queryParameters(
                                 parameterWithName("page").description("조회할 페이지 [default: 0]").optional()
                         ),

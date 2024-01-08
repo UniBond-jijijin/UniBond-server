@@ -470,9 +470,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/community/question?page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: 29
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Basic auth credentials</p></td>
+</tr>
+</tbody>
+</table>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -498,7 +517,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 6495
+Content-Length: 1437
 
 {
   "isSuccess" : true,
@@ -506,120 +525,21 @@ Content-Length: 6495
   "message" : "요청에 성공하였습니다.",
   "result" : {
     "pageInfo" : {
-      "numberOfElements" : 11,
+      "numberOfElements" : 2,
       "lastPage" : true,
       "totalPages" : 1,
-      "totalElements" : 11,
+      "totalElements" : 2,
       "size" : 30
     },
     "postPreviewList" : [ {
-      "createdDate" : "2024-01-06T06:07:59.413161",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 79,
-      "postImg" : null,
-      "contentPreview" : "아아\n글 왜 쓰면 풀투리프레쉬 없어ㅍ졋ㅆ지...",
-      "boardType" : "QNA",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2024-01-04T12:24:22.161686",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 78,
-      "postImg" : null,
-      "contentPreview" : "글 작성도 아주 잘 됩니다! 하지만 속도는 조금 느려요.. 어쩔수가없네ㅠ 성능개선",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
-      "createdDate" : "2024-01-04T12:11:05.969729",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 77,
-      "postImg" : null,
-      "contentPreview" : "글도 쓸 수 있다! 난 너무 행복해 해 자동완성 왜 되냐;; 킹받네...나 밥도 ",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
-      "createdDate" : "2024-01-04T01:09:39.566862",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 76,
-      "postImg" : null,
-      "contentPreview" : "안녕하시렵니까? 잘 써지나유",
-      "boardType" : "QNA",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2024-01-03T23:29:05.627646",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 75,
-      "postImg" : null,
-      "contentPreview" : "새로고침 테스트를 위한 글쓰기입니다,,,,,이이이이이이이이이이이이이이이이ㅣㅇ이이이",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
-      "createdDate" : "2024-01-03T23:26:28.345496",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 74,
-      "postImg" : null,
-      "contentPreview" : "새로고침 테스트를 위한 글쓰기입니다,,,,,이이이이이이이이이이이이이이이이ㅣㅇ이이이",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
-      "createdDate" : "2024-01-03T23:26:09.69247",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 73,
-      "postImg" : null,
-      "contentPreview" : "새로고침 테스트를 위한 글쓰기입니다",
-      "boardType" : "QNA",
-      "isEnd" : true
-    }, {
-      "createdDate" : "2024-01-03T22:16:28.436585",
-      "ownerId" : 29,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
-      "disease" : "포도당 수송자 1 결핍증",
-      "postId" : 72,
-      "postImg" : null,
-      "contentPreview" : "이것은 질문 게시판의 게시물인데, 작성이 잘 될까요? 궁금합니다. 저는 빨리좀 하",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
       "createdDate" : "2023-12-30T00:40:29.237761",
       "ownerId" : 29,
       "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/f4113115-ee23-4a14-8a47-861b5aa7fdecdog-4586317_640.jpg",
-      "ownerNick" : "왕왕오아왕와왕",
+      "ownerNick" : "병원장",
       "disease" : "포도당 수송자 1 결핍증",
       "postId" : 60,
       "postImg" : null,
       "contentPreview" : "급하게 친구들끼리 여행을 가게 될 일이 생겼어요. 사실 이동하는 게 많이 어려워서",
-      "boardType" : "QNA",
-      "isEnd" : false
-    }, {
-      "createdDate" : "2023-11-12T00:57:12.641472",
-      "ownerId" : 28,
-      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/025cc515-c832-4c29-9fe0-9e77f0afea7d6808929_emoji_emoticon_emotion_expression_face_icon.png",
-      "ownerNick" : "서울의가을",
-      "disease" : "10번 염색체 장완 말단부의 단일염색체증",
-      "postId" : 62,
-      "postImg" : null,
-      "contentPreview" : "학교에 다니면서 친구들한테 어떻게 이 병에 대해 솔직하게 털어놨는지 다들 계기가 ",
       "boardType" : "QNA",
       "isEnd" : false
     }, {
@@ -766,7 +686,7 @@ Content-Length: 6495
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-01 07:25:08 +0900
+Last updated 2024-01-08 20:49:25 +0900
 </div>
 </div>
 </body>

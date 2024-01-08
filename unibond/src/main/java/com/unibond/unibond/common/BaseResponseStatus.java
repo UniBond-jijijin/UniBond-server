@@ -57,6 +57,9 @@ public enum BaseResponseStatus {
     EMPTY_REPORT_ID(false, 2700, "신고 대상의 ID가 null값 입니다."),
     INVALID_REPORT_ID(false, 2701, "신고 대상의 ID가 유효하지 않습니다."),
 
+    // common
+    NULL_PROPERTY(false, 2800, "주어져야 할 값이 null 값입니다. api 문서를 다시 확인해주세요."),
+
     /**
      * 3000: Response Error
      */
@@ -81,6 +84,7 @@ public enum BaseResponseStatus {
 
     // post (3600 ~ 3699)
     INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),
+    BLOCKED_POST(false, 3601, "차단한 게시글입니다."),
 
     /**
      * 4000: DB Error

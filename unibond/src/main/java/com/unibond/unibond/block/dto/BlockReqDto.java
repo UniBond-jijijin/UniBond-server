@@ -2,11 +2,14 @@ package com.unibond.unibond.block.dto;
 
 import com.unibond.unibond.block.domain.MemberBlock;
 import com.unibond.unibond.block.domain.PostBlock;
+import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static com.unibond.unibond.common.BaseResponseStatus.NULL_PROPERTY;
 
 @Data
 @NoArgsConstructor
