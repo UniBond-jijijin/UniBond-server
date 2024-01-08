@@ -67,6 +67,7 @@ public class PostService {
             Post post = postRepository.findPostByIdFetchMemberAndDisease(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
 
             checkBlockedMember(loginMember.getId(), post.getOwner().getId());
+            checkBlockedPost(loginMember.getId(), postId);
 
             Page<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, loginMember.getId(), pageable);
             int commentCount = commentRepository.getCommentCountByPost(post);
@@ -88,6 +89,13 @@ public class PostService {
 
     private void checkBlockedMember(Long reporterId, Long respondentId) throws BaseException {
         Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_MEMBER);
+        }
+    }
+
+    private void checkBlockedPost(Long reporterId, Long reportedPostId) throws BaseException {
+        Boolean isBlocked = postBlockRepository.existsByReporterIdAndReportedPostId(reporterId, reportedPostId);
         if (isBlocked) {
             throw new BaseException(BLOCKED_MEMBER);
         }
