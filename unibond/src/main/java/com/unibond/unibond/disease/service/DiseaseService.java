@@ -1,7 +1,6 @@
 package com.unibond.unibond.disease.service;
 
 import com.unibond.unibond.common.BaseException;
-import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.dto.SearchDiseaseResDto;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
@@ -10,9 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static com.unibond.unibond.common.BaseResponseStatus.*;
+import static com.unibond.unibond.common.BaseEntityStatus.ACTIVE;
+import static com.unibond.unibond.common.BaseResponseStatus.DATABASE_ERROR;
+import static com.unibond.unibond.common.BaseResponseStatus.NULL_SEARCH_LAN;
 
 @RequiredArgsConstructor
 @Service
@@ -25,9 +24,9 @@ public class DiseaseService {
             Page<Disease> searchedDiseaseList;
 
             if (language.equals("kor")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameKorContains(searchWord, pageable);
+                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameKorContainsAndStatus(searchWord, ACTIVE, pageable);
             } else if (language.equals("eng")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameEngContains(searchWord, pageable);
+                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameEngContainsAndStatus(searchWord, ACTIVE, pageable);
             } else {
                 throw new BaseException(NULL_SEARCH_LAN);
             }

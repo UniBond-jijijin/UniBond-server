@@ -59,6 +59,15 @@ public class MemberController {
         }
     }
 
+    @DeleteMapping("/api/v1/members")
+    public BaseResponse<?> deleteMember(@RequestHeader("Authorization") Long loginId) {
+        try {
+            return new BaseResponse<>(memberService.deleteMember());
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
     @PatchMapping("/api/v1/members/{memberId}")
     public BaseResponse<?> modifyMemberInfo(@PathVariable("memberId") Long memberId,
                                             @RequestBody(required = false) MemberModifyReqDto request,

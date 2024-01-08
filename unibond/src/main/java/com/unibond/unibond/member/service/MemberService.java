@@ -1,12 +1,15 @@
 package com.unibond.unibond.member.service;
 
 import com.unibond.unibond.block.repository.MemberBlockRepository;
+import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.disease.domain.Disease;
 import com.unibond.unibond.disease.repository.DiseaseRepository;
+import com.unibond.unibond.letter.repository.LetterRepository;
+import com.unibond.unibond.letter_room.repository.LetterRoomRepository;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.member.dto.MemberDetailResDto;
 import com.unibond.unibond.member.dto.MemberModifyReqDto;
@@ -21,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.unibond.unibond.common.BaseEntityStatus.DELETED;
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
@@ -32,6 +36,9 @@ public class MemberService {
     private final MemberBlockRepository memberBlockRepository;
     private final DiseaseRepository diseaseRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final LetterRepository letterRepository;
+    private final LetterRoomRepository letterRoomRepository;
 
     @Transactional
     public Long signupWithNoProfileImg(MemberRegisterReqDto registerReqDto) throws BaseException {
@@ -152,6 +159,24 @@ public class MemberService {
             throw e;
         } catch (Exception e) {
             System.err.println(e);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public BaseResponseStatus deleteMember() throws BaseException {
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            loginMember.setStatus(DELETED);
+            Long loginId = loginMember.getId();
+            commentRepository.bulkDeleteByMember(loginId);
+            letterRepository.bulkDeleteByMember(loginId);
+            letterRoomRepository.bulkDeleteByMember(loginId);
+            postRepository.bulkDeleteByMember(loginId);
+            return SUCCESS;
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
