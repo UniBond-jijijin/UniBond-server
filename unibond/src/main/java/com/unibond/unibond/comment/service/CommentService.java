@@ -62,8 +62,9 @@ public class CommentService {
     @Transactional
     public ChildCommentsPagingResDto getChildCommentsWithPaging(Long postId, Long commentId, Pageable pageable) throws BaseException {
         try {
+            Long loginId = loginInfoService.getLoginMemberId();
             Comment parentComment = findCommentById(commentId);
-            Page<Comment> comments = commentRepository.findCommentsByParentCommentFetchOwner(postId, parentComment, pageable);
+            Page<Comment> comments = commentRepository.findCommentsByParentCommentFetchOwner(postId, parentComment, loginId, pageable);
             return new ChildCommentsPagingResDto(comments);
         } catch (BaseException e) {
             throw e;

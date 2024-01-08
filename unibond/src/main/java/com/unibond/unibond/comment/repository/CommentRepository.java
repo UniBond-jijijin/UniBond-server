@@ -17,32 +17,30 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findCommentByIdAndStatus(Long id, BaseEntityStatus status);
 
-    @Query("select c from Comment c " +
+    @Query("select distinct c from Comment c " +
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId )" +
             "join fetch c.member " +
             "join fetch c.member.disease " +
             "where c.parentComment = :parentComment " +
             "and c.post.id = :postId " +
-            "and c.status = 'ACTIVE'")
+            "and c.status = 'ACTIVE' " +
+            "and mb.id = NULL " +
+            "order by c.createdDate desc ")
     Page<Comment> findCommentsByParentCommentFetchOwner(@Param("postId") Long postId,
                                                         @Param("parentComment") Comment parentComment,
+                                                        @Param("loginId") Long loginId,
                                                         Pageable pageable);
 
     @Query("select c from Comment c " +
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
             "join fetch c.member " +
-            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' " +
+            "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id = NULL " +
             "order by c.createdDate desc ")
-    Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, Pageable pageable);
+    Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, @Param("loginId") Long loginId,
+                                                     Pageable pageable);
 
     @Query("select COUNT(c) from Comment c " +
-            "where c.post = :post and c.status = 'ACTIVE'")
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
+            "where c.post = :post and c.status = 'ACTIVE' and mb.id = NULL ")
     Integer getCommentCountByPost(@Param("post") Post post);
-
-    @Query("select c from Comment c " +
-            "join fetch c.member " +
-            "where c.post.id = :postId and c.parentComment = :parentComment " +
-            "and c.status = 'ACTIVE' " +
-            "order by c.createdDate desc ")
-    Page<Comment> findCommentsWithOwnerByPostAndParentComment(@Param("postId") Long postId,
-                                                              @Param("parentComment") Comment parentComment,
-                                                              Pageable pageable);
 }
