@@ -175,7 +175,7 @@ public class MemberService {
     private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
         Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
         if (isBlocked) {
-            throw new BaseException(BLOCKED_LETTER);
+            throw new BaseException(BLOCKED_MEMBER);
         }
     }
 }

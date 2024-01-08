@@ -18,7 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findCommentByIdAndStatus(Long id, BaseEntityStatus status);
 
     @Query("select c from Comment c " +
-            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
             "join fetch c.member " +
             "join fetch c.member.disease " +
             "where c.parentComment = :parentComment " +
@@ -32,15 +32,17 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                                                         Pageable pageable);
 
     @Query("select c from Comment c " +
-            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
             "join fetch c.member " +
             "where c.post = :post and c.parentComment = null and c.status = 'ACTIVE' and mb.id IS NULL " +
             "order by c.createdDate desc ")
-    Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post, @Param("loginId") Long loginId,
+    Page<Comment> findParentCommentsByPostFetchOwner(@Param("post") Post post,
+                                                     @Param("loginId") Long loginId,
                                                      Pageable pageable);
 
     @Query("select COUNT(c) from Comment c " +
-            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter = :loginId ) " +
+            "left join MemberBlock mb on ( c.member = mb.respondent and mb.reporter.id = :loginId ) " +
             "where c.post = :post and c.status = 'ACTIVE' and mb.id IS NULL ")
-    Integer getCommentCountByPost(@Param("post") Post post);
+    Integer getCommentCountByPost(@Param("post") Post post,
+                                  @Param("loginId") Long loginId);
 }

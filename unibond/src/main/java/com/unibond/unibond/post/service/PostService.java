@@ -56,6 +56,7 @@ public class PostService {
             Page<Post> postPage = postRepository.findPostsByBoardType(boardType, loginMemberId, pageable);
             return new GetCommunityResDto(postPage);
         } catch (Exception e) {
+            System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -70,7 +71,7 @@ public class PostService {
             checkBlockedPost(loginMember.getId(), postId);
 
             Page<Comment> commentList = commentRepository.findParentCommentsByPostFetchOwner(post, loginMember.getId(), pageable);
-            int commentCount = commentRepository.getCommentCountByPost(post);
+            int commentCount = commentRepository.getCommentCountByPost(post, loginMember.getId());
 
             return GetCommunityContentDetailResDto.builder()
                     .loginMember(loginMember)

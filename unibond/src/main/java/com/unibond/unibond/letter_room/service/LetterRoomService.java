@@ -65,6 +65,7 @@ public class LetterRoomService {
             Page<Letter> letterPage = letterRepository.findLikedLetterByReceiver(loginMemberId, pageable);
             return new GetAllLikedLetterResDto(letterPage);
         } catch (Exception e) {
+            System.out.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
     }

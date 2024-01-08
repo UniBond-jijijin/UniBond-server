@@ -31,7 +31,8 @@ public class QuestionPostController {
     }
 
     @GetMapping("")
-    public BaseResponse<?> getQnACommunityPosts(@PageableDefault(size = 30) Pageable pageable) {
+    public BaseResponse<?> getQnACommunityPosts(@RequestHeader("Authorization") Long loginId,
+                                                @PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getCommunityContent(QNA, pageable));
         } catch (BaseException e) {

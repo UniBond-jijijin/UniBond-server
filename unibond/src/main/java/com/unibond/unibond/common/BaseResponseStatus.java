@@ -77,7 +77,7 @@ public enum BaseResponseStatus {
     NOT_YOUR_LETTER_ROOM(false, 3400, "해당 편지방에 접근할 권한이 없습니다."),
 
     // member (3500 ~ 3599)
-    BLOCKED_MEMBER(false, 3500, "차단한 사용자입니다.."),
+    BLOCKED_MEMBER(false, 3500, "차단한 사용자입니다."),
 
     // post (3600 ~ 3699)
     INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),
