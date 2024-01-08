@@ -3,6 +3,7 @@ package com.unibond.unibond.block.domain;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -28,5 +29,9 @@ public class PostBlock {
     @JoinColumn(name = "reportedPostId")
     private Post reportedPost;
 
-    private String content;
+    @Builder
+    public PostBlock(Member reporter, Post reportedPost) {
+        this.reporter = reporter;
+        this.reportedPost = reportedPost;
+    }
 }

@@ -1,6 +1,6 @@
 package com.unibond.unibond.block.controller;
 
-import com.unibond.unibond.block.dto.BlockMemberReqDto;
+import com.unibond.unibond.block.dto.BlockReqDto;
 import com.unibond.unibond.block.service.BlockService;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponse;
@@ -15,9 +15,19 @@ public class BlockController {
 
     @PostMapping("/member")
     public BaseResponse<?> blockMember(@RequestHeader("Authorization") Long loginId,
-                                       @RequestBody BlockMemberReqDto reqDto) {
+                                       @RequestBody BlockReqDto reqDto) {
         try {
             return new BaseResponse<>(blockService.blockMember(reqDto));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @PostMapping("/post")
+    public BaseResponse<?> blockPost(@RequestHeader("Authorization") Long loginId,
+                                       @RequestBody BlockReqDto reqDto) {
+        try {
+            return new BaseResponse<>(blockService.blockPost(reqDto));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
