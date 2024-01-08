@@ -32,4 +32,14 @@ public class BlockController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    @PostMapping("/comment")
+    public BaseResponse<?> blockComment(@RequestHeader("Authorization") Long loginId,
+                                     @RequestBody BlockReqDto reqDto) {
+        try {
+            return new BaseResponse<>(blockService.blockComment(reqDto));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }
