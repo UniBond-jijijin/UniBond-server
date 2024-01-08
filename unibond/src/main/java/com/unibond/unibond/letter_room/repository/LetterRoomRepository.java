@@ -5,6 +5,7 @@ import com.unibond.unibond.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,11 +24,8 @@ public interface LetterRoomRepository extends JpaRepository<LetterRoom, Long> {
     Optional<LetterRoom> findLetterRoomBy2Member(@Param("member1") Member member1,
                                                  @Param("member2") Member member2);
 
-    @Query("select l from LetterRoom l " +
-            "join fetch l.member1 " +
-            "join fetch l.member1.disease " +
-            "join fetch l.member2 " +
-            "join fetch l.member2.disease " +
-            "where l.id = :letterRoomId ")
-    Optional<LetterRoom> findByIdFetch2Member(@Param("letterRoomId") Long letterRoomId);
+    @Modifying
+    @Query("update LetterRoom lr set lr.status = 'DELETED' " +
+            "where lr.member1.id = :memberId or lr.member2.id = :memberId ")
+    void bulkDeleteByMember(@Param("memberId") Long memberId);
 }

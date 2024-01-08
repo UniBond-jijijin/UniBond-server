@@ -1,5 +1,6 @@
 package com.unibond.unibond.disease.repository;
 
+import com.unibond.unibond.common.BaseEntityStatus;
 import com.unibond.unibond.disease.domain.Disease;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface DiseaseRepository extends JpaRepository<Disease, Long> {
-    Page<Disease> findFirst5ByDiseaseNameKorContains(String query, Pageable pageable);
-    Page<Disease> findFirst5ByDiseaseNameEngContains(String query, Pageable pageable);
+    Page<Disease> findFirst5ByDiseaseNameKorContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
+    Page<Disease> findFirst5ByDiseaseNameEngContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
 }

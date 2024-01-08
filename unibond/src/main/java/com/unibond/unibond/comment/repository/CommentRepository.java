@@ -6,6 +6,7 @@ import com.unibond.unibond.post.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -45,4 +46,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "where c.post = :post and c.status = 'ACTIVE' and mb.id IS NULL ")
     Integer getCommentCountByPost(@Param("post") Post post,
                                   @Param("loginId") Long loginId);
+
+    @Modifying
+    @Query("update Comment c set c.status = 'DELETED' " +
+            "where c.member.id = :memberId ")
+    void bulkDeleteByMember(@Param("memberId") Long memberId);
 }

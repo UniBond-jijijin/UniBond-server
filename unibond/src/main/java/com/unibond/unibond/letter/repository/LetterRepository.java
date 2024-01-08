@@ -53,4 +53,9 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     @Query("update Letter l set l.letterStatus = 'ARRIVED' " +
             "where l.createdDate <= :currentTimeMinusOneHour and l.letterStatus = 'SENDING'")
     void bulkSendLetter(@Param("currentTimeMinusOneHour") LocalDateTime currentTime);
+
+    @Modifying
+    @Query("update Letter l set l.status = 'DELETED' " +
+            "where l.sender.id = :memberId or l.receiver.id = :memberId ")
+    void bulkDeleteByMember(@Param("memberId") Long memberId);
 }
