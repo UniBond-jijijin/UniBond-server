@@ -3,6 +3,7 @@ package com.unibond.unibond.block.domain;
 import com.unibond.unibond.common.BaseEntity;
 import com.unibond.unibond.member.domain.Member;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -28,5 +29,9 @@ public class MemberBlock extends BaseEntity {
     @JoinColumn(name = "respondentId")
     private Member respondent;
 
-    private String content;
+    @Builder
+    public MemberBlock(Member reporter, Member respondent) {
+        this.reporter = reporter;
+        this.respondent = respondent;
+    }
 }
