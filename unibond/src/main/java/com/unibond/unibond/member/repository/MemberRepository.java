@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsMemberByNickname(String nickname);
 
-    Optional<Member> findMemberByIdAndStatus(Long memberId, BaseResponseStatus status);
-
     @Query("Select m from Member m " +
             "join fetch m.disease " +
             "where m.id = :memberId and m.status  = 'ACTIVE' ")

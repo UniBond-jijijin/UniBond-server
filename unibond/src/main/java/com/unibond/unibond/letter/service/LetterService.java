@@ -1,5 +1,6 @@
 package com.unibond.unibond.letter.service;
 
+import com.unibond.unibond.block.repository.MemberBlockRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
@@ -28,6 +29,7 @@ public class LetterService {
     private final MemberRepository memberRepository;
     private final LetterRepository letterRepository;
     private final LetterRoomRepository letterRoomRepository;
+    private final MemberBlockRepository memberBlockRepository;
 
     private final LoginInfoService loginInfoService;
 
@@ -76,8 +78,10 @@ public class LetterService {
 
             if (letter.isReceiver(loginMemberId)) {
                 letter.checkIsArrived();
+                checkBlocked(loginMemberId, letter.getSender().getId());
                 return LetterDetailResDto.getReceivedLetter(letter);
             } else if (letter.isSender(loginMemberId)) {
+                checkBlocked(loginMemberId, letter.getReceiver().getId());
                 return LetterDetailResDto.getSentLetter(letter);
             }
             throw new BaseException(NOT_YOUR_LETTER);
@@ -89,14 +93,23 @@ public class LetterService {
         }
     }
 
+    private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
+        Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_LETTER);
+        }
+    }
+
     private Member getReceiver(Long receiverId) throws BaseException {
         return memberRepository.findById(receiverId)
                 .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
     }
 
     private Letter findLetterByIdAndReceiver(Member receiver, Long id) throws BaseException {
-        return letterRepository.findByReceiverAndLetterId(receiver, id)
+        Letter letter = letterRepository.findByReceiverAndLetterId(receiver, id)
                 .orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+        checkBlocked(receiver.getId(), letter.getSender().getId());
+        return letter;
     }
 
     private LetterRoom findLetterRoom(Member sender, Member receiver) {
@@ -116,11 +129,12 @@ public class LetterService {
         }
     }
 
+    // TODO: 이후에 함수 분리하기
     private void checkSendingCapability(Long senderId, Long receiverId) throws BaseException {
-        System.out.println(LocalDateTime.now().minusHours(1L));
         Boolean result = letterRepository.hasSentLetterToSamePersonWithinHour(senderId, receiverId, LocalDateTime.now().minusHours(1L));
         if (result) {
             throw new BaseException(CANT_SEND_LETTER);
         }
+        checkBlocked(senderId, receiverId);
     }
 }

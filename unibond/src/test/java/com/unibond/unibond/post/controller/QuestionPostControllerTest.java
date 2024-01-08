@@ -21,6 +21,8 @@ import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentRequest;
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentResponse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -57,10 +59,13 @@ class QuestionPostControllerTest {
     @DisplayName("질문 게시판 조회 Test")
     void getQuestionCommunityPosts() throws Exception {
         String page = "0";
+        String loginId = "29";
+
         this.mockMvc.perform(
                         get("/api/v1/community/question")
                                 .param("page", page)
                                 .contentType(APPLICATION_JSON)
+                                .header("Authorization", loginId)
                 )
                 .andExpect(status().isOk())
                 .andDo(document("get-qna-community",
@@ -68,6 +73,9 @@ class QuestionPostControllerTest {
                         getDocumentResponse(),
                         queryParameters(
                                 parameterWithName("page").description("조회할 페이지 [default: 0]").optional()
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Basic auth credentials")
                         ),
                         responseFields(
                                 fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),

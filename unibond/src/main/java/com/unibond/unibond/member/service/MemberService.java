@@ -1,5 +1,6 @@
 package com.unibond.unibond.member.service;
 
+import com.unibond.unibond.block.repository.MemberBlockRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
@@ -28,6 +29,7 @@ public class MemberService {
     private final LoginInfoService loginInfoService;
     private final S3Uploader s3Uploader;
     private final MemberRepository memberRepository;
+    private final MemberBlockRepository memberBlockRepository;
     private final DiseaseRepository diseaseRepository;
     private final PostRepository postRepository;
 
@@ -162,10 +164,18 @@ public class MemberService {
     }
 
     private MemberDetailResDto getOtherProfileInfo(Long memberId, Pageable pageable) throws BaseException {
+        Long loginId = loginInfoService.getLoginMemberId();
         Member member = memberRepository.findMemberByIdFetchJoinDisease(memberId)
                 .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
-        Page<Post> posts = postRepository.findPostsByMember(member, pageable);
-
+        Page<Post> posts = postRepository.findPostsByMember(member, loginId, pageable);
+        checkBlocked(loginInfoService.getLoginMemberId(), memberId);
         return new MemberDetailResDto(member, posts);
+    }
+
+    private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
+        Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_MEMBER);
+        }
     }
 }

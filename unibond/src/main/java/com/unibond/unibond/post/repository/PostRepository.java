@@ -15,13 +15,16 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p " +
+            "left join MemberBlock mb on ( p.owner = mb.respondent and mb.reporter.id = :loginId ) " +
+            "left join PostBlock pb on ( p = pb.reportedPost and pb.reporter.id = :loginId ) " +
             "join fetch p.owner o " +
             "join fetch p.owner.disease d " +
-            "where p.boardType = :boardType and p.status = 'ACTIVE' " +
+            "where p.boardType = :boardType and p.status = 'ACTIVE' and mb.id IS NULL and pb.id IS NULL " +
             "order by p.createdDate desc ")
-    Page<Post> findPostsByBoardType(@Param("boardType") BoardType boardType, Pageable pageable);
+    Page<Post> findPostsByBoardType(@Param("boardType") BoardType boardType,
+                                    @Param("loginId") Long loginId,
+                                    Pageable pageable);
 
-    // TODO: need test..
     @Query("select p from Post p " +
             "join fetch p.owner m " +
             "join fetch m.disease d " +
@@ -29,9 +32,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findPostByIdFetchMemberAndDisease(@Param("postId") Long postId);
 
     @Query("select p from Post p " +
+            "left join PostBlock pb on ( p = pb.reportedPost and pb.reporter.id = :loginId ) " +
             "join fetch p.owner m " +
             "join fetch m.disease d " +
-            "where p.owner = :member and p.status = 'ACTIVE' " +
+            "where p.owner = :member and p.status = 'ACTIVE' and pb.id IS NULL " +
             "order by p.createdDate desc ")
-    Page<Post> findPostsByMember(@Param("member") Member member, Pageable pageable);
+    Page<Post> findPostsByMember(@Param("member") Member member,
+                                 @Param("loginId") Long loginId,
+                                 Pageable pageable);
 }

@@ -30,6 +30,7 @@ public class LetterRoomController {
         try {
             return new BaseResponse<>(letterRoomService.getAllLikeLetters(pageable));
         } catch (BaseException e) {
+            System.out.println(e);
             return new BaseResponse<>(e.getStatus());
         }
     }

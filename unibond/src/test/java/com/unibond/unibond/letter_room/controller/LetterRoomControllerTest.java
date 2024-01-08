@@ -86,7 +86,7 @@ class LetterRoomControllerTest {
     @DisplayName("편지방 내부의 편지들 조회")
     public void getAllLettersInLetterRoom() throws Exception {
         String page = "0";
-        String letterRoomId = "12";
+        String letterRoomId = "17";
         String loginId = "29";
 
         this.mockMvc.perform(
@@ -112,7 +112,7 @@ class LetterRoomControllerTest {
                                 fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
                                 fieldWithPath("code").type(NUMBER).description("결과 코드"),
                                 fieldWithPath("message").type(STRING).description("결과 메세지"),
-                                fieldWithPath("result").type(OBJECT).description("결과 데이터"),
+                                fieldWithPath("result").type(OBJECT).description("결과 데이터").optional(),
                                 fieldWithPath("result.loginId").type(NUMBER).description("로그인 아이디").optional(),
                                 fieldWithPath("result.receiverId").type(NUMBER).description("수신자 아이디").optional(),
                                 fieldWithPath("result.receiverProfileImg").type(STRING).description("수신자 프로필 이미지").optional(),
