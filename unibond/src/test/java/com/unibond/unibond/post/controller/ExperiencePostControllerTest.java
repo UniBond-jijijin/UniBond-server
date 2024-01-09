@@ -127,7 +127,7 @@ class ExperiencePostControllerTest {
                 = new MockMultipartFile("request", "request", "application/json", content.getBytes(UTF_8));
 
         this.mockMvc.perform(
-                        multipart("/api/v1/community/experience")
+                        multipart("/api/v2/community/experience")
                                 .file(testImg)
                                 .file(request)
                                 .header("Authorization", 29)

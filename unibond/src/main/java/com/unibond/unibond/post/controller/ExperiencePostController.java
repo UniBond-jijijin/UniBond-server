@@ -17,11 +17,22 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/community/experience")
 public class ExperiencePostController {
     private final PostService postService;
 
-    @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/api/v1/community/experience")
+    public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
+                                      @RequestBody PostUploadReqDto request) {
+        try {
+            request.setBoardType(EXPERIENCE);
+            postService.createPost(request);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @PostMapping(value = "/api/v2/community/experience", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestPart MultipartFile postImg,
                                       @RequestPart PostUploadReqDto request) {
@@ -34,7 +45,7 @@ public class ExperiencePostController {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/api/v1/community/experience")
     public BaseResponse<?> getExperienceCommunityPosts(@PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(postService.getCommunityContent(EXPERIENCE, pageable));

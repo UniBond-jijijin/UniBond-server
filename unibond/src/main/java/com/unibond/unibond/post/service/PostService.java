@@ -34,6 +34,19 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
+    public void createPost(PostUploadReqDto reqDto) throws BaseException {
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            Post newPost = reqDto.toEntity(loginMember, null);
+            postRepository.save(newPost);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public void createPost(PostUploadReqDto reqDto, MultipartFile multipartFile) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
