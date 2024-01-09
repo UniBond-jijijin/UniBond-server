@@ -26,4 +26,14 @@ public class PostController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    @DeleteMapping("/{postId}")
+    public BaseResponse<?> deleteCommunityPosts(@RequestHeader("Authorization") Long loginId,
+                                                   @PathVariable("postId") Long postId) {
+        try {
+            return new BaseResponse<>(postService.deletePost(postId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }
