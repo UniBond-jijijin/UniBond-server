@@ -79,7 +79,7 @@ public enum BaseResponseStatus {
 
     // letter_room (3400 ~ 3499)
     NOT_YOUR_LETTER_ROOM(false, 3400, "해당 편지함에 접근할 권한이 없습니다."),
-    BLOCKED_LETTER_ROOM(false, 3401, "차단된 편지함입니다.."),
+    BLOCKED_LETTER_ROOM(false, 3401, "차단된 편지함입니다."),
 
     // member (3500 ~ 3599)
     BLOCKED_MEMBER(false, 3500, "차단한 사용자입니다."),
