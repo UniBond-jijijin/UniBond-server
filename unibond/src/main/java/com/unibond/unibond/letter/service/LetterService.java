@@ -1,5 +1,7 @@
 package com.unibond.unibond.letter.service;
 
+import com.unibond.unibond.block.repository.LetterBlockRepository;
+import com.unibond.unibond.block.repository.LetterRoomBlockRepository;
 import com.unibond.unibond.block.repository.MemberBlockRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.BaseResponseStatus;
@@ -29,7 +31,10 @@ public class LetterService {
     private final MemberRepository memberRepository;
     private final LetterRepository letterRepository;
     private final LetterRoomRepository letterRoomRepository;
+
     private final MemberBlockRepository memberBlockRepository;
+    private final LetterBlockRepository letterBlockRepository;
+    private final LetterRoomBlockRepository letterRoomBlockRepository;
 
     private final LoginInfoService loginInfoService;
 
@@ -73,15 +78,15 @@ public class LetterService {
 
     public LetterDetailResDto getLetterDetail(Long letterId) throws BaseException {
         try {
-            Letter letter = letterRepository.findById(letterId).orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+            Letter letter = findLetter(letterId);
             Long loginMemberId = loginInfoService.getLoginMemberId();
 
             if (letter.isReceiver(loginMemberId)) {
                 letter.checkIsArrived();
-                checkBlocked(loginMemberId, letter.getSender().getId());
+                checkMemberBlocked(loginMemberId, letter.getSender().getId());
                 return LetterDetailResDto.getReceivedLetter(letter);
             } else if (letter.isSender(loginMemberId)) {
-                checkBlocked(loginMemberId, letter.getReceiver().getId());
+                checkMemberBlocked(loginMemberId, letter.getReceiver().getId());
                 return LetterDetailResDto.getSentLetter(letter);
             }
             throw new BaseException(NOT_YOUR_LETTER);
@@ -93,8 +98,29 @@ public class LetterService {
         }
     }
 
-    private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
+    private Letter findLetter(Long letterId) throws BaseException {
+        Letter letter = letterRepository.findById(letterId).orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+        checkLetterBlocked(loginInfoService.getLoginMemberId(), letterId);
+        return letter;
+    }
+
+    private Letter findLetterByIdAndReceiver(Member receiver, Long id) throws BaseException {
+        Letter letter = letterRepository.findByReceiverAndLetterId(receiver, id)
+                .orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
+        checkMemberBlocked(receiver.getId(), letter.getSender().getId());
+        checkLetterBlocked(receiver.getId(), letter.getId());
+        return letter;
+    }
+
+    private void checkMemberBlocked(Long reporterId, Long respondentId) throws BaseException {
         Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_LETTER);
+        }
+    }
+
+    private void checkLetterBlocked(Long reporterId, Long letterId) throws BaseException {
+        Boolean isBlocked = letterBlockRepository.existsByReporterIdAndReportedLetterId(reporterId, letterId);
         if (isBlocked) {
             throw new BaseException(BLOCKED_LETTER);
         }
@@ -103,13 +129,6 @@ public class LetterService {
     private Member getReceiver(Long receiverId) throws BaseException {
         return memberRepository.findById(receiverId)
                 .orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
-    }
-
-    private Letter findLetterByIdAndReceiver(Member receiver, Long id) throws BaseException {
-        Letter letter = letterRepository.findByReceiverAndLetterId(receiver, id)
-                .orElseThrow(() -> new BaseException(INVALID_LETTER_ID));
-        checkBlocked(receiver.getId(), letter.getSender().getId());
-        return letter;
     }
 
     private LetterRoom findLetterRoom(Member sender, Member receiver) {
@@ -135,6 +154,6 @@ public class LetterService {
         if (result) {
             throw new BaseException(CANT_SEND_LETTER);
         }
-        checkBlocked(senderId, receiverId);
+        checkMemberBlocked(senderId, receiverId);
     }
 }
