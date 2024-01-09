@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.unibond.unibond.common.BaseEntityStatus.ACTIVE;
+import static com.unibond.unibond.common.BaseEntityStatus.DELETED;
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 
 @Service
@@ -72,6 +73,28 @@ public class CommentService {
             System.err.println(e);
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    @Transactional
+    public BaseResponseStatus deleteComment(Long commentId) throws BaseException{
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            Comment comment = findCommentById(commentId);
+            if (!comment.getMember().getId().equals(loginMember.getId())) {
+                throw new BaseException(NOT_YOUR_COMMENT);
+            }
+            comment.setStatus(DELETED);
+            deleteChildComments(comment);
+            return SUCCESS;
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    private void deleteChildComments(Comment comment) {
+        commentRepository.bulkDeleteByParentComment(comment);
     }
 
     private Comment findCommentById(Long id) throws BaseException {

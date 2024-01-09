@@ -66,6 +66,7 @@ public enum BaseResponseStatus {
     // alarm (3000 ~ 3099)
 
     // comment (3100 ~ 3199)
+    NOT_YOUR_COMMENT(false, 3100, "댓글 삭제 권한이 없습니다."),
 
     // disease (3200 ~ 3299)
 

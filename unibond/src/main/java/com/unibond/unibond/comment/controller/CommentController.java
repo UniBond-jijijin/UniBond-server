@@ -37,4 +37,15 @@ public class CommentController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    @DeleteMapping("/{commentId}")
+    public BaseResponse<?> deleteComment(@RequestHeader("Authorization") Long loginId,
+                                         @PathVariable String postId,
+                                         @PathVariable("commentId") Long commentId) {
+        try {
+            return new BaseResponse<>(commentService.deleteComment(commentId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }
