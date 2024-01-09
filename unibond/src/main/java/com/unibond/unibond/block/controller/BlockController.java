@@ -53,7 +53,7 @@ public class BlockController {
         }
     }
 
-    @PostMapping("/comment")
+    @PostMapping("/letter-room")
     public BaseResponse<?> blockLetterRoom(@RequestHeader("Authorization") Long loginId,
                                         @RequestBody BlockReqDto reqDto) {
         try {

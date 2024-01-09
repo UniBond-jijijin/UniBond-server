@@ -23,8 +23,12 @@ public interface LetterRoomCustomRepository extends JpaRepository<LetterRoom, Lo
                     "letterRoom.id as letterRoomId " +
             "from letter_room as letterRoom " +
             "left join member_block on  ( " +
-                    "( letterRoom.member_id1 = :member and letterRoom.member_id1 = member_block.reporter_id and letterRoom.member_id2 = member_block.respondent_id ) or " +
-                    "( letterRoom.member_id2 = :member and letterRoom.member_id2 = member_block.reporter_id and letterRoom.member_id1 = member_block.respondent_id ) " +
+                    "( letterRoom.member_id1 = :member and member_block.reporter_id = :member and letterRoom.member_id2 = member_block.respondent_id ) or " +
+                    "( letterRoom.member_id2 = :member and member_block.reporter_id = :member and letterRoom.member_id1 = member_block.respondent_id ) " +
+                    ") " +
+            "left join letter_room_block on ( " +
+                    "( letterRoom.member_id1 = :member and letter_room_block.reporter_id = :member and letterRoom.id = letter_room_block.reported_letter_room_id ) or " +
+                    "( letterRoom.member_id2 = :member and letter_room_block.reporter_id = :member and letterRoom.id = letter_room_block.reported_letter_room_id ) " +
                     ") " +
             "join letter on letterRoom.id = letter.letter_room_id " +
             "join member member1 on member1.id = letterRoom.member_id1 " +
@@ -32,7 +36,7 @@ public interface LetterRoomCustomRepository extends JpaRepository<LetterRoom, Lo
             "where ((member1.id = :member) or (member2.id = :member)) " +
                 "and letterRoom.status = 'ACTIVE' " +
                 "and ((letter.letter_status = 'ARRIVED') or letter.sender_id = :member) " +
-                "and member_block.id IS NULL " +
+                "and member_block.id IS NULL and letter_room_block.id IS NULL " +
             "group by letterRoom.id, member1.id, member2.id " +
             "order by recentLetterCreatedDate desc ",
             nativeQuery = true)

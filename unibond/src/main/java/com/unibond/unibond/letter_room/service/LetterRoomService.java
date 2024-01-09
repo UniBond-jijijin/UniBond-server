@@ -1,5 +1,6 @@
 package com.unibond.unibond.letter_room.service;
 
+import com.unibond.unibond.block.repository.LetterRoomBlockRepository;
 import com.unibond.unibond.block.repository.MemberBlockRepository;
 import com.unibond.unibond.common.BaseException;
 import com.unibond.unibond.common.service.LoginInfoService;
@@ -23,22 +24,26 @@ import static com.unibond.unibond.common.BaseResponseStatus.*;
 @RequiredArgsConstructor
 public class LetterRoomService {
     private final LoginInfoService loginInfoService;
-    private final LetterRoomCustomRepository letterRoomCustomRepository;
     private final LetterRoomRepository letterRoomRepository;
-    private final MemberBlockRepository memberBlockRepository;
+    private final LetterRoomCustomRepository letterRoomCustomRepository;
     private final LetterRepository letterRepository;
+
+    private final MemberBlockRepository memberBlockRepository;
+    private final LetterRoomBlockRepository letterRoomBlockRepository;
 
     public GetLetterRoomDetailResDto getAllLetters(Long letterRoomId, Pageable pageable) throws BaseException {
         try {
             Long loginId = loginInfoService.getLoginMemberId();
             Page<Letter> letterPage = letterRepository
                     .findLettersByLetterRoomAndReceiverOrSender(letterRoomId, loginId, pageable);
+            checkLetterRoomBlocked(loginId, letterRoomId);
+
             if (letterPage.getContent().isEmpty()) {
                 throw new BaseException(INVALID_LETTER_ROOM_ID);
             }
             Member receiver = findAnotherParticipant(letterPage.getContent().get(0), loginId);
 
-            checkBlocked(loginId, receiver.getId());
+            checkMemberBlocked(loginId, receiver.getId());
             return new GetLetterRoomDetailResDto(loginId, receiver, letterPage);
         } catch (BaseException e) {
             throw e;
@@ -79,10 +84,17 @@ public class LetterRoomService {
         throw new BaseException(NOT_YOUR_LETTER_ROOM);
     }
 
-    private void checkBlocked(Long reporterId, Long respondentId) throws BaseException {
+    private void checkMemberBlocked(Long reporterId, Long respondentId) throws BaseException {
         Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
         if (isBlocked) {
             throw new BaseException(BLOCKED_LETTER);
+        }
+    }
+
+    private void checkLetterRoomBlocked(Long reporterId, Long reportedLetterRoomId) throws BaseException {
+        Boolean isBlocked = letterRoomBlockRepository.existsByReporterIdAndReportedLetterRoomId(reporterId, reportedLetterRoomId);
+        if (isBlocked) {
+            throw new BaseException(BLOCKED_LETTER_ROOM);
         }
     }
 }
