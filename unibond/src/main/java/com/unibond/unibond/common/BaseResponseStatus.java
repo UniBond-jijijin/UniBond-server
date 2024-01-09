@@ -81,6 +81,7 @@ public enum BaseResponseStatus {
 
     // member (3500 ~ 3599)
     BLOCKED_MEMBER(false, 3500, "차단한 사용자입니다."),
+    DELETED_MEMBER(false, 3501, "탈퇴한 회원입니다."),
 
     // post (3600 ~ 3699)
     INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),

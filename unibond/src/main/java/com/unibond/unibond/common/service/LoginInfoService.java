@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import static com.unibond.unibond.common.BaseEntityStatus.DELETED;
+import static com.unibond.unibond.common.BaseResponseStatus.DELETED_MEMBER;
 import static com.unibond.unibond.common.BaseResponseStatus.INVALID_MEMBER_ID;
 
 @Service
@@ -29,7 +31,12 @@ public class LoginInfoService {
 
         Long loginId = Long.parseLong(httpServletRequest.getHeader("Authorization"));
 
-        return memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+        Member member
+                = memberRepository.findById(loginId).orElseThrow(() -> new BaseException(INVALID_MEMBER_ID));
+        if (member.getStatus().equals(DELETED)) {
+            throw new BaseException(DELETED_MEMBER);
+        }
+        return member;
     }
 
     public Member getLoginMemberFetchJoinDisease() throws BaseException {
