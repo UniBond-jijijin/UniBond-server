@@ -1,10 +1,10 @@
 package com.unibond.unibond.block.dto;
 
-import com.unibond.unibond.block.domain.CommentBlock;
-import com.unibond.unibond.block.domain.MemberBlock;
-import com.unibond.unibond.block.domain.PostBlock;
+import com.unibond.unibond.block.domain.*;
 import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.common.BaseException;
+import com.unibond.unibond.letter.domain.Letter;
+import com.unibond.unibond.letter_room.domain.LetterRoom;
 import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.Post;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,8 @@ public class BlockReqDto {
     private Long blockedMemberId;
     private Long blockedPostId;
     private Long blockedCommentId;
+    private Long blockedLetterId;
+    private Long blockedLetterRoomId;
 
     public MemberBlock toEntity(Member reporter, Member respondent) {
         return MemberBlock.builder()
@@ -39,6 +41,20 @@ public class BlockReqDto {
         return CommentBlock.builder()
                 .reporter(reporter)
                 .reportedComment(reportedComment)
+                .build();
+    }
+
+    public LetterBlock toEntity(Member reporter, Letter reportedLetter) {
+        return LetterBlock.builder()
+                .reporter(reporter)
+                .reportedLetter(reportedLetter)
+                .build();
+    }
+
+    public LetterRoomBlock toEntity(Member reporter, LetterRoom reportedLetterRoom) {
+        return LetterRoomBlock.builder()
+                .reporter(reporter)
+                .reportedLetterRoom(reportedLetterRoom)
                 .build();
     }
 }

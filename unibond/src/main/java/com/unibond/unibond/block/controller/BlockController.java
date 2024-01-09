@@ -42,4 +42,24 @@ public class BlockController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    @PostMapping("/letter")
+    public BaseResponse<?> blockLetter(@RequestHeader("Authorization") Long loginId,
+                                        @RequestBody BlockReqDto reqDto) {
+        try {
+            return new BaseResponse<>(blockService.blockLetter(reqDto));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @PostMapping("/comment")
+    public BaseResponse<?> blockLetterRoom(@RequestHeader("Authorization") Long loginId,
+                                        @RequestBody BlockReqDto reqDto) {
+        try {
+            return new BaseResponse<>(blockService.blockLetterRoom(reqDto));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }
