@@ -5,6 +5,7 @@ import com.unibond.unibond.block.repository.PostBlockRepository;
 import com.unibond.unibond.comment.domain.Comment;
 import com.unibond.unibond.comment.repository.CommentRepository;
 import com.unibond.unibond.common.BaseException;
+import com.unibond.unibond.common.BaseResponseStatus;
 import com.unibond.unibond.common.service.LoginInfoService;
 import com.unibond.unibond.common.service.S3Uploader;
 import com.unibond.unibond.member.domain.Member;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.unibond.unibond.common.BaseEntityStatus.DELETED;
 import static com.unibond.unibond.common.BaseResponseStatus.*;
 import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 
@@ -102,6 +104,24 @@ public class PostService {
         }
     }
 
+    @Transactional
+    public BaseResponseStatus deletePost(Long postId) throws BaseException {
+        try {
+            Long loginMemberId = loginInfoService.getLoginMemberId();
+            Post post = findPost(postId);
+            if (!post.getOwner().getId().equals(loginMemberId)) {
+                throw new BaseException(NOT_YOUR_POST);
+            }
+            post.setStatus(DELETED);
+            deleteComments(post);
+            return SUCCESS;
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     private void checkBlockedMember(Long reporterId, Long respondentId) throws BaseException {
         Boolean isBlocked = memberBlockRepository.existsByReporterIdAndRespondentId(reporterId, respondentId);
         if (isBlocked) {
@@ -114,5 +134,17 @@ public class PostService {
         if (isBlocked) {
             throw new BaseException(BLOCKED_POST);
         }
+    }
+
+    private Post findPost(Long postId) throws BaseException {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new BaseException(INVALID_POST_ID));
+        if (post.getStatus().equals(DELETED)) {
+            throw new BaseException(DELETED_POST);
+        }
+        return post;
+    }
+
+    private void deleteComments(Post post) throws BaseException {
+        commentRepository.bulkDeleteByPost(post);
     }
 }

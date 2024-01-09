@@ -87,6 +87,8 @@ public enum BaseResponseStatus {
     // post (3600 ~ 3699)
     INVALID_POST_STATUS(false, 3600, "접근 불가능한 게시물 입니다."),
     BLOCKED_POST(false, 3601, "차단한 게시글입니다."),
+    DELETED_POST(false, 3602, "삭제된 게시글입니다."),
+    NOT_YOUR_POST(false, 3603, "게시글 수정 및 삭제 권한이 없습니다."),
 
     /**
      * 4000: DB Error
