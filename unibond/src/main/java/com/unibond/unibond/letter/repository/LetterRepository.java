@@ -24,30 +24,36 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
                                                @Param("letterId") Long id);
 
     @Query("select l from Letter l " +
+            "left join LetterBlock lb on ( l  = lb.reportedLetter and lb.reporter.id = :participant ) " +
             "join fetch l.sender " +
             "join fetch l.sender.disease " +
             "join fetch l.receiver " +
             "join fetch l.receiver.disease " +
             "where l.letterRoom.id = :letterRoom " +
             "and ( (l.receiver.id = :participant and l.letterStatus = 'ARRIVED' ) or (l.sender.id = :participant) )" +
-            "and l.status = 'ACTIVE'" +
+            "and l.status = 'ACTIVE' " +
+            "and lb.id IS NULL " +
             "order by l.createdDate desc")
     Page<Letter> findLettersByLetterRoomAndReceiverOrSender(@Param("letterRoom") Long letterRoomId,
-                                                            @Param("participant") Long participantId, Pageable pageable);
+                                                            @Param("participant") Long participantId, // loginId
+                                                            Pageable pageable);
 
     @Query("select case when count(l)> 0 then true else false end from Letter l " +
             "where (l.sender.id = :sender and l.receiver.id = :receiver) " +
             "and l.createdDate > :currentTimeMinusOneHour ")
-    Boolean hasSentLetterToSamePersonWithinHour(@Param("sender") Long senderId, @Param("receiver") Long receiverId,
+    Boolean hasSentLetterToSamePersonWithinHour(@Param("sender") Long senderId,
+                                                @Param("receiver") Long receiverId,
                                                 @Param("currentTimeMinusOneHour") LocalDateTime currentTimeMinusOneHour);
 
     @Query("select l from Letter l " +
             "left join MemberBlock mb on ( l.receiver.id = :receiverId and mb.reporter.id = :receiverId and l.sender = mb.respondent ) " +
+            "left join LetterBlock lb on ( l = lb.reportedLetter and lb.reporter.id = :receiverId ) " +
             "join fetch l.receiver " +
             "join fetch l.sender " +
             "where l.receiver.id = :receiverId and l.liked = true and l.letterStatus = 'ARRIVED' and l.status = 'ACTIVE' " +
-            "and mb.id IS NULL ")
-    Page<Letter> findLikedLetterByReceiver(@Param("receiverId") Long receiverId, Pageable pageable);
+            "and mb.id IS NULL and lb.id IS NULL ")
+    Page<Letter> findLikedLetterByReceiver(@Param("receiverId") Long receiverId, // loginId
+                                           Pageable pageable);
 
     @Modifying
     @Query("update Letter l set l.letterStatus = 'ARRIVED' " +
