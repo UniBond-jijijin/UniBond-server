@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.unibond.unibond.common.BaseResponseStatus.*;
+import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,19 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
+    public void createPost(PostUploadReqDto reqDto, BoardType boardType) throws BaseException {
+        try {
+            Member loginMember = loginInfoService.getLoginMember();
+            Post newPost = reqDto.toEntity(loginMember, boardType, null);
+            postRepository.save(newPost);
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public void createPost(PostUploadReqDto reqDto, MultipartFile multipartFile) throws BaseException {
         try {
             Member loginMember = loginInfoService.getLoginMember();
@@ -41,7 +55,7 @@ public class PostService {
             if (multipartFile != null) {
                 imgUrl = s3Uploader.upload(multipartFile, "post");
             }
-            Post newPost = reqDto.toEntity(loginMember, imgUrl);
+            Post newPost = reqDto.toEntity(loginMember, EXPERIENCE, imgUrl);
             postRepository.save(newPost);
         } catch (BaseException e) {
             throw e;

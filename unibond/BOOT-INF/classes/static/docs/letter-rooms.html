@@ -511,7 +511,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1248
+Content-Length: 1599
 
 {
   "isSuccess" : true,
@@ -519,6 +519,12 @@ Content-Length: 1248
   "message" : "요청에 성공하였습니다.",
   "result" : {
     "letterRoomList" : [ {
+      "senderProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/025cc515-c832-4c29-9fe0-9e77f0afea7d6808929_emoji_emoticon_emotion_expression_face_icon.png",
+      "senderNick" : "서울의가을",
+      "senderId" : 28,
+      "recentLetterSentDate" : "2024-01-08T19:33:37.078678",
+      "letterRoomId" : 12
+    }, {
       "senderProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/3b6fc68f-808c-4e22-97e8-9447d6916bc5cat-2068462_640.jpg",
       "senderNick" : "눈송이네 베이킹",
       "senderId" : 30,
@@ -538,10 +544,10 @@ Content-Length: 1248
       "letterRoomId" : 18
     } ],
     "pageInfo" : {
-      "numberOfElements" : 3,
+      "numberOfElements" : 4,
       "lastPage" : true,
       "totalPages" : 1,
-      "totalElements" : 3,
+      "totalElements" : 4,
       "size" : 30
     }
   }

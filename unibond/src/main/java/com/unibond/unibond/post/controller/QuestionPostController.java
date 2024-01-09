@@ -22,8 +22,7 @@ public class QuestionPostController {
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto reqDto) {
         try {
-            reqDto.setBoardType(QNA);
-            postService.createPost(reqDto, null);
+            postService.createPost(reqDto, QNA);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

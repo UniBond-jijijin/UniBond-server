@@ -4,38 +4,36 @@ import com.unibond.unibond.member.domain.Member;
 import com.unibond.unibond.post.domain.BoardType;
 import com.unibond.unibond.post.domain.Post;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import static com.unibond.unibond.post.domain.BoardType.EXPERIENCE;
 import static com.unibond.unibond.post.domain.BoardType.QNA;
 
 @Data
+@NoArgsConstructor
 public class PostUploadReqDto {
     private String content;
 
-    // null
-    private Member owner;
-    private BoardType boardType;
-
-    public Post toEntity(Member owner, String postImgUrl) {
-        this.owner = owner;
+    public Post toEntity(Member owner, BoardType boardType, String postImgUrl) {
         if (boardType.equals(QNA)) {
-            return createQNAPost();
+            return createQNAPost(owner);
         } else {
-            return createExperiencePost(postImgUrl);
+            return createExperiencePost(owner, postImgUrl);
         }
     }
 
-    private Post createQNAPost() {
+    private Post createQNAPost(Member owner) {
         return Post.createQnAPost()
                 .owner(owner)
-                .boardType(boardType)
+                .boardType(QNA)
                 .content(content)
                 .build();
     }
 
-    private Post createExperiencePost(String postImgUrl) {
+    private Post createExperiencePost(Member owner, String postImgUrl) {
         return Post.createExperiencePost()
                 .owner(owner)
-                .boardType(boardType)
+                .boardType(EXPERIENCE)
                 .content(content)
                 .postImageUrl(postImgUrl)
                 .build();
