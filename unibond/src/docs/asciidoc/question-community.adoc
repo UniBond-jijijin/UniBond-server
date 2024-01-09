@@ -1,4 +1,4 @@
-= Experience Community API
+= Q&A Community API
 Lucy Oh;
 :doctype: book
 :icons: font

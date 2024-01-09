@@ -1,6 +1,10 @@
 package com.unibond.unibond.post.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.unibond.unibond.member.dto.MemberRegisterReqDto;
+import com.unibond.unibond.post.dto.PostUploadReqDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,11 +24,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentRequest;
 import static com.unibond.unibond.common.ApiDocumentUtils.getDocumentResponse;
+import static com.unibond.unibond.member.domain.Gender.FEMALE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -35,8 +42,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -112,7 +118,44 @@ class ExperiencePostControllerTest {
 
     @Test
     @Transactional
-    @DisplayName("경험 기록 게시판 게시물 업로드 Test")
+    @DisplayName("경험 기록 게시판 업로드 - v1 (게시물 사진 업로드 제외)")
+    void signUpTest() throws Exception {
+        String loginId = "29";
+
+        PostUploadReqDto reqDto = new PostUploadReqDto();
+        reqDto.setContent("안녕하세요 경험 공유 게시판 게시물을 업로드해보겠습니다.");
+
+        String content = objectMapper.writeValueAsString(reqDto);
+
+        this.mockMvc.perform(
+                        post("/api/v1/community/experience")
+                                .contentType(APPLICATION_JSON)
+                                .header("Authorization", loginId)
+                                .characterEncoding("UTF-8")
+                                .accept(APPLICATION_JSON)
+                                .content(content)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("post-experience-community_v1",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Basic auth credentials")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(STRING).description("경험 공유 게시판에 업로드 할 게시물의 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("isSuccess").type(BOOLEAN).description("성공 여부"),
+                                fieldWithPath("code").type(NUMBER).description("결과 코드"),
+                                fieldWithPath("message").type(STRING).description("결과 메세지")
+                        )
+                ));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("경험 기록 게시판 업로드 - v2")
     void createPost() throws Exception {
         String fileName = "test-img";
 

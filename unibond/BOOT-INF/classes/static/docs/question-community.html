@@ -517,7 +517,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1437
+Content-Length: 2067
 
 {
   "isSuccess" : true,
@@ -525,10 +525,10 @@ Content-Length: 1437
   "message" : "요청에 성공하였습니다.",
   "result" : {
     "pageInfo" : {
-      "numberOfElements" : 2,
+      "numberOfElements" : 3,
       "lastPage" : true,
       "totalPages" : 1,
-      "totalElements" : 2,
+      "totalElements" : 3,
       "size" : 30
     },
     "postPreviewList" : [ {
@@ -540,6 +540,17 @@ Content-Length: 1437
       "postId" : 60,
       "postImg" : null,
       "contentPreview" : "급하게 친구들끼리 여행을 가게 될 일이 생겼어요. 사실 이동하는 게 많이 어려워서",
+      "boardType" : "QNA",
+      "isEnd" : false
+    }, {
+      "createdDate" : "2023-11-12T00:57:12.641472",
+      "ownerId" : 28,
+      "ownerProfileImg" : "https://unibond-img-bucket.s3.ap-northeast-2.amazonaws.com/user/025cc515-c832-4c29-9fe0-9e77f0afea7d6808929_emoji_emoticon_emotion_expression_face_icon.png",
+      "ownerNick" : "서울의가을",
+      "disease" : "10번 염색체 장완 말단부의 단일염색체증",
+      "postId" : 62,
+      "postImg" : null,
+      "contentPreview" : "학교에 다니면서 친구들한테 어떻게 이 병에 대해 솔직하게 털어놨는지 다들 계기가 ",
       "boardType" : "QNA",
       "isEnd" : false
     }, {
@@ -686,7 +697,7 @@ Content-Length: 1437
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-01-08 20:49:25 +0900
+Last updated 2024-01-08 21:14:50 +0900
 </div>
 </div>
 </body>

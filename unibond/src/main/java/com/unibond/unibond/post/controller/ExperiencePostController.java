@@ -24,8 +24,7 @@ public class ExperiencePostController {
     public BaseResponse<?> createPost(@RequestHeader("Authorization") Long loginId,
                                       @RequestBody PostUploadReqDto request) {
         try {
-            request.setBoardType(EXPERIENCE);
-            postService.createPost(request);
+            postService.createPost(request, EXPERIENCE);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -37,7 +36,6 @@ public class ExperiencePostController {
                                       @RequestPart MultipartFile postImg,
                                       @RequestPart PostUploadReqDto request) {
         try {
-            request.setBoardType(EXPERIENCE);
             postService.createPost(request, postImg);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
