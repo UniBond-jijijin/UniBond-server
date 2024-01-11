@@ -16,6 +16,6 @@ public class LetterScheduler {
     @Transactional
     @Scheduled(cron = "0 0,30 * * * *")
     public void sendLetter() {
-        letterRepository.bulkSendLetter(LocalDateTime.now().minusHours(1L));
+        letterRepository.bulkSendLetter(LocalDateTime.now().minusHours(6L));
     }
 }

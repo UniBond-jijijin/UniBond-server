@@ -150,7 +150,7 @@ public class LetterService {
 
     // TODO: 이후에 함수 분리하기
     private void checkSendingCapability(Long senderId, Long receiverId) throws BaseException {
-        Boolean result = letterRepository.hasSentLetterToSamePersonWithinHour(senderId, receiverId, LocalDateTime.now().minusHours(1L));
+        Boolean result = letterRepository.hasSentLetterToSamePersonWithinHour(senderId, receiverId, LocalDateTime.now().minusHours(6L));
         if (result) {
             throw new BaseException(CANT_SEND_LETTER);
         }

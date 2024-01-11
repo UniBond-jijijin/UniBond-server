@@ -40,10 +40,10 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
 
     @Query("select case when count(l)> 0 then true else false end from Letter l " +
             "where (l.sender.id = :sender and l.receiver.id = :receiver) " +
-            "and l.createdDate > :currentTimeMinusOneHour ")
+            "and l.createdDate > :currentTimeMinusSixHour ")
     Boolean hasSentLetterToSamePersonWithinHour(@Param("sender") Long senderId,
                                                 @Param("receiver") Long receiverId,
-                                                @Param("currentTimeMinusOneHour") LocalDateTime currentTimeMinusOneHour);
+                                                @Param("currentTimeMinusSixHour") LocalDateTime currentTimeMinusSixHour);
 
     @Query("select l from Letter l " +
             "left join MemberBlock mb on ( l.receiver.id = :receiverId and mb.reporter.id = :receiverId and l.sender = mb.respondent ) " +
@@ -57,8 +57,8 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
 
     @Modifying
     @Query("update Letter l set l.letterStatus = 'ARRIVED' " +
-            "where l.createdDate <= :currentTimeMinusOneHour and l.letterStatus = 'SENDING'")
-    void bulkSendLetter(@Param("currentTimeMinusOneHour") LocalDateTime currentTime);
+            "where l.createdDate <= :currentTimeMinusSixHour and l.letterStatus = 'SENDING'")
+    void bulkSendLetter(@Param("currentTimeMinusSixHour") LocalDateTime currentTimeMinusSixHour);
 
     @Modifying
     @Query("update Letter l set l.status = 'DELETED' " +
