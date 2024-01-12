@@ -19,9 +19,9 @@ public class DiseaseController {
     private final DiseaseService diseaseService;
 
     @GetMapping("/search")
-    public BaseResponse<SearchDiseaseResDto> searchDisease(@RequestParam("lan") String language,
+    public BaseResponse<SearchDiseaseResDto> searchDisease(@RequestParam(value = "lan", required = false, defaultValue = "kor") String language,
                                                            @RequestParam("query") String searchWord,
-                                                           @PageableDefault(size = 5) Pageable pageable) {
+                                                           @PageableDefault(size = 30) Pageable pageable) {
         try {
             return new BaseResponse<>(diseaseService.searchDisease(language, searchWord, pageable));
         } catch (BaseException e) {
