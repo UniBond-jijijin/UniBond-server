@@ -24,9 +24,9 @@ public class DiseaseService {
             Page<Disease> searchedDiseaseList;
 
             if (language.equals("kor")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameKorContainsAndStatus(searchWord, ACTIVE, pageable);
+                searchedDiseaseList = diseaseRepository.findByDiseaseNameKorContainsAndStatus(searchWord, ACTIVE, pageable);
             } else if (language.equals("eng")) {
-                searchedDiseaseList = diseaseRepository.findFirst5ByDiseaseNameEngContainsAndStatus(searchWord, ACTIVE, pageable);
+                searchedDiseaseList = diseaseRepository.findByDiseaseNameEngContainsAndStatus(searchWord, ACTIVE, pageable);
             } else {
                 throw new BaseException(NULL_SEARCH_LAN);
             }

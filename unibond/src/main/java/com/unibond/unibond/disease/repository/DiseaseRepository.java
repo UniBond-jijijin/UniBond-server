@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface DiseaseRepository extends JpaRepository<Disease, Long> {
-    Page<Disease> findFirst5ByDiseaseNameKorContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
-    Page<Disease> findFirst5ByDiseaseNameEngContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
+    Page<Disease> findByDiseaseNameKorContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
+    Page<Disease> findByDiseaseNameEngContainsAndStatus(String query, BaseEntityStatus status, Pageable pageable);
 }
