@@ -5,6 +5,21 @@
 
 ## About UniBond
 
+<table>
+  <tr>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/7bad9555-87c0-4bf9-b798-a130cbb631fa"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/546a6506-eb57-41ea-a9dc-d14f852445c3"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/6f4f00bf-91fa-4f4e-8a30-4c14b021910f"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/214da6f9-0a2a-4f7b-9b67-a6270c07d230"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/f5b17999-5591-4b90-8991-7eec14cb10be"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/595f2746-2469-4e99-925a-712878d5a4da"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/1d2c2fb7-aab1-4c42-b63e-c1603ba1848d"></td>
+    <td align="center" valign="top" width="25%"><img src="https://github.com/UniBond-jijijin/UniBond-server/assets/96935231/7a468be3-261b-4c46-a197-2eca0d7b7db9"></td>
+  </tr>
+</table>
+
 ### 익명 커뮤니티에서 같은 아픔을 가지고 있는 친구들을 만나보세요.
 - 자신의 생각과 경험을 솔직하게 공유하면서 평소에 만나기 어려웠던 비슷한 연령대의 희귀·난치성 질환을 가진 친구들을 커뮤니티 서비스를 통해 만날 수 있어요.
 - 함께 아픔을 공유하고 있는 친구들끼리 이해할 수 있는 사적인 질문을 ‘Q&A’ 게시판을 통해 익명으로 주고 받으세요.
