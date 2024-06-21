@@ -1,10 +1,10 @@
 name: Build and Deploy Spring Boot to AWS EC2
 
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+# on:
+#   push:
+#     branches: ["main"]
+#   pull_request:
+#     branches: ["main"]
 
 env:
   PROJECT_NAME: unibond
